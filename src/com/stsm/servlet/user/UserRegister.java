@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
-import com.stsm.dao.UserDao;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserEmailRegister
@@ -52,7 +52,6 @@ public class UserRegister extends HttpServlet {
 		String user_password = request.getParameter("user_password");
 		String businessRegister = request.getParameter("businessRegister");
 				
-        UserDao dao = new UserDao();
         User user = new User();
         user.setName(user_name);
         if(mode.equals("email")) {
@@ -60,10 +59,10 @@ public class UserRegister extends HttpServlet {
         }else if(mode.equals("phone")) {
         	user.setPhone(account);
         }
-        user.setPwd(user_password);
+        user.setPassword(user_password);
         user.setType(businessRegister.equals("true")?2:1);
         
-        int user_id = dao.register(user);
+        int user_id = new UserService().register(user);
         
         boolean isOK = false;
         if(user_id!=0) {//添加数据失败

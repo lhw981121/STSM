@@ -4,15 +4,15 @@ var userType;//记录用户类型
 
 /* 选择账号密码登录方式改变表单布局 */
 $('#mode_account').click(function(){
-	if($('#mode_account').css("color")=="rgb(37, 165, 92)")	return;
-	$('#mode_account').css("color","#25A55C");
+	if($('#mode_account').css("color")=="rgb(0, 170, 255)")	return;
+	$('#mode_account').css("color","#00A0F0");
 	$('#mode_phone').css("color","#333333");
 	$('#account_input,#phone_input,#accountLoginBtn,#phoneLoginBtn').slideToggle();
 })
 /* 选择手机号登录方式改变表单布局 */
 $('#mode_phone').click(function(){
-	if($('#mode_phone').css("color")=="rgb(37, 165, 92)")	return;
-	$('#mode_phone').css("color","#25A55C");
+	if($('#mode_phone').css("color")=="rgb(0, 170, 255)")	return;
+	$('#mode_phone').css("color","#00A0F0");
 	$('#mode_account').css("color","#333333");
 	$('#account_input,#phone_input,#accountLoginBtn,#phoneLoginBtn').slideToggle();
 })

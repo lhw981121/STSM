@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-
 import com.stsm.bean.User;
 import com.stsm.dao.UserDao;
 import com.stsm.util.BASE64;
@@ -69,8 +67,6 @@ public class UserLoginSuccess extends HttpServlet {
         Map<String,Object> userMap = application.getAttribute("userMap")==null?new HashMap<String,Object>():(Map<String,Object>)application.getAttribute("userMap");
 		userMap.put(session.getId(), user);
 		application.setAttribute("userMap", userMap);
-        
-        Logger.getLogger(getClass()).info("用户"+user.getID()+user.getName()+"成功登录");
 	}
 
 	/**

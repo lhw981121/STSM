@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
 					userID = Integer.parseInt(BASE64.decodeBase64(cookies[i].getValue()));
 					user = dao.queryUserByID(userID);
 					request.setAttribute("account",user.getEmail()==null?user.getPhone():user.getEmail());
-					request.setAttribute("password",user.getPwd());
+					request.setAttribute("password",user.getPassword());
 				}
 			}
 		}

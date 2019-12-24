@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
-import com.stsm.dao.UserDao;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserUpdatePassword
@@ -46,15 +46,12 @@ public class UserUpdatePassword extends HttpServlet {
 		String user_account = request.getParameter("user_account");
 		String user_password = request.getParameter("user_password");
 				
-        UserDao dao = new UserDao();
+        UserService service = new UserService();
         User user = new User();
-        user = dao.queryUserByAccount(user_account);
-        if(user == null) {
-        	user = dao.queryUserByName(user_account);
-        }
+        user = service.queryUserByAccount(user_account);
         
         boolean isOK = false;
-        isOK = dao.updateUserPassword(user, user_password);
+        isOK = service.updateUserPassword(user, user_password);
         
         Map<String,Object> map = new HashMap<String,Object>();
 		map.put("isOK", isOK);

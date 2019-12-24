@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
-import com.stsm.dao.UserDao;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserUpdateUserName
@@ -42,11 +42,11 @@ public class UserUpdateUserName extends HttpServlet {
 		HttpSession session = request.getSession();
 		String user_name = request.getParameter("user_name");
 				
-        UserDao dao = new UserDao();
+		UserService service = new UserService();
         User user = (User)session.getAttribute("user");
         
         boolean isOK = false;
-        isOK = dao.updateUserName(user, user_name);
+        isOK = service.updateUserName(user, user_name);
         
         Map<String,Object> map = new HashMap<String,Object>();
 		map.put("isOK", isOK);
