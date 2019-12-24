@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
-import com.stsm.dao.UserDao;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserIsExist
@@ -42,12 +42,9 @@ public class UserIsAccountExist extends HttpServlet {
 		
 		String user_account = request.getParameter("user_account");
 				
-        UserDao dao = new UserDao();
+        UserService service = new UserService();
         User user = new User();
-        user = dao.queryUserByAccount(user_account);
-        if(user == null) {
-        	user = dao.queryUserByName(user_account);
-        }
+        user = service.queryUserByAccount(user_account);
         
         boolean isExist = false;
         if(user!=null) {
