@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
-import com.stsm.dao.UserDao;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserLogin
@@ -43,9 +43,9 @@ public class UserAccountLogin extends HttpServlet {
 		String account = request.getParameter("user_account");
 		String password = request.getParameter("user_password");
 				
-        UserDao dao = new UserDao();
+		UserService service = new UserService();
         User user = new User();
-        user = dao.login(account,password);
+        user = service.login(account,password);
         boolean isLogin = false;
         if(user!=null) {
         	isLogin = true;

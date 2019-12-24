@@ -1,8 +1,6 @@
 package com.stsm.bean;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -152,42 +150,24 @@ public class Message {
         this.receiver_id = receiver_id;
     }
     
-    public String getCreated() {
-        if(created_at!=null) {
-        	DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String Created = t.format(created_at);
-            return Created;
-    	}else {
-    		return "";
-    	}
+    public Date getCreated() {
+        return created_at;
     }
     
     public void setCreated(Date created_at) {
     	this.created_at = created_at;
     }
 
-    public String getUpdated() {
-        if(updated_at!=null) {
-        	DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String Updated = t.format(updated_at);
-            return Updated;
-    	}else {
-    		return "";
-    	}
+    public Date getUpdated() {
+    	return updated_at;
     }
     
     public void setUpdated(Date updated_at) {
     	this.updated_at = updated_at;
     }
     
-    public String getDeleted() {
-    	if(deleted_at!=null) {
-    		DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String Deleted = t.format(deleted_at);
-            return Deleted;
-    	}else {
-    		return "";
-    	}
+    public Date getDeleted() {
+    	return deleted_at;
     }
     
     public void setDeleted(Date deleted_at) {
@@ -452,19 +432,7 @@ public class Message {
             queryStatement = queryConn.prepareStatement(querySql);
             queryRS = queryStatement.executeQuery();
             while(queryRS.next()) {
-            	mes = new Message();
-                mes.message_id = queryRS.getInt("message_id");
-                mes.message_identifier = queryRS.getString("message_identifier");
-                mes.message_type = queryRS.getInt("message_type");
-                mes.message_summary = queryRS.getString("message_summary");
-                mes.message_content = queryRS.getString("message_content");
-                mes.message_readed = queryRS.getBoolean("message_readed");
-                mes.deleted = queryRS.getBoolean("deleted");
-                mes.sender_id = queryRS.getInt("sender_id");
-                mes.receiver_id = queryRS.getInt("receiver_id");
-                mes.created_at = queryRS.getTimestamp("created_at");
-                mes.updated_at = queryRS.getTimestamp("updated_at");
-                mes.deleted_at = queryRS.getTimestamp("deleted_at");
+            	mes = loadData(queryRS);
                 mesList.add(mes);
             }
         }catch(Exception e2) {
@@ -526,9 +494,8 @@ public class Message {
         return queryMessage(querySql);
     }
     
-    //查询消息信息（按接收者和是否阅读查找）
     /**
-  	* 获取消息信息
+  	* 查询消息信息（按接收者和是否阅读查找）
   	* @param receiver_id 接收者
   	* @param message_readed 是否已阅读
   	* @return 消息集合
@@ -546,130 +513,55 @@ public class Message {
         return queryMessage(querySql);
     }
     
-    //修改消息信息
-    public boolean updateMessage(Message mes,String message_identifier,int message_type,String message_summary,String message_content,int sender_id,int receiver_id,Date updated_at) {
-    	
-    	String updateStr = "";
-    	int count = 0;//记录是否有修改
+    /**
+  	* 修改消息信息
+  	* @param message 消息对象
+  	* @return 是否成功
+  	*/
+    public boolean updateMessage(Message message) {
     	Connection conn = DBUtil.getConnection();
-        //信息有改动时才修改
-        if(message_identifier.equals(mes.message_identifier) == false) {
-        	count++;
-            String updateSql = "update tb_message set message_identifier='"+message_identifier+"' where message_id=" + mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 编号:"+mes.message_identifier+"->"+message_identifier;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 编号"+mes.message_identifier+"为"+message_identifier+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
-        
-        if(message_type!=mes.message_type) {
-        	count++;
-        	String updateSql = "update tb_message set message_type='"+message_type+"' where message_id=" + mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 类型:"+mes.message_type+"->"+message_type;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 类型"+mes.message_type+"为"+message_type+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
-        
-        if(message_summary.equals(mes.message_summary) == false) {
-        	count++;
-        	String updateSql = "update tb_message set message_summary='"+message_summary+"' where message_id=" + mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 概述:"+mes.message_summary+"->"+message_summary;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 概述"+mes.message_summary+"为"+message_summary+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
-        
-        if(message_content.equals(mes.message_content) == false) {
-        	count++;
-        	String updateSql = "update tb_message set message_content='"+message_content+"' where message_id=" + mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 内容:"+mes.message_content+"->"+message_content;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 内容"+mes.message_content+"为"+message_content+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
- 
-        if(sender_id != mes.sender_id) {
-        	count++;
-        	String updateSql = "update tb_message set sender_id='"+sender_id+"' where message_id=" + mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 发送者ID:"+mes.sender_id+"->"+sender_id;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 发送者ID"+mes.sender_id+"为"+sender_id+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
-        
-        if(receiver_id != mes.receiver_id) {
-        	count++;
-        	String updateSql = "update tb_message set receiver_id='"+receiver_id+"' where message_id=" + mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 接收者ID:"+mes.receiver_id+"->"+receiver_id;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 接收者ID"+mes.receiver_id+"为"+receiver_id+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
-        
-        if(updated_at != mes.updated_at&&count != 0) {
-        	String updateSql = "update tb_message set updated_at = ? where message_id="+ mes.message_id;
-            try {
-                PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.setTimestamp(1, new Timestamp(updated_at.getTime()));
-                ps.executeUpdate();
-                ps.close();
-                updateStr += " 修改时间:"+mes.updated_at+"->"+updated_at;
-            } catch (SQLException e1) {
-            	logger.error("数据库语句检查或执行出错！修改消息 "+mes.message_id+" 修改时间"+mes.updated_at+"为"+updated_at+"失败。");
-                e1.printStackTrace();
-                return false;
-            }
-        }
-        
-        try {
-            conn.close();
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            logger.error("修改消息 "+mes.message_id+" 信息"+updateStr+"后数据库关闭出错！");
-        }
-        if(count != 0 ) {
-        	logger.info("修改消息 "+mes.message_id+" 信息成功！"+updateStr);
-        }
-        return true;
+		PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+        try{
+			String sql = null;
+			sql=
+			"update message set "
+			+ "message_identifier=?,"
+			+ "message_type=?,"
+			+ "message_summary=?,"
+			+ "message_content=?,"
+			+ "message_readed=?,"
+			+ "sender_id=?,"
+			+ "receiver_id=?,"
+			+ "created_at=?,"
+			+ "updated_at=?,"
+			+ "deleted_at=?,"
+			+ "deleted=? "
+			+ "where message_id=?";
+			int index = 1;
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(index++,message.getIden());
+			pstmt.setInt(index++,message.getType());
+			pstmt.setString(index++,message.getSummary());
+			pstmt.setString(index++,message.getContent());
+			pstmt.setInt(index++,message.getReaded()?1:0);
+			pstmt.setInt(index++,message.getSenderID());
+			pstmt.setInt(index++,message.getReceiverID());
+			pstmt.setTimestamp(index++,new Timestamp(message.getCreated().getTime()));
+			pstmt.setTimestamp(index++,new Timestamp(message.getUpdated().getTime()));
+			if(message.getDeleted()==null)	pstmt.setNull(index++, Types.DATE);	else	pstmt.setTimestamp(index++,new Timestamp(message.getDeleted().getTime()));
+			pstmt.setInt(index++,message.getIsDeleted()?1:0);
+			pstmt.setInt(index++,message.getID());
+			pstmt.executeUpdate();
+	    }catch(Exception e) {
+	    	e.printStackTrace();
+	        return false;
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+		return true;
     }
-    
+
     //标记是否阅读
     public boolean updateMessageOfReaded(boolean message_readed) {
     	int readed = message_readed?1:0;
@@ -773,19 +665,7 @@ public class Message {
             queryStatement = queryConn.prepareStatement(sqlQuery);
             queryRS = queryStatement.executeQuery();
             while(queryRS.next()) {
-                mes = new Message();
-                mes.message_id = queryRS.getInt("message_id");
-                mes.message_identifier = queryRS.getString("message_identifier");
-                mes.message_type = queryRS.getInt("message_type");
-                mes.message_summary = queryRS.getString("message_summary");
-                mes.message_content = queryRS.getString("message_content");
-                mes.message_readed = queryRS.getBoolean("message_readed");
-                mes.deleted = queryRS.getBoolean("deleted");
-                mes.sender_id = queryRS.getInt("sender_id");
-                mes.receiver_id = queryRS.getInt("receiver_id");
-                mes.created_at = queryRS.getTimestamp("created_at");
-                mes.updated_at = queryRS.getTimestamp("updated_at");
-                mes.deleted_at = queryRS.getTimestamp("deleted_at");
+                mes = loadData(queryRS);
                 mesList.add(mes);
             }
         }catch(Exception e2) {

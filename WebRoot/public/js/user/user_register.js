@@ -122,14 +122,14 @@ function IsPhoneExist(tip){
 
 /* 选择邮箱注册方式改变表单布局 */
 $('#mode_email').click(function(){
-	if($('#mode_email').css("color")=="rgb(37, 165, 92)")	return;
+	if($('#mode_email').css("color")=="rgb(0, 170, 255)")	return;
 	$('#mode_email').css("color","#25A55C");
 	$('#mode_phone').css("color","#333333");
 	$('#email_input,#phone_input,#emailRegisterBtn,#phoneRegisterBtn').slideToggle();
 })
 /* 选择手机号注册方式改变表单布局 */
 $('#mode_phone').click(function(){
-	if($('#mode_phone').css("color")=="rgb(37, 165, 92)")	return;
+	if($('#mode_phone').css("color")=="rgb(0, 170, 255)")	return;
 	$('#mode_phone').css("color","#25A55C");
 	$('#mode_email').css("color","#333333");
 	$('#email_input,#phone_input,#emailRegisterBtn,#phoneRegisterBtn').slideToggle();

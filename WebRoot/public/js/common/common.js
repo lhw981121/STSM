@@ -1,37 +1,5 @@
 //公共JS函数
 
-/*获取企业状态 -2|-1|0不可用 1招聘中 2已暂停 3已结束*/
-function getCompanyState(state){
-	switch(state){
-	case -2:case -1:case 0:return "<span style='color: red'><i class='fa fa-times-circle'></i>不可用</span>";
-	case 1:return "<span class='text-success'><i class='fa fa-play-circle'></i>招聘中</span>";
-	case 2:return "<span class='text-info'><i class='fa fa-pause-circle'></i>已暂停</span>";
-	case 3:return "<span class='text-danger'><i class='fa fa-stop-circle'></i>已结束</span>";
-	default:return "";
-	}
-}
-/*获取审核状态 -2审核未通过 -1等待审核 1|2|3审核通过*/
-function getAuditState(state){
-	switch(state){
-	case -2:return "<span style='color: red'><i class='fa fa-warning'></i>审核未通过</span>";
-	case -1:return "<span><i class='fa fa-spinner fa-spin'></i>等待审核</span>";
-	case 1:case 2:case 3:return "<span style='color: green'><i class='fa fa-check-circle'></i>审核通过</span>";
-	default:return "";
-	}
-}
-/*获取职位状态 -2审核未通过 -1等待审核 0不可用  1招聘中 2已暂停 3已结束*/
-function getJobState(state){
-	switch(state){
-	case -2:return "<span style='color: red'><i class='fa fa-warning'></i>审核未通过</span>";
-	case -1:return "<span><i class='fa fa-spinner fa-spin'></i>等待审核</span>";
-	case 0:return "<span style='color: red'><i class='fa fa-times-circle'></i>不可用</span>";
-	case 1:return "<span class='text-success'><i class='fa fa-play-circle'></i>招聘中</span>";
-	case 2:return "<span class='text-info'><i class='fa fa-pause-circle'></i>已暂停</span>";
-	case 3:return "<span class='text-danger'><i class='fa fa-stop-circle'></i>已结束</span>";
-	default:return "";
-	}
-}
-
 /*<!-- 语言切换脚本 -->*/
 function changeLanguage(lan){
 	$.ajax({
@@ -87,17 +55,6 @@ function IfNull(str){
 	}else{
 		return str;
 	}
-}
-
-//通过Date得到年龄
-function DateToAge(birthday){
-	if(birthday.length==0)	return '';
-    //出生时间 毫秒
-    var birthDayTime = new Date(birthday).getTime(); 
-    //当前时间 毫秒
-    var nowTime = new Date().getTime(); 
-    //一年毫秒数(365 * 86400000 = 31536000000)
-    return Math.floor((nowTime-birthDayTime)/31536000000);
 }
 
 //Date格式文本格式化
@@ -224,50 +181,23 @@ function settime(obj,input) {
 	if (countdown == 0) {
 		input.attr('disabled',false);
 		obj.attr('disabled', false);
-		obj.html(language=='zh_CN'?"免费获取验证码":"Get Code Free")
+		obj.html("免费获取验证码")
 		countdown = 60;
 		return;
 	} else {
 		input.attr('disabled',true);
 		obj.attr('disabled', true);
-		obj.html((language=='zh_CN'?"重新发送":"Resend")+"(" + countdown + ")");
+		obj.html("重新发送("+countdown+")");
 		countdown--;
 	}
 	setTimeout(function () {settime(obj,input)}, 1000)
 }
 
-//提示登录
-function UserNotLogin(){
-	swal({
-		title: language=='zh_CN'?"操作禁止":"Prohibit Operating",
-		text: language=='zh_CN'?"你是游客，请先登录！":"You are a tourist, please log in first!",
-		type: "warning",
-		showCancelButton : true,
-		confirmButtonColor : "#1A892E",
-		confirmButtonText : language=='zh_CN'?"登录":"Login",
-		cancelButtonText : language=='zh_CN'?"关闭":"Close",
-		closeOnConfirm : false,
-		closeOnCancel : true
-	},
-	function(){
-		window.location.replace("/STSM/login");
-	});
-}
-
 //检测用户是否访问受限
 function UserLimitedAccess(){
 	var str;
-	if(limitedAccess==1){//求职者访问企业页面
-		str=language=='zh_CN'?"你是求职者，不能访问企业页面！":"You are a job seeker and cannot access the corporate page!";
-	}
-	if(limitedAccess==2){//企业访问求职者页面
-		str=language=='zh_CN'?"你是企业，不能访问求职者页面！":"You are a business and cannot visit the job seeker page!";
-	}
 	if(limitedAccess==3){//非管理员访问管理员页面
 		str=language=='zh_CN'?"管理员页面拒绝访问！":"The admin page is denied access!";
-	}
-	if(limitedAccess==4){//企业未认证访问职位页面
-		str=language=='zh_CN'?"未通过企业资质认证！\n通过企业资质认证才能发布招聘并管理职位。":"Not through the enterprise qualification certification!\nOnly through the enterprise qualification certification can post the recruitment and management position.";
 	}
 	if(limitedAccess.length != 0){
 		swal({
@@ -278,12 +208,7 @@ function UserLimitedAccess(){
 			closeOnConfirm: false
 		},
 		function(){
-			if(limitedAccess<=3){
-				window.location.replace("/STSM/index");
-			}
-			if(limitedAccess==4){
-				window.location.replace("/STSM/user/mycenter?mode=CompanyCertification");
-			}
+			window.location.replace("/STSM/index");
 		});
 	}
 }
