@@ -17,7 +17,7 @@ public class DBUtil {
 	//数据库密码
 	static String password = "root";
 	//数据库连接地址
-	static String url = "jdbc:mysql://localhost/swrw?useSSL=true&serverTimezone=Asia/Shanghai";
+	static String url = "jdbc:mysql://localhost/stsm?useSSL=true&serverTimezone=Asia/Shanghai";
 	
 	static {
 		try {
