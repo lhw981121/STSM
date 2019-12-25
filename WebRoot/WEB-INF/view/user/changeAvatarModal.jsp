@@ -6,7 +6,7 @@
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-file-image-o"></i>&nbsp;更换头像</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
 				<p class="tip-info text-center" id="avatarTip">未选择图片</p>

@@ -1,6 +1,8 @@
 package com.stsm.bean;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -150,24 +152,42 @@ public class Message {
         this.receiver_id = receiver_id;
     }
     
-    public Date getCreated() {
-        return created_at;
+    public String getCreated() {
+        if(created_at!=null) {
+        	DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String Created = t.format(created_at);
+            return Created;
+    	}else {
+    		return "";
+    	}
     }
     
     public void setCreated(Date created_at) {
     	this.created_at = created_at;
     }
 
-    public Date getUpdated() {
-    	return updated_at;
+    public String getUpdated() {
+        if(updated_at!=null) {
+        	DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String Updated = t.format(updated_at);
+            return Updated;
+    	}else {
+    		return "";
+    	}
     }
     
     public void setUpdated(Date updated_at) {
     	this.updated_at = updated_at;
     }
     
-    public Date getDeleted() {
-    	return deleted_at;
+    public String getDeleted() {
+    	if(deleted_at!=null) {
+    		DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String Deleted = t.format(deleted_at);
+            return Deleted;
+    	}else {
+    		return "";
+    	}
     }
     
     public void setDeleted(Date deleted_at) {
@@ -249,7 +269,7 @@ public class Message {
   	*/
 	public boolean sendSingleMessage(int message_type,String message_summary,String message_content,int sender_id,int receiver_id) {
 		String insertSql = 
-        		"insert into tb_message("
+        		"insert into message("
         			+ "message_identifier,"
         			+ "message_type,"
         			+ "message_summary,"
@@ -298,7 +318,7 @@ public class Message {
 	//软删除消息信息
     public boolean softDeleteGradeByID(int message_id) {
     	Connection conn = DBUtil.getConnection();
-    	String updateSql = "update tb_message set deleted='"+1+"' where message_id=" + message_id;
+    	String updateSql = "update message set deleted='"+1+"' where message_id=" + message_id;
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(updateSql);
@@ -323,7 +343,7 @@ public class Message {
     //删除消息信息
     public boolean deleteMessageByID(int message_id) {
     	Connection conn = DBUtil.getConnection();
-        String deleteSql = "delete from tb_message where message_id=" + message_id;
+        String deleteSql = "delete from message where message_id=" + message_id;
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(deleteSql);
@@ -348,7 +368,7 @@ public class Message {
     //删除接收者所有消息
     public boolean deleteMessageAll(int receiver_id) {
     	Connection conn = DBUtil.getConnection();
-        String deleteSql = "delete from tb_message where receiver_id=" + receiver_id;
+        String deleteSql = "delete from message where receiver_id=" + receiver_id;
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(deleteSql);
@@ -373,7 +393,7 @@ public class Message {
     //删除接收者所有已读消息
     public boolean deleteMessageRead(int receiver_id) {
     	Connection conn = DBUtil.getConnection();
-        String deleteSql = "delete from tb_message where message_readed=1 and receiver_id=" + receiver_id;
+        String deleteSql = "delete from message where message_readed=1 and receiver_id=" + receiver_id;
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(deleteSql);
@@ -398,7 +418,7 @@ public class Message {
     //删除接收者所有未读消息
     public boolean deleteMessageUnRead(int receiver_id) {
     	Connection conn = DBUtil.getConnection();
-        String deleteSql = "delete from tb_message where message_readed=0 and receiver_id=" + receiver_id;
+        String deleteSql = "delete from message where message_readed=0 and receiver_id=" + receiver_id;
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(deleteSql);
@@ -455,7 +475,7 @@ public class Message {
     
     //查询消息信息（按主键查找）
     public Message queryMessageByID(int message_id) {
-        String querySql = "select * from tb_message where message_id="+"'"+message_id+"'";
+        String querySql = "select * from message where message_id="+"'"+message_id+"'";
         if(queryMessage(querySql).size()!=0) {
         	return queryMessage(querySql).get(0);
         }else {
@@ -465,32 +485,32 @@ public class Message {
  
     //查询消息信息（按编号查找）
     public List<Message> queryMessageByIden(String message_identifier) {
-    	String querySql = "select * from tb_message where message_identifier="+"'"+message_identifier+"'";
+    	String querySql = "select * from message where message_identifier="+"'"+message_identifier+"'";
     	return queryMessage(querySql);
     }
     
     //查询消息信息（按类型查找）
     public List<Message> queryMessageByType(int message_type) {
-    	String querySql = "select * from tb_message where message_type="+"'"+message_type+"'";
+    	String querySql = "select * from message where message_type="+"'"+message_type+"'";
         return queryMessage(querySql);
     }
     
     //查询消息信息（按是否阅读查找）
     public List<Message> queryMessageByReaded(boolean message_readed) {
     	int readed = message_readed?1:0;
-    	String querySql = "select * from tb_message where message_readed="+"'"+readed+"'";
+    	String querySql = "select * from message where message_readed="+"'"+readed+"'";
         return queryMessage(querySql);
     }
     
     //查询消息信息（按发送者查找）
     public List<Message> queryMessageBySenderID(int sender_id) {
-    	String querySql = "select * from tb_message where sender_id="+"'"+sender_id+"'";
+    	String querySql = "select * from message where sender_id="+"'"+sender_id+"'";
         return queryMessage(querySql);
     }
     
     //查询消息信息（按接收者查找）
     public List<Message> queryMessageByReceiverID(int receiver_id) {
-    	String querySql = "select * from tb_message where receiver_id="+"'"+receiver_id+"'";
+    	String querySql = "select * from message where receiver_id="+"'"+receiver_id+"'";
         return queryMessage(querySql);
     }
     
@@ -502,14 +522,14 @@ public class Message {
   	*/
     public List<Message> queryMessageOfNew(int receiver_id,boolean message_readed) {
     	int readed = message_readed?1:0;
-    	String querySql = "select * from tb_message where receiver_id="+"'"+receiver_id+"' and message_readed="+"'"+readed+"' order by created_at DESC";
+    	String querySql = "select * from message where receiver_id="+"'"+receiver_id+"' and message_readed="+"'"+readed+"' order by created_at DESC";
         return queryMessage(querySql);
     }
     
     //查询消息信息（按是否已删除查找）
     public List<Message> queryMessageByIsDeleted(boolean deleted) {
     	int isdeleted = deleted?1:0;
-    	String querySql = "select * from tb_message where deleted="+"'"+isdeleted+"'";
+    	String querySql = "select * from message where deleted="+"'"+isdeleted+"'";
         return queryMessage(querySql);
     }
     
@@ -533,9 +553,6 @@ public class Message {
 			+ "message_readed=?,"
 			+ "sender_id=?,"
 			+ "receiver_id=?,"
-			+ "created_at=?,"
-			+ "updated_at=?,"
-			+ "deleted_at=?,"
 			+ "deleted=? "
 			+ "where message_id=?";
 			int index = 1;
@@ -547,9 +564,6 @@ public class Message {
 			pstmt.setInt(index++,message.getReaded()?1:0);
 			pstmt.setInt(index++,message.getSenderID());
 			pstmt.setInt(index++,message.getReceiverID());
-			pstmt.setTimestamp(index++,new Timestamp(message.getCreated().getTime()));
-			pstmt.setTimestamp(index++,new Timestamp(message.getUpdated().getTime()));
-			if(message.getDeleted()==null)	pstmt.setNull(index++, Types.DATE);	else	pstmt.setTimestamp(index++,new Timestamp(message.getDeleted().getTime()));
 			pstmt.setInt(index++,message.getIsDeleted()?1:0);
 			pstmt.setInt(index++,message.getID());
 			pstmt.executeUpdate();
@@ -571,7 +585,7 @@ public class Message {
         //信息有改动时才修改
         if(message_readed != this.message_readed) {
         	count++;
-            String updateSql = "update tb_message set message_readed='"+readed+"' where message_id=" + this.message_id;
+            String updateSql = "update message set message_readed='"+readed+"' where message_id=" + this.message_id;
             try {
                 PreparedStatement ps = conn.prepareStatement(updateSql);
                 ps.executeUpdate();
@@ -583,7 +597,7 @@ public class Message {
             }
         }
         if(nowTime != this.updated_at&&count != 0) {
-        	String updateSql = "update tb_message set updated_at = ? where message_id="+ this.message_id;
+        	String updateSql = "update message set updated_at = ? where message_id="+ this.message_id;
             try {
                 PreparedStatement ps = conn.prepareStatement(updateSql);
                 ps.setTimestamp(1, new Timestamp(nowTime.getTime()));
@@ -631,7 +645,7 @@ public class Message {
         Connection conn = null;
         try{
         	conn = DBUtil.getConnection();
-            ps = conn.prepareStatement("select count(*) from tb_message");
+            ps = conn.prepareStatement("select count(*) from message");
             rs = ps.executeQuery();
             if(rs.next()) {
             	count = rs.getInt(1);
@@ -661,7 +675,7 @@ public class Message {
         Connection queryConn = null;
         try{
         	queryConn = DBUtil.getConnection();
-            String sqlQuery = "select * from tb_message";
+            String sqlQuery = "select * from message";
             queryStatement = queryConn.prepareStatement(sqlQuery);
             queryRS = queryStatement.executeQuery();
             while(queryRS.next()) {
@@ -701,7 +715,7 @@ public class Message {
 	    try{
 	    	int index = 1;
 	        String sqlQuery = 
-    		"select count(*) from tb_message "
+    		"select count(*) from message "
     		+ "where sender_id=? "
 			+ "and receiver_id=? "
 			+ (message_readed==2?"":"and message_readed=? ")
@@ -747,7 +761,7 @@ public class Message {
 	    try{
 	    	int index = 1;
 	        String sqlQuery = 
-    		"select * from tb_message "
+    		"select * from message "
     		+ "where sender_id=? "
 			+ "and receiver_id=? "
 			+ (message_readed==2?"":"and message_readed=? ")
@@ -787,7 +801,7 @@ public class Message {
         Connection conn = null;
         try{
         	conn = DBUtil.getConnection();
-            ps = conn.prepareStatement("select count(*) from tb_message where receiver_id=?");
+            ps = conn.prepareStatement("select count(*) from message where receiver_id=?");
             ps.setInt(1, receiver_id);
             rs = ps.executeQuery();
             if(rs.next()) {

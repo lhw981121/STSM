@@ -1,26 +1,5 @@
 //用户个人中心模态框脚本
 
-//企业认证模态框事件监听
-$('#companyCertificationModal').on('show.bs.modal', function() {//show 方法调用之后立即触发该事件
-}).on('shown.bs.modal', function() {//此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发
-}).on('hidden.bs.modal', function() {//此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
-	$('#company_name').val('');
-	$('#company_legal').val('');
-	$('#company_area').val('');
-	$('#company_size').val('');
-	$('#company_type').val('');
-	$('#company_brief').val('');
-	$('#company_license').val('');
-	$("#license_name_label").html(language=='zh_CN'?"选择营业执照":"Select Company License");
-	$("#company_license_photo").attr("src", "").hide();
-	$("#CompanyLicensePreview").html("");
-});
-//更改用户名模态框事件监听
-$('#changeUserNameModal').on('show.bs.modal', function() {//show 方法调用之后立即触发该事件
-}).on('shown.bs.modal', function() {//此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发
-}).on('hidden.bs.modal', function() {//此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
-	$('#user_name').val('');
-});
 //更改密码模态框事件监听
 $('#changePasswordModal').on('show.bs.modal', function() {//show 方法调用之后立即触发该事件
 }).on('shown.bs.modal', function() {//此事件在模态框已经显示出来（并且同时在 CSS 过渡效果完成）之后被触发
@@ -69,135 +48,6 @@ $('#unBindEmailModal').on('show.bs.modal', function() {//show 方法调用之后
 	countdown=0;
 });
 
-//企业认证
-function companyCertificate(){
-	if(checkCompanyName()&&checkCompanyLegal()&&checkCompanyArea()&&checkCompanySize()&&checkCompanyType()&&checkCompanyBrief()&&checkCompanyLicense()){
-		$.ajax({
-			type:"post",
-			url:"/STSM/CompanyCertificate",
-			datatype: "json", 
-			async:false,
-			data:{
-				"company_name":$('#company_name').val(),
-				"company_legal":$('#company_legal').val(),
-				"company_area":$('#company_area').val(),
-				"company_size":$('#company_size').val(),
-				"company_type":$('#company_type').val(),
-				"company_brief":$('#company_brief').val(),
-				"company_license":$("#company_license_photo").attr("src"),
-			},
-			success:function(result) {
-				var r = JSON.parse(result);
-				if(r.isOK==true){//提交认证成功
-					$('#companyCertificationModal').modal('hide');//隐藏企业认证模态框
-					swal({
-						title: language=='zh_CN'?"提交认证成功":"Submit Certificate successfully",
-						text: r.successMes,
-						type: "success",
-					},
-					function(){
-						window.location.reload();
-					});
-					setTimeout(function () {window.location.reload();}, 2000);
-				}else{//提交认证失败
-					swal({
-						title: language=='zh_CN'?"提交认证失败":"Submit Certificate Failed",
-						text: r.errorMes,
-						type: "error",
-					});
-				}
-			},
-			error:function(){
-				AjaxError();
-			}
-		});
-	}
-}
-
-/*<!-- 判断用户名是否存在 -->*/
-function IsUserNameExist(tip){
-	if(checkUser_name()==false)	return false;
-	if($('#user_name').val()==$('#userName').html()){//输入为当前用户名
-		if(tip==1){
-			iziToast.success({
-				title: language=='zh_CN'?"可用":"Available",
-				message: language=='zh_CN'?"可用是可用但是没有变化呀。":"Usable is usable but there is no change.",
-				position: 'bottomRight',
-				transitionIn: 'bounceInLeft',
-			});
-		}
-		return true;
-	}
-	var ok = false;
-	$.ajax({
-		type:"post",
-		url:"/STSM/UserIsUserNameExist",
-		datatype: "json", 
-		async:false,
-		data:{
-			"user_name":$('#user_name').val(),
-		},
-		success:function(result) {
-			var r = JSON.parse(result);
-			if(r.isExist==true){//用户名已存在。
-				ok = false;
-				ErrorTipBottomCenter(r.errorMes);
-			}else{//用户名不存在。
-				ok = true;
-				if(tip==1){
-					iziToast.success({
-						title: language=='zh_CN'?"可用":"Available",
-						message: r.successMes,
-						position: 'bottomRight',
-						transitionIn: 'bounceInLeft',
-					});
-				}
-			}
-		},
-		error:function(){
-			AjaxError();
-		}
-	});
-	return ok;
-}
-/*更改用户名*/
-function changeUserName(){
-	if(!IsUserNameExist(1))	return;
-	$.ajax({
-		type:"post",
-		url:"/STSM/UserUpdateUserName",
-		datatype: "json", 
-		async:false,
-		data:{
-			"user_name":$('#user_name').val(),
-		},
-		success:function(result) {
-			var r = JSON.parse(result);
-			if(r.isOK==true){//用户名修改成功
-				$('#changeUserNameModal').modal('hide');//隐藏修改用户名模态框
-				swal({
-					title: language=='zh_CN'?"修改用户名成功":"Modify Password successfully",
-					text: r.successMes,
-					type: "success",
-				},
-				function(){
-					window.location.reload();
-				});
-				setTimeout(function () {window.location.reload();}, 2000);
-			}else{//用户名修改失败
-				swal({
-					title: language=='zh_CN'?"修改用户名失败":"Modify Password Failed",
-					text: r.errorMes,
-					type: "error",
-				});
-			}
-		},
-		error:function(){
-			AjaxError();
-		}
-	});
-}
-
 /*验证旧密码*/
 function verifyOldPassword(){
 	if(!InputNotNull($('#user_old_password'),language=='zh_CN'?"旧密码不能为空！":"The old password cannot be empty!"))	return;
@@ -235,7 +85,7 @@ function changePassword(){
 		datatype: "json",
 		async:false,
 		data:{
-			"user_account":$("#userName").html(),
+			"user_account":$("#user_account").val(),
 			"user_password":$.md5($("#user_password").val()),
 		},
 		success:function(result) {

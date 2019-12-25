@@ -141,7 +141,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#bindPhoneModal').modal('show')">绑定</a>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#unBindPhoneModal').modal('show')">未绑定</a>
+											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#unBindPhoneModal').modal('show')">解绑</a>
 										</c:otherwise>
 										</c:choose>
 									</td>
@@ -169,7 +169,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#bindEmailModal').modal('show')">绑定</a>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#unBindEmailModal').modal('show')">未绑定</a>
+											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#unBindEmailModal').modal('show')">解绑</a>
 										</c:otherwise>
 										</c:choose>
 									</td>

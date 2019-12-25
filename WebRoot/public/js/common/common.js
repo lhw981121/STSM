@@ -252,15 +252,11 @@ function RefreshNewMessage(){
 				$('#message_count_1').html('');
 				$('#message_count_2').html('');
 				$('#message_count_3').html('');
-				$('#message_count_4').html('');
-				$('#message_count_5').html('');
 				$('#message_menu').html('<li><a href="#" class="more">'+(language=='zh_CN'?"未收到消息":"No message received")+'</a></li>');
 			}else{//有新消息
 				$('#message_count_1').html(r.count);
 				$('#message_count_2').html(r.count);
 				$('#message_count_3').html(r.count);
-				$('#message_count_4').html(r.count);
-				$('#message_count_5').html(r.count);
 				var newMes = r.newMesList;
 				var messageMenuHtml = "";
 				$.each(newMes, function (index, mes) {
@@ -293,6 +289,6 @@ $(function () {
 	//检测本机用户是否在线
 	UserTestLogout();
 	//刷新用户新消息
-	//RefreshNewMessage();
+	RefreshNewMessage();
 	
 })

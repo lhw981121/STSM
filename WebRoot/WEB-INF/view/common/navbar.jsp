@@ -23,7 +23,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-					<i class="lnr lnr-alarm"></i><span class="badge bg-danger" id="message_count_3"></span></a>
+					<i class="lnr lnr-alarm"></i><span class="badge bg-danger" id="message_count_1"></span></a>
 					<ul class="dropdown-menu notifications" id="message_menu"></ul>
 				</li>
 				<li class="dropdown">
@@ -50,10 +50,10 @@
 					
 					<c:choose>
 					<c:when test="${currentURL.indexOf(\"/message/\")!=-1 }">
-						<li><a href="/STSM/message" target="_self"><i class="lnr lnr-bubble"></i> <span>Message </span><span class="badge" id="message_count_4"></span></a></li>
+						<li><a href="/STSM/message" target="_self"><i class="lnr lnr-bubble"></i> <span>Message </span><span class="badge" id="message_count_2"></span></a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="/STSM/message" target="_blank"><i class="lnr lnr-bubble"></i> <span>Message </span><span class="badge" id="message_count_4"></span></a></li>
+						<li><a href="/STSM/message" target="_blank"><i class="lnr lnr-bubble"></i> <span>Message </span><span class="badge" id="message_count_2"></span></a></li>
 					</c:otherwise>
 					</c:choose>
 					

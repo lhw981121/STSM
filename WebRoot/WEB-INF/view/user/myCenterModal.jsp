@@ -8,7 +8,7 @@
 <script src="/STSM/public/js/user/user_phone.js"></script>
 <!-- 用户密码验证JS -->
 <script src="/STSM/public/js/user/user_password.js"></script>
-<script src="/STSM/public/js/jQuery.md5.js"></script>
+<script src="/STSM/public/js/common/jQuery.md5.js"></script>
 <!-- 用户密码验证JS -->
 <script src="/STSM/public/js/company/company_info.js"></script>
 
@@ -18,67 +18,30 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-id-card-o"></i>&nbsp;用户信息</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							用户名: ${user.getName()}
-						</div>
-						<div class="col-md-12">
-							用户类型: ${user.getTypeStr()}
-						</div>
-							<%-- <div class="sidebar-widget mb-4">
-								<div class="right-sidebar">
-									<div class="sidebar-details">
-										<div class="single-overview  d-flex">
-											<div class="icon">
-												<i class="fa fa-user"></i>
-											</div>
-											<div class="meta-overview">
-												<p>
-													
-												</p>
-											</div>
-										</div>
-										<div class="single-overview  d-flex">
-											<div class="icon">
-												<i class="fa fa-street-view"></i>
-											</div>
-											<div class="meta-overview">
-												<p>
-													用户类型
-													: <span>${user.getTypeStr()}</span>
-												</p>
-											</div>
-										</div>
-										<div class="single-overview  d-flex">
-											<div class="icon">
-												<i class="fa fa-phone"></i>
-											</div>
-											<div class="meta-overview">
-												<p>
-													手机号
-													: <span>${(user.getPhone()==null||user.getPhone().length()==0)?"未绑定":user.getPhone()}</span>
-												</p>
-											</div>
-										</div>
-										<div class="single-overview  d-flex">
-											<div class="icon">
-												<i class="fa fa-envelope-o"></i>
-											</div>
-											<div class="meta-overview">
-												<p>
-													邮箱
-													: <span>${(user.getEmail()==null||user.getEmail().length()==0)?"未绑定":user.getEmail()}</span>
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> --%>
-					</div>
+				<div class="panel-body">
+					<table class="table table-bordered table-striped table-hover">
+						<tbody>
+							<tr>
+								<td>用户名</td>
+								<td>${user.getName()}</td>
+							</tr>
+							<tr>
+								<td>用户类型</td>
+								<td>${user.getTypeStr()}</td>
+							</tr>
+							<tr>
+								<td>手机号</td>
+								<td>${(user.getPhone()==null||user.getPhone().length()==0)?"未绑定":user.getPhone()}</td>
+							</tr>
+							<tr>
+								<td>邮箱</td>
+								<td>${(user.getEmail()==null||user.getEmail().length()==0)?"未绑定":user.getEmail()}</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -94,38 +57,44 @@
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-key"></i>&nbsp;修改密码</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
+				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
 							<!-- 旧密码输入框 -->
 							<div id="oldPassword_input">
-								<input id="user_password_old" name="user_password_old" type="hidden" value="${user.getPassword()}"/>
-								<h5>验证旧密码</h5><hr>
+								<input id="user_password_old" type="hidden" value="${user.getPassword()}"/>
+								<input id="user_account" type="hidden" value="${user.getAccount()}"/>
+								<h4>验证旧密码</h4><hr>
 								<input class="form-control" type="password"
 								id="user_old_password" name="user_old_password"
-								placeholder="<fmt:message key="OldPasswordLimit"/>"
+								placeholder="请输入旧密码"
 								onkeypress="if(event.keyCode==13) {verifyOldPasswordBtn.click();return false;}"/>
 							</div>
 							<!-- 新密码输入框 -->
 							<div style="display:none" id="newPassword_input">
-								<h5>输入新密码</h5><hr>
+								<h4>输入新密码</h4><hr>
 								<!-- 新密码输入框1 -->
-								<div class="custom-control custom-control-inline" style="margin-left:-28px;width:93%">
-									<input class="form-control" type="password"
+								<div class="form-group">
+									<div class="col-md-11">
+										<input class="form-control" type="password"
 										id="user_password" name="user_password"
-										placeholder="<fmt:message key="PasswordLimit"/>" 
+										placeholder="6~18位字符,必须包含数字、字母或特殊字符其中两项及以上" 
 										onkeypress="if(event.keyCode==13) {changePasswordBtn.click();return false;}"/>
-								</div><i class="fa fa-eye-slash fa-2x" id="eye" onclick="hideShowNewPsw()"></i>
+									</div>
+									<i class="fa fa-eye-slash fa-2x" id="eye" onclick="hideShowNewPsw()"></i>
+								</div>
 								<!-- 新密码输入框2 -->
-								<p style="margin-top:16px">
-									<input class="form-control" type="password"
+								<div class="form-group">
+									<div class="col-md-12">
+										<input class="form-control" type="password"
 										id="user_passwords" name="user_passwords"
-										placeholder="<fmt:message key="PasswordAgain"/>" 
+										placeholder="请再次输入密码" 
 										onkeypress="if(event.keyCode==13) {changePasswordBtn.click();return false;}"/>
-								</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -133,7 +102,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary" id="verifyOldPasswordBtn" onclick="verifyOldPassword();">验证</button>
-				<button style="display:none" class="btn btn-primary" id="changePasswordBtn" onchange="checkUser_password()" onclick="changePassword();">修改</button>
+				<button style="display:none" class="btn btn-primary" id="changePasswordBtn" onchange="checkUser_password()" onclick="changePassword();">修改密码</button>
 				<button class="btn btn-info" aria-hidden="true" data-dismiss="modal">取消</button>
 			</div>
 		</div>
@@ -146,29 +115,32 @@
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-mobile"></i>&nbsp;绑定手机号</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
+				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<p>
+							<h4>绑定手机号</h4><hr>
+							<div class="form-group">
 								<input id="sendPhone" name="sendPhone" type="hidden"/>
 								<input class="form-control" type="tel"
 									id="user_phone" name="user_phone" onchange="IsPhoneExist(1)"
-									placeholder="<fmt:message key="PhoneTip"/>" 
+									placeholder="请输入手机号" 
 									onkeypress="if(event.keyCode==13) {bindPhoneCodeBtn.click();return false;}"/>
-							</p>
-							<div class="custom-control custom-control-inline" style="margin-left:-24px;width:70%">
-								<input id="phonecode" name="phonecode" type="hidden"/>
-								<input class="form-control" type="text" autocomplete="off"
-								id="phone_code" name="phone_code" disabled="disabled"
-								placeholder="<fmt:message key="PhoneCodeTip"/>"
-								onkeypress="if(event.keyCode==13) {bindPhoneBtn.click();return false;}"/>
 							</div>
-							<button class="btn btn-info" type="button" style="margin:-3px 0px 0px -20px;width:35%;font-size:15px" id="bindPhoneCodeBtn" 
-							onclick="if(checkUser_phone()&&IsPhoneExist()){countdown=60;sendPhoneCode($('#bindPhoneCodeBtn'),$('#phone_code'),$('#phonecode'),$('#user_phone'));}">
-							免费获取验证码</button>
+							<div class="form-group">
+								<div class="input-group">
+									<input id="phonecode" name="phonecode" type="hidden"/>
+									<input class="form-control" type="text" autocomplete="off" 
+									id="phone_code" name="phone_code" disabled="disabled"
+									placeholder="请输入验证码"
+									onkeypress="if(event.keyCode==13) {bindPhoneBtn.click();return false;}"/>
+									<span class="input-group-btn"><button type="button" class="btn btn-primary" id="bindPhoneCodeBtn"
+									onclick="if(checkUser_phone()&&IsPhoneExist()){countdown=60;sendPhoneCode($('#bindPhoneCodeBtn'),$('#phone_code'),$('#phonecode'),$('#user_phone'));}">
+									免费获取验证码</button></span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -186,24 +158,26 @@
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-mobile"></i>&nbsp;解绑手机号</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
+				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
 							<input id="user_phone_old" name="user_phone_old" type="hidden" value="${user.getPhone()}"/>
-							<h5>解绑手机号&ensp;${COMUtil.HidePhone(user.getPhone())}</h5><hr>
-							<div class="custom-control custom-control-inline" style="margin-left:-24px;width:70%">
-								<input id="unphonecode" name="unphonecode" type="hidden"/>
-								<input class="form-control" type="text" autocomplete="off"
-								id="unphone_code" name="unphone_code" disabled="disabled"
-								placeholder="<fmt:message key="PhoneCodeTip"/>"
-								onkeypress="if(event.keyCode==13) {unBindPhoneBtn.click();return false;}"/>
+							<h4>解绑手机号&ensp;${COMUtil.HidePhone(user.getPhone())}</h4><hr>
+							<div class="form-group">
+								<div class="input-group">
+									<input id="unphonecode" name="unphonecode" type="hidden"/>
+									<input class="form-control" type="text" autocomplete="off" 
+									id="unphone_code" name="unphone_code" disabled="disabled"
+									placeholder="请输入验证码"
+									onkeypress="if(event.keyCode==13) {unBindPhoneBtn.click();return false;}"/>
+									<span class="input-group-btn"><button type="button" class="btn btn-primary" id="unBindPhoneCodeBtn"
+									onclick="countdown=60;sendPhoneCode($('#unBindPhoneCodeBtn'),$('#unphone_code'),$('#unphonecode'),$('#user_phone_old'));">
+									免费获取验证码</button></span>
+								</div>
 							</div>
-							<button class="btn btn-info" type="button" style="margin:-3px 0px 0px -20px;width:35%;font-size:15px" id="unBindPhoneCodeBtn" 
-							onclick="countdown=60;sendPhoneCode($('#unBindPhoneCodeBtn'),$('#unphone_code'),$('#unphonecode'),$('#user_phone_old'));">
-							免费获取验证码</button>
 						</div>
 					</div>
 				</div>
@@ -222,29 +196,32 @@
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-envelope-o"></i>&nbsp;绑定邮箱</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
+				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<p>
+							<h4>绑定邮箱</h4><hr>
+							<div class="form-group">
 								<input id="sendEmail" name="sendEmail" type="hidden"/>
 								<input class="form-control" type="tel"
 									id="user_email" name="user_email" onchange="IsEmailExist(1)"
-									placeholder="<fmt:message key="EmailTip"/>" 
+									placeholder="请输入邮箱" 
 									onkeypress="if(event.keyCode==13) {bindEmailCodeBtn.click();return false;}"/>
-							</p>
-							<div class="custom-control custom-control-inline" style="margin-left:-24px;width:70%">
-								<input id="emailcode" name="emailcode" type="hidden"/>
-								<input class="form-control" type="text" autocomplete="off"
-								id="email_code" name="email_code" disabled="disabled"
-								placeholder="<fmt:message key="EmailCodeTip"/>"
-								onkeypress="if(event.keyCode==13) {bindEmailBtn.click();return false;}"/>
 							</div>
-							<button class="btn btn-info" type="button" style="margin:-3px 0px 0px -20px;width:35%;font-size:15px" id="bindEmailCodeBtn" 
-							onclick="if(checkUser_email()&&IsEmailExist()){countdown=60;sendEmailCode($('#bindEmailCodeBtn'),$('#email_code'),$('#emailcode'),$('#user_email'));}">
-							免费获取验证码</button>
+							<div class="form-group">
+								<div class="input-group">
+									<input id="emailcode" name="emailcode" type="hidden"/>
+									<input class="form-control" type="text" autocomplete="off" 
+									id="email_code" name="email_code" disabled="disabled"
+									placeholder="请输入验证码"
+									onkeypress="if(event.keyCode==13) {bindEmailBtn.click();return false;}"/>
+									<span class="input-group-btn"><button type="button" class="btn btn-primary" id="bindEmailCodeBtn"
+									onclick="if(checkUser_email()&&IsEmailExist()){countdown=60;sendEmailCode($('#bindEmailCodeBtn'),$('#email_code'),$('#emailcode'),$('#user_email'));}">
+									免费获取验证码</button></span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -262,24 +239,26 @@
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
 				<h4 class="modal-title text-primary"><i class="fa fa-envelope-o"></i>&nbsp;解绑邮箱</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top:-25px">×</button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
+				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
 							<input id="user_email_old" name="user_email_old" type="hidden" value="${user.getEmail()}"/>
-							<h5>解绑邮箱&ensp;${COMUtil.HideEmail(user.getEmail())}</h5><hr>
-							<div class="custom-control custom-control-inline" style="margin-left:-24px;width:70%">
-								<input id="unemailcode" name="unemailcode" type="hidden"/>
-								<input class="form-control" type="text" autocomplete="off"
-								id="unemail_code" name="unemail_code" disabled="disabled"
-								placeholder="<fmt:message key="EmailCodeTip"/>"
-								onkeypress="if(event.keyCode==13) {unBindEmailBtn.click();return false;}"/>
+							<h4>解绑邮箱&ensp;${COMUtil.HideEmail(user.getEmail())}</h4><hr>
+							<div class="form-group">
+								<div class="input-group">
+									<input id="unemailcode" name="unemailcode" type="hidden"/>
+									<input class="form-control" type="text" autocomplete="off" 
+									id="unemail_code" name="unemail_code" disabled="disabled"
+									placeholder="请输入验证码"
+									onkeypress="if(event.keyCode==13) {unBindEmailBtn.click();return false;}"/>
+									<span class="input-group-btn"><button type="button" class="btn btn-primary" id="unBindEmailCodeBtn"
+									onclick="countdown=60;sendEmailCode($('#unBindEmailCodeBtn'),$('#unemail_code'),$('#unemailcode'),$('#user_email_old'));">
+									免费获取验证码</button></span>
+								</div>
 							</div>
-							<button class="btn btn-info" type="button" style="margin:-3px 0px 0px -20px;width:35%;font-size:15px" id="unBindEmailCodeBtn" 
-							onclick="countdown=60;sendEmailCode($('#unBindEmailCodeBtn'),$('#unemail_code'),$('#unemailcode'),$('#user_email_old'));">
-							免费获取验证码</button>
 						</div>
 					</div>
 				</div>
