@@ -32,6 +32,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">欢迎 ${user.getName()} 登录</div>
 					<div class="panel-body">你是 ${user.getTypeStr()} ！
+					<a href="/STSM/StaffInfo">员工信息</a>
 					</div>
 				</div>
 			</div>

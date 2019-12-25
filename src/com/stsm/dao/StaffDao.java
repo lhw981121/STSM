@@ -1,6 +1,7 @@
 package com.stsm.dao;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -142,21 +143,21 @@ public class StaffDao {
 		Connection conn = DBUtil.getConnection();
 		PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	    List<Staff> staff = new ArrayList<Staff>();
+	    List<Staff> list = new ArrayList<Staff>();
 		try{
 			String sql="select * from staff where "+str+"=?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, value);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				staff.add(loadData(rs));
+				list.add(loadData(rs));
 			}
 	    }catch(Exception e) {
 	        e.printStackTrace();
 	    }finally{
 	       DBUtil.closeJDBC(rs, pstmt, conn);
 	    }
-		return staff;
+		return list;
 	}
 	/**
 	* 按员工ID查找信息
@@ -293,13 +294,81 @@ public class StaffDao {
 	    }
 	    return true;
 	}
+	/**
+	 * 分页结果集合
+	 * @param pageNo 当前页
+	 * @param pageSize 每页记录数
+	 * @param queryStr 查询字段
+	 * @param sortField  排序字段及排序方式 ASC(升序)、DESC(降序)
+	 * @return 分页结果集合
+	 */
+	public List<Staff> getPageDataStaff(int pageNo,int pageSize,String queryStr,String sortField)
+	{
+		List<Staff> list = new ArrayList<Staff>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT * FROM "
+	        		+ "staff WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,''),IFNULL(staff_age,'')) LIKE ? "
+	        		+ "ORDER BY "+(sortField.length()==0?"":sortField)+" LIMIT ?,?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        pstmt.setInt(index++, pageSize * (pageNo-1));
+	        pstmt.setInt(index++, pageSize);
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	Staff staff = loadData(rs);
+	        	list.add(staff);
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
+	/**
+	 * 分页总数
+	 * @param queryStr 查询字段
+	 * @return
+	 */
+	public int getPageDataStaffCount(String queryStr) {
+		int count = 0;
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT COUNT(*) "
+	        		+ "FROM staff "
+	        		+ "WHERE CONCAT(IFNULL(staff_name,''),IFNULL(staff_number,''),IFNULL(staff_age,'')) LIKE  ?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+            	count = rs.getInt(1);
+            }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        return 0;
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return count;
+    }
 	
 //	public static void main(String [] args){
 //		StaffDao dao = new StaffDao();
-//		Staff staff = new Staff();
-//		staff = dao.queryStaffByID(2);
-//		staff.setNumber("12");
-//		System.out.println(dao.updataStaff(staff));
+//		List<Staff> list = new ArrayList<Staff>();
+//		System.out.print(dao.getPageDataStaffCount("波"));
+//		list = dao.getPageDataStaff(2, 10, "", "staff_age");
+//		Iterator<Staff> it = list.iterator();
+//		while(it.hasNext()) {
+//			Staff to = it.next();
+//			System.out.println(to.getName());
+//		}
 //	}
 	
 }
