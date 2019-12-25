@@ -6,7 +6,7 @@
 <script src="/STSM/public/assets/vendor/toastr/toastr.min.js"></script>
 <script src="/STSM/public/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 <script src="/STSM/public/assets/vendor/chartist/js/chartist.min.js"></script>
-<script src="/STSM/public/assets/scripts-common.js"></script>
+<script src="/STSM/public/assets/scripts/klorofil-common.js"></script>
 
 <!-- scrollTo -->
 <script src="https://cdn.bootcss.com/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>

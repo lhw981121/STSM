@@ -18,7 +18,7 @@ function hideShowNewPsw(){
 
 //判断账号是否存在
 $("#accountBtn").click(function() {
-	if(!InputNotNull($('#user_account'),language=='zh_CN'?"账号不能为空！":"The account cannot be empty!"))	return;
+	if(!InputNotNull($('#user_account'),"账号不能为空！"))	return;
 	$.ajax({
 		type:"post",
 		url:"/STSM/UserIsAccountExist",
@@ -31,18 +31,18 @@ $("#accountBtn").click(function() {
 			var r = JSON.parse(result);
 			if(r.isExist==true){//账号存在
 				var user = r.user;
-				if((user.user_email==null||user.user_email.length==0)&&(user.user_phone==null||user.user_phone.length==0)){
-					$("#default_mode").html(language=='zh_CN'?"您没有可用的验证方式！请联系管理员。":"You have no validation available!");
+				if((user.email==null||user.email.length==0)&&(user.phone==null||user.phone.length==0)){
+					$("#default_mode").html("您没有可用的验证方式！请联系管理员。");
 				}else{
-					if(user.user_email!=null&&user.user_email.length!=0){
+					if(user.email!=null&&user.email.length!=0){
 						$("#user_email_mode").show();
-						$("#user_email_mode").html((language=='zh_CN'?"邮箱验证&emsp;&emsp;&emsp;&emsp;":"Eamil Verification&emsp;&emsp;&emsp;")+HideEmail(user.user_email));
-						$("#emailcode").val(user.user_email);
+						$("#user_email_mode").html(("邮箱验证&emsp;&emsp;&emsp;&emsp;")+HideEmail(user.email));
+						$("#emailcode").val(user.email);
 					}
-					if(user.user_phone!=null&&user.user_phone.length!=0){
+					if(user.phone!=null&&user.phone.length!=0){
 						$("#user_phone_mode").show();
-						$("#user_phone_mode").html((language=='zh_CN'?"手机短信验证&emsp;&emsp;":"SMS Verification&emsp;&emsp;&emsp;&ensp; ")+HidePhone(user.user_phone));
-						$("#phonecode").val(user.user_phone);
+						$("#user_phone_mode").html(("手机短信验证&emsp;&emsp;")+HidePhone(user.phone));
+						$("#phonecode").val(user.phone);
 					}
 				}
 				$("#accountForm").slideToggle();
@@ -85,7 +85,7 @@ var countdown = 60;
 /* 发送邮箱验证码 */
 $('#emailCodeBtn').click(function(){
 	settime($('#emailCodeBtn'),$('#user_email'));
-	InfoTipBottomRight(language=='zh_CN'?"邮件正在发送中。。。":"Sending email...");
+	InfoTipBottomRight("邮件正在发送中。。。");
 	var user_email = $("#emailcode").val();
 	$.ajax({
 		type:"post",
@@ -114,7 +114,7 @@ $('#emailCodeBtn').click(function(){
 /* 发送手机验证码 */
 $('#phoneCodeBtn').click(function(){
 	settime($('#phoneCodeBtn'),$('#user_phone'));
-	InfoTipBottomRight(language=='zh_CN'?"短信正在发送中。。。":"Sending mobile phone note...");
+	InfoTipBottomRight("短信正在发送中。。。");
 	var user_phone = $("#phonecode").val();
 	$.ajax({
 		type:"post",
@@ -159,7 +159,7 @@ function checkUser_passwords(){
 	var password = $('#user_password').val();
 	var passwords = $('#user_passwords').val();
 	if(password!=passwords){
-		ErrorTipBottomCenter(language=='zh_CN'?"两次密码不相同！":"The two passwords are different!");
+		ErrorTipBottomCenter("两次密码不相同！");
 		return false;
 	}else{
 		return true;
@@ -191,7 +191,7 @@ $("#passwordBtn").click(function(){
 			var r = JSON.parse(result);
 			if(r.isOK==true){//重置密码成功
 				swal({
-					title: language=='zh_CN'?"重置密码成功":"Reset Password Successfully",
+					title: "重置密码成功",
 					text: r.successMes,
 					type: "success",
 				},
@@ -201,7 +201,7 @@ $("#passwordBtn").click(function(){
 				setTimeout(function () {window.location.href="/STSM/user/mycenter";}, 3000);
 			}else{//重置密码失败
 				swal({
-					title: language=='zh_CN'?"重置密码失败":"Reset Password Failed",
+					title: "重置密码失败",
 					text: r.errorMes,
 					type: "error",
 				});

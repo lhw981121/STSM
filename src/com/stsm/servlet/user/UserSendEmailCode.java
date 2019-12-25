@@ -38,7 +38,7 @@ public class UserSendEmailCode extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("user_email")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		SendEmail email = new SendEmail();

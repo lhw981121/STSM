@@ -39,7 +39,7 @@ public class MessagePagination extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("pageNo")==null||request.getParameter("message_readed")==null||request.getParameter("queryStr")==null||
 				request.getParameter("deleted")==null||request.getParameter("sortField")==null){
-				response.sendRedirect("/STSM/index");
+				response.sendRedirect("/STSM/login");
 				return;
 			}
 			HttpSession session = request.getSession();

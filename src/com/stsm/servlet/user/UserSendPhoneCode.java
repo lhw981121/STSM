@@ -38,7 +38,7 @@ public class UserSendPhoneCode extends HttpServlet {
 	@SuppressWarnings("unused")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("user_phone")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		PhoneCode phone = new PhoneCode();

@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserForcedLogout
@@ -39,11 +40,12 @@ public class UserForcedLogout extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("user_account")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		
 		String user_account = request.getParameter("user_account");
+		User loginUser = new UserService().queryUserByAccount(user_account);
 		
         boolean isOK = false;
         Map<String,Object> map = new HashMap<String,Object>();
@@ -54,8 +56,7 @@ public class UserForcedLogout extends HttpServlet {
         Map<String,Object> userMap = application.getAttribute("userMap")==null?new HashMap<String,Object>():(Map<String,Object>)application.getAttribute("userMap");
         for (String key : userMap.keySet()) {
 	  		User user = (User)userMap.get(key);
-	  		if(((user.getEmail()!=null&&user.getEmail().equals(user_account.toLowerCase()))||
-	  			(user.getPhone()!=null&&user.getPhone().equals(user_account)))&&!key.equals(session.getId())) {
+	  		if(user.getAccount().equals(loginUser.getAccount())&&!key.equals(session.getId())) {
 	  			userMap.remove(key);
 	  			isOK = true;
 	  			Logger.getLogger(getClass()).info("用户"+user.getID()+user.getName()+"被强制下线。");

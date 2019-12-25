@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.stsm.bean.User;
-import com.stsm.dao.UserDao;
+import com.stsm.service.UserService;
 import com.stsm.util.BASE64;
 
 /**
@@ -38,15 +38,15 @@ public class UserLoginSuccess extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("user_account")==null||request.getParameter("rememberPsw")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		String user_account = request.getParameter("user_account");
 		String rememberPsw = request.getParameter("rememberPsw");
 				
-        UserDao dao = new UserDao();
+        UserService service = new UserService();
         User user = new User();
-        user = dao.queryUserByAccount(user_account);
+        user = service.queryUserByAccount(user_account);
         Integer user_id = user.getID();
         
         //选中记住密码，设置Cookie

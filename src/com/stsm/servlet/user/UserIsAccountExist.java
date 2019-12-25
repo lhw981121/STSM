@@ -36,7 +36,7 @@ public class UserIsAccountExist extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("user_account")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		

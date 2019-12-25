@@ -28,7 +28,7 @@
 				</li>
 				<li class="dropdown">
 	            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<img src="/STSM/public/images/user/avatar/${user.getID() }.jpg?t=<%=Math.random()%>" 
+						<img src="/STSM/public/images/user/avatar/${user.getID() }.jpg?t=<%=Math.random()%>" id="user_avatar_navbar" 
 						onerror="this.src='/STSM/public/images/user/avatar/0.jpg';this.onerror=null" class="img-circle" alt="Avatar"/>
 						<span>${user.getName() }</span>
 						<i class="icon-submenu lnr lnr-chevron-down"></i>

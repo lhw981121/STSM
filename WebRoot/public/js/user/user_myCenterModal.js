@@ -342,7 +342,7 @@ var countdown = 60;
 /* 发送手机验证码 */
 function sendPhoneCode(btn,codeinput,code,sendinput){
 	settime(btn,sendinput);
-	InfoTipBottomRight(language=='zh_CN'?"短信正在发送中。。。":"Sending mobile phone note...");
+	InfoTipBottomRight("短信正在发送中。。。");
 	var user_phone = sendinput.val();
 	$.ajax({
 		type:"post",
@@ -404,7 +404,7 @@ function sendEmailCode(btn,codeinput,code,sendinput){
 function bindPhone(){
 	if(IsPhoneExist()&&checkPhone_code($('#phone_code').val(),$('#phonecode').val())){
 		if($('#user_phone').val()!=$('#sendPhone').val()){
-			WarningTipBottomCenter(language=='zh_CN'?"手机号被修改！请输入正确的手机号！":"Mobile phone number modified!Please enter the correct phone number!");
+			WarningTipBottomCenter("手机号被修改！请输入正确的手机号！");
 			return;
 		}
 		$.ajax({

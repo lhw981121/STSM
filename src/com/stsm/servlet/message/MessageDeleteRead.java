@@ -34,7 +34,7 @@ public class MessageDeleteRead extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("receiver_id")==null){
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		Integer receiver_id = Integer.valueOf(request.getParameter("receiver_id"));

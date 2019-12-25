@@ -58,8 +58,8 @@ public class UserIsLoginFilter implements Filter {
         if (req.getServletPath().indexOf(".jsp") != -1) {
             flag =true;
         }
-        //不过滤登录页面
-        if(req.getServletPath().indexOf("login") != -1) {
+        //不过滤登录页面和忘记密码页面
+        if(req.getServletPath().indexOf("login") != -1||req.getServletPath().indexOf("lostPassword") != -1) {
         	flag = false;
         }
         if (flag) {

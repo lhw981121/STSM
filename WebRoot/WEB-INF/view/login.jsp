@@ -3,7 +3,7 @@
 <%@include file="/WEB-INF/view/common/init.jsp"%>
 
 <!DOCTYPE html>
-<html>
+<html class="fullscreen-bg">
 <head>
 <!-- 头部 -->
 <%@include file="/WEB-INF/view/common/head.jsp" %>

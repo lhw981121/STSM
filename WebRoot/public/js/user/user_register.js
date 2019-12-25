@@ -174,7 +174,7 @@ $('#phoneCodeBtn').click(function(){
 	if(checkUser_phone()==false)	return;
 	if(IsPhoneExist()==false)	return;
 	settime($('#phoneCodeBtn'),$('#user_phone'));
-	InfoTipBottomRight(language=='zh_CN'?"短信正在发送中。。。":"Sending mobile phone note...");
+	InfoTipBottomRight("短信正在发送中。。。");
 	var user_phone = $("#user_phone").val();
 	$.ajax({
 		type:"post",
@@ -252,7 +252,7 @@ $('#phoneRegisterBtn').on('click',function(){
 	var check = checkAll("phone");
 	if(check==false)	return;
 	if($('#user_phone').val()!=$('#sendPhone').val()){
-		WarningTipBottomCenter(language=='zh_CN'?"手机号被修改！请输入正确的手机号！":"Mobile phone number modified!Please enter the correct phone number!");
+		WarningTipBottomCenter("手机号被修改！请输入正确的手机号！");
 		return;
 	}
 	$.ajax({

@@ -114,7 +114,7 @@
 <!-- Javascript -->
 <%@include file="/WEB-INF/view/common/javaScript.jsp"%>
 <!-- 自定义脚本 -->
-<script src="/public/js/message/message_manageinfo.js"></script>
+<script src="/STSM/public/js/message/message_manageinfo.js"></script>
 <script>
 //改变页码
 $(document).ready(function(){

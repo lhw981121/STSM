@@ -5,7 +5,7 @@ function checkUser_phone(){
     //手机号的规则： 必填，手机号标准
 	if(value.length == 0){
 		//不符合规则
-		ErrorTipBottomLeft(language=='zh_CN'?"手机号不能为空！":"The mobile phone cannot be empty!");
+		ErrorTipBottomLeft("手机号不能为空！");
         return false;
 	}else{
 		/*var reg = /^[1]([3-9])[0-9]{9}$/;*/

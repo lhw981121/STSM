@@ -293,6 +293,6 @@ $(function () {
 	//检测本机用户是否在线
 	UserTestLogout();
 	//刷新用户新消息
-	RefreshNewMessage();
+	//RefreshNewMessage();
 	
 })

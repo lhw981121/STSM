@@ -18,6 +18,7 @@ import com.stsm.util.DBUtil;
 * @version 1.0
 */
 public class UserService {
+	@SuppressWarnings("unused")
 	private User user = new User();
 	private UserDao userDao = new UserDao();
 	private Logger logger = Logger.getLogger(getClass());
@@ -104,25 +105,37 @@ public class UserService {
 	       DBUtil.closeJDBC(rs, pstmt, conn);
 	    }
 		if(obj!=null) {
-			logger.info("用户 "+obj.getID()+user.getName()+" 成功登录系统");
+			logger.info("用户 "+obj.getID()+obj.getName()+" 成功登录系统");
 		}
 		return obj;
 	}
 	
 	/**
-	* 按用户账号查找用户
+	* 按用户账号查找用户(用户账号、邮箱、手机号)
 	* @param account 账号
 	* @return 用户对象
 	*/
 	public User queryUserByAccount(String account){
-		user = userDao.queryUserByAccount(account);
-		if(user==null) {
-			user = userDao.queryUserByPhone(account);
-		}
-		if(user==null) {
-			user = userDao.queryUserByEmail(account);
-		}
-		return user;
+		Connection conn = DBUtil.getConnection();
+		PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+		User obj = null;
+		try{
+			String sql="select * from user where user_account=? or user_email=? or user_phone=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, account);
+			pstmt.setString(2, account);
+			pstmt.setString(3, account);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				obj = userDao.loadData(rs);
+			}
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+		return obj;
 	}
 	
 	/**

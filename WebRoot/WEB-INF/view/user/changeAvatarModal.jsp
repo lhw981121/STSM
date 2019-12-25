@@ -1,26 +1,25 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- 修改头像模态框 -->
 <link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
 <div class="modal fade" id="changeAvatarModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="top:3%">
 	<div class="modal-dialog">
 		<div class="modal-content" style="text-align:center">
 			<div class="modal-header">
-				<h4 class="modal-title text-primary"><i class="fa fa-file-image-o"></i>&nbsp;<fmt:message key="ChangeAvatar" /></h4>
+				<h4 class="modal-title text-primary"><i class="fa fa-file-image-o"></i>&nbsp;更换头像</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
 			<div class="modal-body">
-				<p class="tip-info text-center" id="avatarTip"><fmt:message key="UnselectedPicture" /></p>
+				<p class="tip-info text-center" id="avatarTip">未选择图片</p>
 				<div class="img-container hidden">
 					<img src="" alt="" id="photo" height="auto" width="100%">
 				</div>
 			</div>
 			<div class="modal-footer">
-				<label class="btn btn-danger" for="photoInput" style="margin-top:8px"><fmt:message key="SelectedPicture" />
+				<label class="btn btn-danger" for="photoInput">选择图片
 					<input type="file" class="sr-only" id="photoInput" accept="image/*" style="display:none">
 				</label>
-				<button class="btn btn-primary" disabled="disabled" id="submitAvatar" onclick="submitAvatar();"><fmt:message key="Submit" /></button>
-				<button class="btn btn-info" aria-hidden="true" data-dismiss="modal"><fmt:message key="Cancel" /></button>
+				<button class="btn btn-primary" disabled="disabled" id="submitAvatar" onclick="submitAvatar();">提交</button>
+				<button class="btn btn-info" aria-hidden="true" data-dismiss="modal">取消</button>
 			</div>
 		</div>
 	</div>
@@ -51,10 +50,10 @@ var initCropperInModal = function(img, input, modal){
 	$modal.on('show.bs.modal', function() {
 		// 如果打开模态框时没有选择文件就点击“打开图片”按钮
 		if (!$inputImage.val()) {
-			$('#avatarTip').html('<fmt:message key="UnselectedPicture" />');
+			$('#avatarTip').html('未选择图片');
 			$inputImage.click();
 		}else{
-			$('#avatarTip').html('<fmt:message key="CropPicture" />');
+			$('#avatarTip').html('请裁剪图片');
 		}
 	}).on('shown.bs.modal', function() {
 		// 重新创建
@@ -93,9 +92,9 @@ var initCropperInModal = function(img, input, modal){
 					// 选择文件后，显示和隐藏相关内容
 					$('.img-container').removeClass('hidden');
 					$('#submitAvatar').removeAttr('disabled');
-					$('#avatarTip').html('<fmt:message key="CropPicture" />');
+					$('#avatarTip').html('请裁剪图片');
 				} else {
-					alert('<fmt:message key="SelectedPictureError" />');
+					alert('请选择图片文件！');
 				}
 			}
 		});
@@ -104,27 +103,16 @@ var initCropperInModal = function(img, input, modal){
 	}
 }
 
-/* var submitAvatar = function(){
-	$('#photo').cropper('getCroppedCanvas',{
-		width:300,
-		height:300
-	}).toBlob(function(blob){
-		// 转化为blob后更改src属性，隐藏模态框
-		$('#user_avatar_mycenter').attr('src',URL.createObjectURL(blob));
-		$('#changeAvatarModal').modal('hide');
-	});
-} */
-
 var submitAvatar = function () {
 	// 得到PNG格式的dataURL
 	var photo = $('#photo').cropper('getCroppedCanvas', {
 		width: 300,
 		height: 300
 	}).toDataURL('image/png');
-	InfoTipBottomRight(language=='zh_CN'?"头像正在上传中。。。":"The avatar is be uploading...");
+	InfoTipBottomRight("头像正在上传中。。。");
 	$.ajax({
 		type:"post",
-		url:"/UserUploadAvatar",
+		url:"/STSM/UserUploadAvatar",
 		datatype: "json",
 		async:false,
 		data:{
@@ -136,8 +124,8 @@ var submitAvatar = function () {
 			if(r.isOK==true){//头像上传成功
 				SuccessTipBottomRight(r.successMes);
 				// 将上传的头像的地址填入，为保证不载入缓存加个随机数
-				$('#user_avatar_mycenter').attr('src', '/public/images/user/avatar/'+${user.getID()}+'.jpg?t='+Math.random());
-				$('#user_avatar_header').attr('src', '/public/images/user/avatar/'+${user.getID()}+'.jpg?t='+Math.random());
+				$('#user_avatar_mycenter').attr('src', '/STSM/public/images/user/avatar/'+${user.getID()}+'.jpg?t='+Math.random());
+				$('#user_avatar_navbar').attr('src', '/STSM/public/images/user/avatar/'+${user.getID()}+'.jpg?t='+Math.random());
 				$('#changeAvatarModal').modal('hide');
 			}else{//头像上传失败
 				ErrorTipBottomCenter(r.errorMes);
@@ -147,15 +135,6 @@ var submitAvatar = function () {
 			AjaxError();
 		}
 	});
-
-	/* $('#photo').cropper('getCroppedCanvas',{
-		width:300,
-		height:300
-	}).toBlob(function(blob){
-		// 转化为blob后更改src属性，隐藏模态框
-		$('#user_avatar_mycenter').attr('src',URL.createObjectURL(blob));
-		$('#changeModal').modal('hide');
-	}); */
 }
 
 $(function() {

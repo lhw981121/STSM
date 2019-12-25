@@ -34,7 +34,7 @@ public class MessageMarkUnRead extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("message_id")==null){
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		Integer message_id = Integer.valueOf(request.getParameter("message_id"));

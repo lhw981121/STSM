@@ -5,7 +5,7 @@ function checkUser_password(){
     //密码的规则：必填，6~18位字符，必须包含数字、字母或特殊字符其中两项及以上
 	if(value.length == 0){
 		//不符合规则
-		ErrorTipBottomLeft(language=='zh_CN'?"密码不能为空！":"The password cannot be empty!");
+		ErrorTipBottomLeft("密码不能为空！");
         return false;
 	}else{
 		var reg = /^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*./\-\+]+$)[a-zA-Z\d!@#$%^&*.\-\+]+$/;
@@ -30,7 +30,7 @@ function checkUser_password(){
     //密码的规则：必填，6~18位字符，必须包含数字、字母或特殊字符其中两项及以上
 	if(value.length == 0){
 		//不符合规则
-        tip.html(language=='zh_CN'?"密码不能为空！":"The password cannot be empty!");
+        tip.html("密码不能为空！");
 		tip.attr("class","text-danger");    
 		tip.css("display","block");  
         return false;

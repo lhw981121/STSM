@@ -30,26 +30,28 @@ table td p:nth-child(1) {margin: 10px 0;}
 <div class="main">
 <!-- MAIN CONTENT -->
 <div class="main-content">
-	
-	<main class="main-content-area clearfix">
-		<!---start login-form-area -->
-		<div class="login-form-area pb-100 pt-100">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12" style="text-align:center">
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="panel panel-default" style="text-align:center">
+					<div class="panel-heading">
+						<p style="margin:3px 0;color:; font-size:28px">
+							<strong style="color:;"><%=user.getName()%></strong>&ensp;的个人中心
+						</p>
+					</div>
+					<div class="panel-body">
 						<!-- 头像开始 -->
 						<div class="avatar">
-							<a href="javascript:void(0);" onclick="$('#changeAvatarModal').modal('show')" title="<fmt:message key="ChangeAvatar" />"> 
-								<img src="/public/images/user/avatar/${user.getID()}.jpg?t=${Math.random()}"
-								onerror="this.src='/public/images/user/avatar/0.jpg';this.onerror=null"
+							<a href="javascript:void(0);" onclick="$('#changeAvatarModal').modal('show')" title="更换头像"> 
+								<img src="/STSM/public/images/user/avatar/${user.getID()}.jpg?t=${Math.random()}"
+								onerror="this.src='/STSM/public/images/user/avatar/0.jpg';this.onerror=null"
 								width="140" height="140" style="border-radius:50%" alt="Avatar" id="user_avatar_mycenter"/>
 							</a>
 						</div>
 						<!-- 头像结束 -->
 						<!-- 用户名 -->
-						<p style="margin:5px 0;color:rgb(0, 170, 255); font-size:22px" title="<fmt:message key="ChangeUserName" />">
-							<a href="javascript:void(0);" onclick="$('#changeUserNameModal').modal('show')" id="userName">${user.getName()}</a>
-						</p>
+						<p style="margin:5px 0;color:rgb(0, 170, 255); font-size:22px">${user.getName()}</p>
 						<!-- 用户类型 -->
 						<p class="title">
 							<span>用户类型: </span><span>${user.getTypeStr()}</span>
@@ -67,7 +69,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 								<c:if test="${user.getType() == 1 }">
 								<!-- 员工 -->
 								<tr>
-									<td style="vertical-align:middle;"><img src="/public/images/user/icon_information.png" height="45"></td>
+									<td style="vertical-align:middle;"><img src="/STSM/public/images/user/icon_information.png" height="45"></td>
 									<td>
 										<p class="title">考勤记录</p>
 										<p class="text">每日考勤记录</p>
@@ -78,7 +80,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 									</td>
 									<td style="vertical-align:middle;">
 										<c:choose>
-										<c:when test="${!user.getResumeIntegrity(user.getApplicantID()).equals('100%')}">
+										<c:when test="">
 											<a href="/applicant/resume/complete_resume" class="btn btn-primary">打卡</a>
 										</c:when>
 										<c:otherwise>
@@ -90,7 +92,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 								</c:if>
 								<!-- 用户信息区域 -->
 								<tr>
-									<td style="vertical-align:middle;"><img src="/public/images/user/icon_userdata.png" height="40" style="margin-left: 6px;"></td>
+									<td style="vertical-align:middle;"><img src="/STSM/public/images/user/icon_userdata.png" height="40" style="margin-left: 6px;"></td>
 									<td>
 										<p class="title">用户信息</p>
 										<p class="text">帐号归属者的基本资料</p>
@@ -104,7 +106,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 								</tr>
 								<!-- 账号密码区域 -->
 								<tr>
-									<td style="vertical-align:middle;"><img src="/public/images/user/icon_password.png" height="45"></td>
+									<td style="vertical-align:middle;"><img src="/STSM/public/images/user/icon_password.png" height="45"></td>
 									<td>
 										<p class="title">账号密码</p>
 										<p class="text">为了保护帐号安全，登录时使用</p>
@@ -118,7 +120,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 								</tr>
 								<!-- 手机区域 -->
 								<tr>
-									<td style="vertical-align:middle;"><img src="/public/images/user/icon_bindmobile.png" height="45"></td>
+									<td style="vertical-align:middle;"><img src="/STSM/public/images/user/icon_bindmobile.png" height="45"></td>
 									<td>
 										<p class="title">联系手机<span style="color: grey;">&emsp;${COMUtil.HidePhone(user.getPhone())}</span></p>
 										<p class="text">用于找回密码、安全验证、作为登录账号</p>
@@ -146,7 +148,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 								</tr>
 								<!-- 邮箱区域 -->
 								<tr>
-									<td style="vertical-align:middle;"><img src="/public/images/user/icon_bindemial.png" height="45"></td>
+									<td style="vertical-align:middle;"><img src="/STSM/public/images/user/icon_bindemial.png" height="45"></td>
 									<td>
 										<p class="title">联系邮箱<span style="color: grey;">&emsp;${COMUtil.HideEmail(user.getEmail())}</span></p>
 										<p class="text">用于找回密码、安全验证、作为登录账号</p>
@@ -174,11 +176,12 @@ table td p:nth-child(1) {margin: 10px 0;}
 								</tr>
 							</tbody>
 						</table>
+	
 					</div>
 				</div>
 			</div>
 		</div>
-	</main>
+	</div>
 
 </div>
 <!-- END MAIN CONTENT -->

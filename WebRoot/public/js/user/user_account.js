@@ -5,7 +5,7 @@ function checkUser_account(){
     //账号的规则：必填，6~18位字符，只能包含英文字母、数字、下划线
 	if(value.length == 0){
 		//不符合规则
-		ErrorTipBottomLeft(language=='zh_CN'?"账号不能为空！":"The account cannot be empty!");
+		ErrorTipBottomLeft("账号不能为空！");
         return false;
 	}else{
 		var reg = /^([_]|[0-9a-zA-Z])+$/;
@@ -29,7 +29,7 @@ function checkUser_account(){
     //账号的规则：必填，6~18位字符，只能包含英文字母、数字、下划线
 	if(value.length == 0){
 		//不符合规则
-        tip.html(language=='zh_CN'?"账号不能为空！":"The account cannot be empty!");
+        tip.html("账号不能为空！");
 		tip.attr("class","text-danger");
 		tip.css("display","block");  
         return false;

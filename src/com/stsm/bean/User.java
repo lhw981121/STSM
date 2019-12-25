@@ -41,7 +41,7 @@ public class User{
 		String typeStr = "";
 		switch(type) {
 		case 1:typeStr = "员工";break;
-		case 2:typeStr = "管理员";break;
+		case 8:typeStr = "管理员";break;
 		}
 		return typeStr;
 	}

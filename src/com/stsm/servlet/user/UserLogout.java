@@ -60,7 +60,7 @@ public class UserLogout extends HttpServlet {
         }
         application.setAttribute("userMap", userMap);
         
-		response.sendRedirect("/STSM/index");
+		response.sendRedirect("/STSM/login");
 		
 	}
 

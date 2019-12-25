@@ -39,7 +39,7 @@ function AccountLogin(){
 		success:function(result) {
 			var r = JSON.parse(result);
 			if(r.isLogin==true){//账号密码正确
-				userType = r.user.user_type;
+				userType = r.user.type;
 				/* 判断账号是否已在线 */
 				$.ajax({
 					type:"post",
@@ -53,13 +53,13 @@ function AccountLogin(){
 						var r = JSON.parse(result);
 						if(r.isOnline==true){//用户已在线且不是当前客户端
 							swal({
-							  title: language=='zh_CN'?"用户已在线":"User Online",
+							  title: "用户已在线",
 							  text: r.errorMes,
 							  type: "warning",
 							  showCancelButton: true,
 							  confirmButtonColor: "#DD6B55",
-							  confirmButtonText: language=='zh_CN'?"强制登录":"Forced Login",
-							  cancelButtonText: language=='zh_CN'?"取消登录":"Cancel Login",
+							  confirmButtonText: "强制登录",
+							  cancelButtonText: "取消登录",
 							  closeOnConfirm: true
 							},
 							function(isConfirm){
@@ -88,7 +88,6 @@ function AccountLogin(){
 											/* 判断是否是从过滤器而来 */
 											if(requestPath.length==0){
 												if(userType==1)window.location.href="/STSM/user/mycenter";
-												if(userType==2)window.location.href="/STSM/user/mycenter";
 												if(userType==8)window.location.href="/STSM/admin";
 											}else{
 												window.location.href=requestPath;
@@ -161,13 +160,13 @@ function PhoneLogin(){
 				var r = JSON.parse(result);
 				if(r.isOnline==true){//用户已在线且不是当前客户端
 					swal({
-					  title: language=='zh_CN'?"用户已在线":"User Online",
+					  title: "用户已在线",
 					  text: r.errorMes,
 					  type: "warning",
 					  showCancelButton: true,
 					  confirmButtonColor: "#DD6B55",
-					  confirmButtonText: language=='zh_CN'?"强制登录":"Forced Login",
-					  cancelButtonText: language=='zh_CN'?"取消登录":"Cancel Login",
+					  confirmButtonText: "强制登录",
+					  cancelButtonText: "取消登录",
 					  closeOnConfirm: false
 					},
 					function(isConfirm){
@@ -196,7 +195,6 @@ function PhoneLogin(){
 									/* 判断是否是从过滤器而来 */
 									if(requestPath.length==0){
 										if(userType==1)window.location.href="/STSM/user/mycenter";
-										if(userType==2)window.location.href="/STSM/user/mycenter";
 										if(userType==8)window.location.href="/STSM/admin";
 									}else{
 										window.location.href=requestPath;
@@ -236,7 +234,7 @@ function PhoneLogin(){
 			}
 		});
 	}else{
-		WarningTipBottomCenter(language=='zh_CN'?"手机号被修改！请输入正确的手机号！":"Mobile phone number modified!Please enter the correct phone number!");
+		WarningTipBottomCenter("手机号被修改！请输入正确的手机号！");
 		isLogin = false;
 	}
 	return isLogin;
@@ -258,7 +256,7 @@ function IsPhoneExist(){
 		success:function(result) {
 			var r = JSON.parse(result);
 			if(r.isExist==true){//手机号已存在。
-				userType = r.user.user_type;
+				userType = r.user.type;
 				ok = true;
 			}else{//手机号不存在。
 				ErrorTipBottomCenter(r.errorMes);
@@ -276,10 +274,10 @@ function IsPhoneExist(){
 var countdown = 60;
 /* 发送手机验证码 */
 $('#phoneCodeBtn').click(function(){
-	if(InputNotNull($('#user_phone'),language=='zh_CN'?"手机号不能为空！":"The mobile phone cannot be empty!")==false)	return;
+	if(InputNotNull($('#user_phone'),"手机号不能为空！")==false)	return;
 	if(IsPhoneExist()==false)	return;
 	settime($('#phoneCodeBtn'),$('#user_phone'));
-	InfoTipBottomRight(language=='zh_CN'?"短信正在发送中。。。":"Sending mobile phone note...");
+	InfoTipBottomRight("短信正在发送中。。。");
 	var user_phone = $("#user_phone").val();
 	$.ajax({
 		type:"post",
@@ -314,7 +312,6 @@ $('#accountLoginBtn').on('click',function(){
 		/* 判断是否是从过滤器而来 */
 		if(requestPath.length==0){
 			if(userType==1)window.location.href="/STSM/user/mycenter";
-			if(userType==2)window.location.href="/STSM/user/mycenter";
 			if(userType==8)window.location.href="/STSM/admin";
 		}else{
 			window.location.href=requestPath;
@@ -328,7 +325,6 @@ $('#phoneLoginBtn').on('click',function(){
 		/* 判断是否是从过滤器而来 */
 		if(requestPath.length==0){
 			if(userType==1)window.location.href="/STSM/user/mycenter";
-			if(userType==2)window.location.href="/STSM/user/mycenter";
 			if(userType==8)window.location.href="/STSM/admin";
 		}else{
 			window.location.href=requestPath;
@@ -339,13 +335,13 @@ $('#phoneLoginBtn').on('click',function(){
 /*<!-- 表单验证 -->*/
 function checkAll(mode) {
 	if(mode=="account"){
-		var user_account = InputNotNull($('#user_account'),language=='zh_CN'?"账号不能为空！":"The account cannot be empty!");
-		var user_password = InputNotNull($('#user_password'),language=='zh_CN'?"密码不能为空！":"The password cannot be empty!");
+		var user_account = InputNotNull($('#user_account'),"账号不能为空！");
+		var user_password = InputNotNull($('#user_password'),"密码不能为空！");
 		if (user_account && user_password && AccountLogin()) {
 			return true;
 		}
 	}else if(mode=="phone"){
-		var user_account = InputNotNull($('#user_phone'),language=='zh_CN'?"手机号不能为空！":"The mobile phone cannot be empty!");
+		var user_account = InputNotNull($('#user_phone'),"手机号不能为空！");
 		var user_password = checkPhone_code($('#phone_code').val(),$('#phonecode').val());
 		if (user_account && user_password && PhoneLogin()) {
 			return true;

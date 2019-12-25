@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.stsm.bean.User;
+import com.stsm.service.UserService;
 
 /**
  * Servlet implementation class UserIsOnline
@@ -37,11 +38,12 @@ public class UserIsOnline extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("user_account")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		
 		String user_account = request.getParameter("user_account");
+		User loginUser = new UserService().queryUserByAccount(user_account);
 		
         boolean isOnline = false;
         Map<String,Object> map = new HashMap<String,Object>();
@@ -52,8 +54,7 @@ public class UserIsOnline extends HttpServlet {
         Map<String,Object> userMap = application.getAttribute("userMap")==null?new HashMap<String,Object>():(Map<String,Object>)application.getAttribute("userMap");
         for (String key : userMap.keySet()) {
 	  		User user = (User)userMap.get(key);
-	  		if(((user.getEmail()!=null&&user.getEmail().equals(user_account.toLowerCase()))||
-	  			(user.getPhone()!=null&&user.getPhone().equals(user_account)))&&!key.equals(session.getId())) {
+	  		if(user.getAccount().equals(loginUser.getAccount())&&!key.equals(session.getId())) {
 	  			isOnline = true;
 	  			break;
 	  		}

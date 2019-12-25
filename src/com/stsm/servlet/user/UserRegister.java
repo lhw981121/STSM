@@ -42,7 +42,7 @@ public class UserRegister extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("mode")==null||request.getParameter("user_name")==null||request.getParameter("account")==null||
 			request.getParameter("user_password")==null||request.getParameter("businessRegister")==null) {
-			response.sendRedirect("/STSM/index");
+			response.sendRedirect("/STSM/login");
 			return;
 		}
 		
