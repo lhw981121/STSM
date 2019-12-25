@@ -7,7 +7,7 @@
 
 				<li><a href="/STSM/message/unread_message" id="unread_message" class=""> 
 				<i class="lnr lnr-pie-chart"></i> <span>${language.equals("en_US")?"Unread Message":"未读消息" }</span> 
-				<span class="badge bg-danger" id="message_count_5"></span></a></li>
+				<span class="badge bg-danger" id="message_count_3"></span></a></li>
 
 				<li><a href="/STSM/message/history_message"id="history_message" class=""> 
 				<i class="lnr lnr-map"></i> <span>${language.equals("en_US")?"History Message":"已读消息" }</span></a></li>

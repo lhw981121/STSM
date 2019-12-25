@@ -146,25 +146,25 @@
 							<h3 style="text-align:center">
 								第四步：填写新密码
 							</h3><hr>
-							<div class="form-group">
-								<div class="col-md-11">
-									<input class="form-control" type="password" style="margin:left:-20px"
-									id="user_password" name="user_password"
-									placeholder="6~18位字符,必须包含数字、字母或特殊字符其中两项及以上" 
-									onkeypress="if(event.keyCode==13) {passwordBtn.click();return false;}"/>
+							<!-- 新密码输入框1 -->
+								<div class="form-group">
+									<div class="col-md-11">
+										<input class="form-control" type="password"
+										id="user_password" name="user_password"
+										placeholder="6~18位字符,必须包含数字、字母或特殊字符其中两项及以上" 
+										onkeypress="if(event.keyCode==13) {passwordBtn.click();return false;}"/>
+									</div>
+									<i class="fa fa-eye-slash fa-2x" id="eye" onclick="hideShowNewPsw()"></i>
 								</div>
-								<i class="fa fa-eye-slash fa-2x" id="eye" onclick="hideShowNewPsw()"></i>
-							</div>
-
-							<div class="form-group">
-								<div class="col-md-12">
-									<input class="form-control" type="password"
-									id="user_passwords" name="user_passwords"
-									placeholder="请再次输入密码" 
-									onkeypress="if(event.keyCode==13) {passwordBtn.click();return false;}"/>
+								<!-- 新密码输入框2 -->
+								<div class="form-group">
+									<div class="col-md-12">
+										<input class="form-control" type="password"
+										id="user_passwords" name="user_passwords"
+										placeholder="请再次输入密码" 
+										onkeypress="if(event.keyCode==13) {passwordBtn.click();return false;}"/>
+									</div>
 								</div>
-							</div>
-						
 							<div class="form-group">
 								<button style="margin-top:20px" type="button" class="btn btn-primary" id="passwordBtn">重置密码</button>
 							</div>
