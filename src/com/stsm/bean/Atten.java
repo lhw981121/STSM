@@ -1,6 +1,6 @@
 package com.stsm.bean;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Atten {
 	//考勤主键
