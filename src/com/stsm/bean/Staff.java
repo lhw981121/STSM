@@ -1,6 +1,6 @@
 package com.stsm.bean;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Staff {
 	//员工主键
@@ -27,6 +27,8 @@ public class Staff {
 	private Date lastOut;
 	//添加时间
 	private Date created_at;
+	//修改时间
+	private Date updated_at;
 	
 	public Staff(int ID ,String name,String number,int sex,int age,int position,double performance,double bonus,String house)
 	{
@@ -140,6 +142,12 @@ public class Staff {
 	public void setCreated(Date created_at) {
 		this.created_at = created_at;
 	}
-	
-	
+
+	public Date getUpdated() {
+		return updated_at;
+	}
+
+	public void setUpdated(Date updated_at) {
+		this.updated_at = updated_at;
+	}
 }
