@@ -17,6 +17,15 @@ import java.util.Date;
 */
 public class COMUtil {
 	/**
+	* 判断Date是否为今天的日期
+	* @param date
+	* @return boolean
+	*/
+	public static boolean isToday(Date date) {
+		return COMUtil.dataToStr(new Date()).equals(COMUtil.dataToStr(date));
+	}
+	
+	/**
 	* 判断String是否为空或""
 	* @param str
 	* @return yyyy-MM-dd HH:mm:ss

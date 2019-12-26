@@ -32,16 +32,17 @@
 					</div>
 				</li>
 
-				<li><a href="#manageInfo" data-toggle="collapse"
-					id="#manageInfo" class="collapsed"> <i class="lnr lnr-database"></i>
-						<span>信息管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+				<li>
+					<a href="#manageInfo" data-toggle="collapse" id="#manageInfo" class="collapsed"> 
+					<i class="lnr lnr-database"></i> <span>信息管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
 					<div id="manageInfo" class="collapse">
 						<ul class="nav">
 							<li><a href="/STSM/admin/manage_info/staff/info" id="Staff">员工信息管理</a></li>
 							<li><a href="/STSM/admin/manage_info/attendance/info" id="Attendance">考勤信息管理</a></li>
 							<li><a href="###" id="###">###</a></li>
 						</ul>
-					</div></li>
+					</div>
+				</li>
 
 			</ul>
 		</nav>

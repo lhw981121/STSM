@@ -1,6 +1,9 @@
 package com.stsm.bean;
 
-import java.sql.Date;
+
+import java.util.Date;
+
+import com.stsm.util.COMUtil;
 
 public class Staff {
 	//员工主键
@@ -13,7 +16,7 @@ public class Staff {
 	private int sex;
 	//员工年龄
 	private int age;
-	//员工职位
+	//员工职位 0:普通职员 1:组长 2:主管 3:部门经理 4:总监 5:副总经理 6:总经理 7:执行董事 8:副董事长 9:董事长
 	private int position;
 	//员工业绩
 	private double performance;
@@ -140,6 +143,17 @@ public class Staff {
 	public void setCreated(Date created_at) {
 		this.created_at = created_at;
 	}
+	
+	//获取今天是否已打卡（上班）
+	public boolean getIsClockIn() {
+		return COMUtil.isToday(this.lastIn);
+	}
+	
+	//获取今天是否已打卡（下班）
+	public boolean getIsClockOut() {
+		return COMUtil.isToday(this.lastOut);
+	}
+	
 	
 	
 }

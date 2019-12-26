@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class MyCenter
  */
-@WebServlet("/user/mycenter")
+@WebServlet(urlPatterns = {"/user/mycenter","/user"})
 public class MyCenter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

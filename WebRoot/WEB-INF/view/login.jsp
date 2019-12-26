@@ -9,26 +9,7 @@
 <%@include file="/WEB-INF/view/common/head.jsp" %>
 <!-- 用户手机号验证JS -->
 <script src="/STSM/public/js/user/user_phone.js"></script>
-<style>
-.mode-left{
-	color:#333333;
-	font-size:20px;
-	margin-top:20px;
-	text-align:left;
-}
-.mode-left span{
-	cursor:pointer;
-}
-.mode-right{
-	color:#333333;
-	font-size:20px;
-	margin:-28px 0px 20px;
-	text-align:right;
-}
-.mode-right span{
-	cursor:pointer;
-}
-</style>
+
 </head>
 
 <body>
@@ -88,7 +69,7 @@
 							<!-- 记住密码 -->
 							<div class="form-group clearfix">
 								<label class="fancy-checkbox element-left"> 
-									<input type="checkbox"> <span>下次自动登录</span>
+									<input type="checkbox" id="rememberPsw" name="rememberPsw"> <span>下次自动登录</span>
 								</label>
 							</div>
 							<!-- 登录按钮 -->

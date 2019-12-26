@@ -173,7 +173,7 @@ public class StaffDao {
 	 * @param staff_number 
 	 * @return 员工对象
 	 */
-	public Staff queryStaffByNUMBER(int staff_number){
+	public Staff queryStaffByNumber(String staff_number){
 		List<Staff> staff = queryStaffBySingleData("staff_number",String.valueOf(staff_number));
 		return staff.size()==0?null:staff.get(0);
 	}
@@ -346,6 +346,91 @@ public class StaffDao {
 	        		+ "WHERE CONCAT(IFNULL(staff_name,''),IFNULL(staff_number,''),IFNULL(staff_age,'')) LIKE  ?";
 	        pstmt = conn.prepareStatement(sqlQuery);
 	        pstmt.setString(index++, "%"+queryStr+"%");
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+            	count = rs.getInt(1);
+            }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        return 0;
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return count;
+    }
+	
+	/**
+	 * 分页结果集合
+	 * @param pageNo 当前页
+	 * @param pageSize 每页记录数
+	 * @param staff_sex 员工性别 3(不考虑)
+	 * @param staff_position 员工职位 10(不考虑)
+	 * @param last_in 员工是否已打卡(上班) 0(不考虑)、1(是)、2(否)
+	 * @param last_out 员工是否已打卡(下班) 0(不考虑)、1(是)、2(否)、3(上班或下班没打卡)
+	 * @param queryStr 查询字段
+	 * @param sortField 排序字段及排序方式 ASC(升序)、DESC(降序)
+	 * @return 分页结果集合
+	 */
+	public List<Staff> getPageDataStaff(int pageNo,int pageSize,int staff_sex,int staff_position,int last_in,int last_out,String queryStr,String sortField){
+		List<Staff> list = new ArrayList<Staff>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT * FROM staff WHERE "
+	        		+ "CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,''),IFNULL(staff_age,'')) LIKE ? "
+	        		+ (staff_sex==3?"":"AND staff_sex=? ")
+	        		+ (staff_position==10?"":"AND staff_position=? ")
+	        		+ (last_in==0?"":"AND to_days(staff_last_in) "+(last_in==1?"=":"!=")+" to_days(now()) ")
+	        		+ (last_out==0?"":(last_out!=3?("AND to_days(staff_last_out) "+(last_out==1?"=":"!=")+" to_days(now()) ")
+	        				:"AND (to_days(staff_last_in) != to_days(now()) or to_days(staff_last_out) != to_days(now())) "))
+	        		+ "ORDER BY "+(sortField.length()==0?"":sortField)+" LIMIT ?,?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        if(staff_sex!=3)		pstmt.setInt(index++, staff_sex);
+	        if(staff_position!=10)	pstmt.setInt(index++, staff_position);
+	        pstmt.setInt(index++, pageSize * (pageNo-1));
+	        pstmt.setInt(index++, pageSize);
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	Staff staff = loadData(rs);
+	        	list.add(staff);
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
+	/**
+	 * 分页总数
+	 * @param staff_sex 员工性别 3(不考虑)
+	 * @param staff_position 员工职位 10(不考虑)
+	 * @param last_in 员工是否已打卡(上班) 0(不考虑)、1(是)、2(否)
+	 * @param last_out 员工是否已打卡(下班) 0(不考虑)、1(是)、2(否)、3(上班或下班没打卡)
+	 * @param queryStr 查询字段
+	 * @return 分页数据总量
+	 */
+	public int getPageDataStaffCount(int staff_sex,int staff_position,int last_in,int last_out,String queryStr) {
+		int count = 0;
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	    	String sqlQuery ="SELECT COUNT(*) FROM staff WHERE "
+	    		+ "CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,''),IFNULL(staff_age,'')) LIKE ? "
+				+ (staff_sex==3?"":"AND staff_sex=? ")
+				+ (staff_position==10?"":"AND staff_position=? ")
+				+ (last_in==0?"":"AND to_days(staff_last_in) "+(last_in==1?"=":"!=")+" to_days(now()) ")
+				+ (last_out==0?"":(last_out!=3?("AND to_days(staff_last_out) "+(last_out==1?"=":"!=")+" to_days(now()) ")
+						:"AND (to_days(staff_last_in) != to_days(now()) or to_days(staff_last_out) != to_days(now())) "));
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        if(staff_sex!=3)		pstmt.setInt(index++, staff_sex);
+	        if(staff_position!=10)	pstmt.setInt(index++, staff_position);
 	        rs = pstmt.executeQuery();
 	        if(rs.next()) {
             	count = rs.getInt(1);
