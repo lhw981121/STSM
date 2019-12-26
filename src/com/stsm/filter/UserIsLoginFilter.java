@@ -56,6 +56,7 @@ public class UserIsLoginFilter implements Filter {
         boolean flag = false;
         //如果是.jsp文件需要过滤
         if (req.getServletPath().indexOf(".jsp") != -1
+        	||req.getServletPath().indexOf("/index") != -1
         	||req.getServletPath().indexOf("/user") != -1
         	||req.getServletPath().indexOf("/staff") != -1
         	||req.getServletPath().indexOf("/message") != -1
@@ -93,7 +94,7 @@ public class UserIsLoginFilter implements Filter {
     	        User user = (User)session.getAttribute("user");
     			//拒绝非管理员访问管理员页面
     			if(req.getServletPath().indexOf("/admin") != -1 && user.getType() != 8) {
-    				req.setAttribute("limitedAccess", 3);
+    				req.setAttribute("limitedAccess", 1);
     				request.getRequestDispatcher("/index").forward(request, response);
     				return;
     			}

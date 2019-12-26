@@ -24,7 +24,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 <!-- 导航栏 -->
 <%@include file="/WEB-INF/view/common/navbar.jsp"%>
 <!-- 左侧边栏 -->
-<%@include file="/WEB-INF/view/common/adminLeftSidebar.jsp"%>
+<%@include file="/WEB-INF/view/common/userLeftSidebar.jsp"%>
 
 <!-- 内容区域 -->
 <div class="main">
@@ -51,7 +51,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 						</div>
 						<!-- 头像结束 -->
 						<!-- 用户名 -->
-						<p style="margin:5px 0;color:rgb(0, 170, 255); font-size:22px">${user.getName()}</p>
+						<p style="margin:5px 0;color:rgb(0, 170, 255);font-size:22px">${user.getName()}</p>
 						<!-- 用户类型 -->
 						<p class="title">
 							<span>用户类型: </span><span>${user.getTypeStr()}</span>
@@ -84,7 +84,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 											<a href="/applicant/resume/complete_resume" class="btn btn-primary">打卡</a>
 										</c:when>
 										<c:otherwise>
-											<a href="/applicant/resume/view_resume" class="btn btn-primary">已打卡</a>
+											<a href="javascript:;" onclick="passJob()" class="btn btn-primary">已打卡</a>
 										</c:otherwise>
 										</c:choose>
 									</td>
@@ -199,5 +199,66 @@ table td p:nth-child(1) {margin: 10px 0;}
 <%@include file="/WEB-INF/view/user/changeAvatarModal.jsp" %>
 <!-- 个人中心页面模态框 -->
 <%@include file="/WEB-INF/view/user/myCenterModal.jsp" %>
+
+<script>
+//通过审核
+function passJob(){
+	swal({
+		title : language=='zh_CN'?"确定通过该职位发布？":"Are you sure to post through the position?",
+		text : '',
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : language=='zh_CN'?"确定":"Sure",
+		cancelButtonText: language=='zh_CN'?"取消":"Cancel",
+		closeOnConfirm : false
+	},
+	function() {
+		$.ajax({
+			type:"post",
+			url:"/SWRW/AdminPassJob",
+			datatype: "json", 
+			async:false,
+			data:{
+				"job_id":$('#passJob_id').val(),
+				"passOpinion":$('#passOpinion').val()
+			},
+			success:function(result) {
+				var r = JSON.parse(result);
+				if(r.isOK==true){//操作成功
+					swal({
+						title: language=='zh_CN'?"操作成功":"Operate Successfully",
+						text: r.successMes,
+						type: "success",
+					},
+					function(){
+						$("#viewJobPanel").hide();
+						$("#passOpinionPanel").hide();
+						$("#waitAuditJobPanel").show();
+						SelectPage(page);
+						$("#passOpinion").val("");
+					});
+					setTimeout(function () {
+						$("#viewJobPanel").hide();
+						$("#passOpinionPanel").hide();
+						$("#waitAuditJobPanel").show();
+						SelectPage(page);
+						$("#passOpinion").val("");
+					}, 2000);
+				}else{//操作失败
+					swal({
+						title: language=='zh_CN'?"操作失败":"Operate Failed",
+						text: r.errorMes,
+						type: "error",
+					});
+				}
+			},
+			error:function(){
+				AjaxError();
+			}
+		});
+	});
+}
+</script>
 </body>
 </html>

@@ -1,11 +1,20 @@
 package com.stsm.controller;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.stsm.bean.Atten;
+import com.stsm.bean.Staff;
+import com.stsm.bean.User;
+import com.stsm.dao.AttenDao;
+import com.stsm.dao.StaffDao;
 
 /**
  * Servlet implementation class Index
@@ -26,8 +35,13 @@ public class Index extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		Atten atten = new AttenDao().queryAttenByDate(new Date());
+		Staff staff = new StaffDao().queryStaffByNumber(user.getAccount());
 		
+		request.setAttribute("atten", atten);
+		request.setAttribute("staff", staff);
 		request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
 	}
 

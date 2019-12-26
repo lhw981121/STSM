@@ -1,5 +1,22 @@
 //公共JS函数
 
+/*获取员工职位  0:普通职员 1:组长 2:主管 3:部门经理 4:总监 5:副总经理 6:总经理 7:执行董事 8:副董事长 9:董事长*/
+function getStaffPosition(state){
+	switch(state){
+	case 0:return "普通员工";
+	case 1:return "组长";
+	case 2:return "主管";
+	case 3:return "部门经理";
+	case 4:return "总监";
+	case 5:return "副总经理";
+	case 6:return "总经理";
+	case 7:return "执行董事";
+	case 8:return "副董事长";
+	case 9:return "董事长"
+	default:return "";
+	}
+}
+
 /*<!-- 语言切换脚本 -->*/
 function changeLanguage(lan){
 	$.ajax({
@@ -196,7 +213,7 @@ function settime(obj,input) {
 //检测用户是否访问受限
 function UserLimitedAccess(){
 	var str;
-	if(limitedAccess==3){//非管理员访问管理员页面
+	if(limitedAccess==1){//非管理员访问管理员页面
 		str=language=='zh_CN'?"管理员页面拒绝访问！":"The admin page is denied access!";
 	}
 	if(limitedAccess.length != 0){
@@ -262,7 +279,7 @@ function RefreshNewMessage(){
 				$.each(newMes, function (index, mes) {
 					var mesTime = new Date(DateFormat(mes.created_at,"yyyy-MM-dd HH:mm:ss")).getTime();
 					var nowTime = new Date().getTime();
-					if(nowTime-mesTime<900){
+					if(nowTime-mesTime<1000){
 						NewMessageTip(mes.message_summary);
 					}
 					if(index==10){//只展示10条消息
@@ -284,11 +301,11 @@ function RefreshNewMessage(){
 
 //页面加载完毕
 $(function () {
-	//检测用户是否访问受限
-	UserLimitedAccess();
 	//检测本机用户是否在线
 	UserTestLogout();
 	//刷新用户新消息
 	RefreshNewMessage();
+	//检测用户是否访问受限
+	UserLimitedAccess();
 	
 })

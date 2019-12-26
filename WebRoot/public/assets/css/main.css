@@ -1756,3 +1756,23 @@ ul.activity-timeline > li {
     border: 1px solid #CCC; }
 
 /*# sourceMappingURL=main.css.map */
+
+/* 自定义css */
+.mode-left{
+	color:#333333;
+	font-size:20px;
+	margin-top:20px;
+	text-align:left;
+}
+.mode-left span{
+	cursor:pointer;
+}
+.mode-right{
+	color:#333333;
+	font-size:20px;
+	margin:-28px 0px 20px;
+	text-align:right;
+}
+.mode-right span{
+	cursor:pointer;
+}

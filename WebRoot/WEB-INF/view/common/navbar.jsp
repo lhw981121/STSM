@@ -39,14 +39,7 @@
 						<li><a href="/STSM/admin" target="_self"><span><i class="fa fa-credit-card-alt"></i> 管理员</span></a></li>
 					</c:if>
 
-					<c:choose>
-					<c:when test="${currentURL.indexOf(\"/user/\")!=-1 }">
-						<li><a href="/STSM/user/mycenter" target="_self"><i class="lnr lnr-user"></i> <span>个人中心</span></a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="/STSM/user/mycenter" target="_blank"><i class="lnr lnr-user"></i> <span>个人中心</span></a></li>
-					</c:otherwise>
-					</c:choose>
+					<li><a href="/STSM/user/mycenter" target="_self"><i class="lnr lnr-user"></i> <span>个人中心</span></a></li>
 					
 					<c:choose>
 					<c:when test="${currentURL.indexOf(\"/message/\")!=-1 }">
@@ -62,7 +55,7 @@
 						<li><a href="/STSM/setting" target="_self"><i class="lnr lnr-cog"></i> <span>设置</span></a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="/STSM/setting" target="_blank"><i class="lnr lnr-cog"></i> <span>设置</span></a></li>
+						<li><a href="javascript:;"><i class="lnr lnr-cog"></i> <span>设置</span></a></li>
 					</c:otherwise>
 					</c:choose>
 					

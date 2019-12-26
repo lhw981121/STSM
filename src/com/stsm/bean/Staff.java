@@ -1,5 +1,6 @@
 package com.stsm.bean;
 
+import com.stsm.util.COMUtil;
 import java.util.Date;
 
 public class Staff {
@@ -13,7 +14,7 @@ public class Staff {
 	private int sex;
 	//员工年龄
 	private int age;
-	//员工职位
+	//员工职位 0:普通职员 1:组长 2:主管 3:部门经理 4:总监 5:副总经理 6:总经理 7:执行董事 8:副董事长 9:董事长
 	private int position;
 	//员工业绩
 	private double performance;
@@ -149,5 +150,15 @@ public class Staff {
 
 	public void setUpdated(Date updated_at) {
 		this.updated_at = updated_at;
+	}
+
+  //获取今天是否已打卡（上班）
+	public boolean getIsClockIn() {
+		return COMUtil.isToday(this.lastIn);
+	}
+	
+	//获取今天是否已打卡（下班）
+	public boolean getIsClockOut() {
+		return COMUtil.isToday(this.lastOut);
 	}
 }

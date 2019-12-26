@@ -9,8 +9,6 @@
 <!-- 用户密码验证JS -->
 <script src="/STSM/public/js/user/user_password.js"></script>
 <script src="/STSM/public/js/common/jQuery.md5.js"></script>
-<!-- 用户密码验证JS -->
-<script src="/STSM/public/js/company/company_info.js"></script>
 
 <!-- 用户信息模态框 -->
 <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="top:10%;">

@@ -1,15 +1,16 @@
 package com.stsm.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.stsm.bean.Atten;
+import com.stsm.util.COMUtil;
 import com.stsm.util.DBUtil;
 
 public class AttenDao {	
@@ -134,9 +135,9 @@ public class AttenDao {
 	* @param atten_date
 	* @return 考勤对象
 	*/
-	public List<Atten> queryAttenByDATE(Date atten_date){
-		List<Atten> atten = queryAttenBySingleData("atten_date",String.valueOf(atten_date));
-		return atten.size()==0?null:atten;
+	public Atten queryAttenByDate(Date atten_date){
+		List<Atten> atten = queryAttenBySingleData("atten_date",String.valueOf(COMUtil.dataToStr(atten_date)));
+		return atten.size()==0?null:atten.get(0);
 	}
 	/**
 	* 按考勤PERIOD查找信息
