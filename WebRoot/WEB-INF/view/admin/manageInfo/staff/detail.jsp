@@ -147,11 +147,11 @@
                 <tr>
                     <td>最近一次考勤时间(上班)</td>
                     <c:choose>
-                    	<c:when test="${not empty staff.lastIn} ">
-                    		<td>${staff.lastIn}</td>
+                    	<c:when test="${empty staff.lastIn} ">
+                    		<td>未知</td>
                     	</c:when>
                     	<c:otherwise>
-                    		<td>未知</td>
+                     	<td>${staff.lastIn}</td>
                     	</c:otherwise>
                     </c:choose>
                 </tr>  
@@ -159,11 +159,11 @@
                  <tr>
                     <td>最近一次考勤时间(下班)</td>
                     <c:choose>
-                    	<c:when test="${not empty staff.lastOut} ">
-                    		<td>${staff.lastOut}</td>
+                    	<c:when test="${empty staff.lastOut} ">
+                    		<td>未知</td>
                     	</c:when>
                     	<c:otherwise>
-                    		<td>未知</td>
+                    		<td>${staff.lastOut}</td>
                     	</c:otherwise>
                     </c:choose>
                 </tr>  
@@ -175,7 +175,7 @@
             </table>
             <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-6">
-                    <a  class="btn btn-primary" href="update?StaffID=${staff.ID}">修改</a>
+                    <a  class="btn btn-primary" href="update?staff_id=${staff.ID}">修改</a>
                     <a class="btn btn-primary" href="#" onClick="history.back(-1)">返回</a>
                 </div>
             </div>

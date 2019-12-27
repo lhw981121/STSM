@@ -7,13 +7,9 @@
 <head>
 <!-- 公共头部 -->
 <%@include file="/WEB-INF/view/common/head.jsp"%>
+<!-- 用户信息验证JS -->
+<script src="/STSM/public/js/user/user_info_validate.js"></script>
 </head>
-<!-- 邮箱验证码验证JS -->
-<script src="/STSM/public/js/user/user_email.js"></script>
-<!-- 手机号验证码验证JS -->
-<script src="/STSM/public/js/user/user_phone.js"></script>
-<!-- 用户密码验证JS -->
-<script src="/STSM/public/js/user/user_password.js"></script>
 
 <body>
 <div id="wrapper"><!-- WRAPPER -->

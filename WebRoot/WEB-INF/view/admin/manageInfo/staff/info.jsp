@@ -43,23 +43,12 @@
 					</div>
 					<div class="col-md-4 col-sm-4 col-lg-4">
 						<form role="form" class="form-horizontal" method="get"
-							id="searchCDTopic" action="/STSM/admin/manage_info/staff/info">
+							id="searchStaff" action="/STSM/admin/manage_info/staff/info">
 							<div class="input-group">
-								<input class="form-control" name="queryStr" type="text"
-									id="queryStr" value="" placeholder="员工姓名、职位、工号"> <input
-									type="hidden" name="selectPages" value="">
-								<span class="input-group-btn"><a onclick="return searchCDTopic()" class="btn btn-primary">搜索</a></span>
+								<input class="form-control" name="queryStr" type="text" id="queryStr" onfocus="this.value=''" onblur="this.value='${param.queryStr }'"
+								value="${param.queryStr }" placeholder="员工姓名、职位、工号">
+								<span class="input-group-btn"><a onclick="return searchStaff()" class="btn btn-primary">搜索</a></span>
 							</div>
-							<script type="text/javascript">
-								function searchCDTopic() {
-									if (document.getElementById("queryStr").value.length != 0) {
-										document.getElementById("searchCDTopic").submit();
-										return true;
-									} else {
-										return false;
-									}
-								}
-							</script>
 						</form>
 					</div>
 				</div>
@@ -86,24 +75,9 @@
 						<!-- 姓名 -->
 						<td>${staff.name}</td>
 						<!--性别 -->
-						<c:if test="${staff.sex == 1}">
-							<td>男</td>
-						</c:if>
-						<c:if test="${staff.sex == 2}">
-							<td>女</td>
-						</c:if>
-						<c:if test="${staff.sex == 0}">
-							<td>未知</td>
-						</c:if>
+						<td>${staff.sex == 1?"男":"女"}</td>
 						<!--年龄 -->
-						<c:choose>
-							<c:when test="${staff.age>0}">
-								<td>${staff.age}</td>
-							</c:when>
-							<c:otherwise>
-								<td>未知</td>
-							</c:otherwise>
-						</c:choose>
+						<td>${staff.age==0?"":staff.age}</td>
 						<!--职位 -->
 						<c:choose>
 							<c:when test="${staff.position==0}">
@@ -142,9 +116,9 @@
 						</c:choose>
 						<!--操作 -->
 						<td>
-							<a href="/STSM/admin/manage_info/staff/details?StaffID=${staff.ID}">详情</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="update?StaffID=${staff.ID}" onclick="return confirm('确定修改该员工信息?')">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="/STSM/StaffDelete?StaffID=${staff.ID}" onclick="return confirm('确定删除该员工信息?')">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="detail?staff_id=${staff.ID}">详情</a>&ensp;
+							<a href="update?staff_id=${staff.ID}">修改</a>&ensp;
+							<a href="/STSM/StaffDelete?staff_id=${staff.ID}" onclick="return confirm('确定删除该员工信息?')">删除</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -182,5 +156,14 @@ $("#pageSize option").each(function(){
 		$(this).prop('selected',true);
 	}
 });
+//搜索框
+function searchStaff() {
+	if ($("#queryStr").val().length != 0) {
+		$("#searchStaff").submit();
+		return true;
+	} else {
+		return false;
+	}
+}
 </script>
 </html>

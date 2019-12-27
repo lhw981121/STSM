@@ -198,14 +198,13 @@ public class COMUtil {
         FileOutputStream write = new FileOutputStream(new File(path  + "/" + imgName));
         write.write(decoderBytes);
         write.close();
-        System.out.print(path);
-        //目录不存在新建(复制一份到本地硬盘)
+        /*//目录不存在新建(复制一份到本地硬盘)
         File newFile = new File("C:/STSM-data/" + path.substring(44));
         if(!newFile.exists()){newFile.mkdirs(); }
         //输出文件到本机目录
         write = new FileOutputStream(new File(newFile + "/" + imgName));
         write.write(decoderBytes);
-        write.close();
+        write.close();*/
     }
     
     public static void main(String[] args) {

@@ -34,7 +34,7 @@
 				<div class="panel panel-headline">
 					<div class="panel-heading">
 						<h3 class="panel-title">今日工作时间</h3>
-						<p style="font-size:25px;color:rgb(0, 170, 255);" class="panel-subtitle">${atten.getPeriod() }</p>
+						<p style="font-size:25px;color:rgb(0, 170, 255);" class="panel-subtitle">${empty atten.getPeriod()?"9:00-18:00":atten.getPeriod() }</p>
 						<span><script src="/STSM/public/js/common/randomText.js"></script></span>
 					</div>
 					<div class="panel-body">
@@ -45,6 +45,7 @@
 							3、工作期间内不得窜岗、闲聊、玩网络游戏、网络聊天、利用公司电话打私人电话、吃食物、听音乐等与工作无关的事情；<br>
 							4、员工必须服从上级管理人员领导，不得工作怠慢；<br>
 							5、上班前30分钟和下班后30分为当日两次考勤时间段，期间未打卡者算作当日未考勤处理。<br>
+							6、如发现员工代他人进行当日考勤，违者重罚！<br>
 						</p>
 					</div>
 				</div>

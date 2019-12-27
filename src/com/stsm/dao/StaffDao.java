@@ -59,10 +59,8 @@ public class StaffDao {
 				+ "staff_position,"
 				+ "staff_performance,"
 				+ "staff_bonus,"
-				+ "staff_house,"
-				+ "staff_last_in,"
-				+ "staff_last_out)"
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?)";
+				+ "staff_house)"
+				+ "VALUES(?,?,?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
 			if(staff.getName()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getName());
 			if(staff.getNumber()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getNumber());
@@ -72,8 +70,6 @@ public class StaffDao {
 			pstmt.setDouble(index++, staff.getPerformance());
 			pstmt.setDouble(index++, staff.getBonus());
 			if(staff.getHouse()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getHouse());
-			if(staff.getLastIn()==null) 			pstmt.setNull(index++, Types.DATE); 	else 	pstmt.setTimestamp(index++,new Timestamp(staff.getLastIn().getTime()));
-			if(staff.getLastOut()==null) 			pstmt.setNull(index++, Types.DATE); 	else 	pstmt.setTimestamp(index++,new Timestamp(staff.getLastOut().getTime()));
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			if(rs.next()) {
@@ -99,7 +95,8 @@ public class StaffDao {
 	    try{
 	        String sqlQuery = "DELETE FROM staff WHERE staff_id=?";
 	        pstmt = conn.prepareStatement(sqlQuery);
-	        rs = pstmt.executeQuery();
+	        pstmt.setInt(1, staff_id);
+	        pstmt.executeUpdate();
 	    }catch(Exception e) {
 	        e.printStackTrace();
 	    	return false;
