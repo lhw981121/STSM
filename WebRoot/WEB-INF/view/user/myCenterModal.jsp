@@ -1,13 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
-<!-- 用户用户名验证JS -->
-<script src="/STSM/public/js/user/user_name.js"></script>
-<!-- 用户邮箱验证JS -->
-<script src="/STSM/public/js/user/user_email.js"></script>
-<!-- 用户手机号验证JS -->
-<script src="/STSM/public/js/user/user_phone.js"></script>
-<!-- 用户密码验证JS -->
-<script src="/STSM/public/js/user/user_password.js"></script>
+<!-- 用户信息验证JS -->
+<script src="/STSM/public/js/user/user_info_validate.js"></script>
 <script src="/STSM/public/js/common/jQuery.md5.js"></script>
 
 <!-- 用户信息模态框 -->

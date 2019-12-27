@@ -26,6 +26,53 @@ public class COMUtil {
 	}
 	
 	/**
+	* 判断当前时间是否在一个时间段内
+	* @param beginTime 开始时间
+	* @param endTime 结束时间
+	*/
+	public static boolean belongPeriod(Date nowTime,Date beginTime,Date endTime) {
+		Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(beginTime);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+        return date.after(begin) && date.before(end);
+	}
+    
+    /**
+	* 将字符串 HH:mm 转换为时间
+	* @param dateStr
+	* @return Date
+	*/
+	public static Date TimeToDate(String timeStr) {
+		if(timeStr.length() == 0)	return null;
+		DateFormat format = new SimpleDateFormat("HH:mm");
+		Date date = null;
+		try {
+			date = format.parse(timeStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	/**
+	* 将时间转换为字符串 HH:mm
+	* @param date
+	* @return HH:mm
+	*/
+	public static String dataToTime(Date date) {
+		if(date!=null) {
+			DateFormat t = new SimpleDateFormat("HH:mm");
+	        return t.format(date);
+		}else {
+			return "";
+		}
+	}
+	
+	/**
 	* 判断String是否为空或""
 	* @param str
 	* @return yyyy-MM-dd HH:mm:ss
@@ -100,6 +147,17 @@ public class COMUtil {
 			e.printStackTrace();
 		}
 		return date;
+	}
+	
+	/**
+	* 将获取当前系统时间 yyyy年MM月dd日HH时mm分ss秒
+	* @param date
+	* @return yyyy年MM月dd日HH时mm分ss秒
+	*/
+	public static String systemCurrentTime() {
+		Date date = new Date();
+		DateFormat t = new SimpleDateFormat("yyyy年M月d日H时m分s秒");
+        return t.format(date);
 	}
 	
 	/**
@@ -207,7 +265,7 @@ public class COMUtil {
         write.close();*/
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 	}
 
 }

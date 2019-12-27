@@ -26,6 +26,10 @@ public class Staff {
 	private Date lastIn;
 	//最近一次考勤时间(下班)
 	private Date lastOut;
+	//今天是否已打卡（上班）
+	private boolean isClockIn;
+	//今天是否已打卡（下班）
+	private boolean isClockOut;
 	//添加时间
 	private Date created_at;
 	//修改时间
@@ -126,6 +130,7 @@ public class Staff {
 
 	public void setLastIn(Date lastIn) {
 		this.lastIn = lastIn;
+		this.isClockIn = COMUtil.isToday(lastIn);
 	}
 
 	public Date getLastOut() {
@@ -134,6 +139,7 @@ public class Staff {
 
 	public void setLastOut(Date lastOut) {
 		this.lastOut = lastOut;
+		this.isClockOut = COMUtil.isToday(lastOut);
 	}
 
 	public Date getCreated() {
@@ -152,13 +158,13 @@ public class Staff {
 		this.updated_at = updated_at;
 	}
 
-  //获取今天是否已打卡（上班）
+	//获取今天是否已打卡（上班）
 	public boolean getIsClockIn() {
-		return COMUtil.isToday(this.lastIn);
+		return isClockIn;
 	}
 	
 	//获取今天是否已打卡（下班）
 	public boolean getIsClockOut() {
-		return COMUtil.isToday(this.lastOut);
+		return isClockOut;
 	}
 }

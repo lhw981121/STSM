@@ -33,8 +33,8 @@ function SelectPage(pageNo){
 						+'<td>'+staff.name+'</td>'
 						+'<td>'+(staff.sex==1?"男":"女")+'</td>'
 						+'<td>'+getStaffPosition(staff.position)+'</td>'
-						+'<td><span class="label label-success">'+staff.lastIn+'</span></td>'
-						+'<td><span class="label label-success">'+staff.lastOut+'</span></td>'
+						+'<td><span class="label label-'+(staff.isClockIn?"success":"danger")+'">'+(staff.isClockIn?"已打卡":"未打卡")+'</span></td>'
+						+'<td><span class="label label-'+(staff.isClockOut?"success":"danger")+'">'+(staff.isClockOut?"已打卡":"未打卡")+'</span></td>'
 					+'</tr>'
 				);
 			});

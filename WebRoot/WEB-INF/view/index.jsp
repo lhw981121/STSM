@@ -68,7 +68,7 @@
 					<div class="panel-body no-padding bg-primary text-center">
 						<div class="padding-top-30 padding-bottom-30">
 							<c:choose>
-								<c:when test="${staff.getIsClockIn() }">
+								<c:when test="${staff.isClockIn }">
 									<i class="fa fa-thumbs-o-up fa-5x"></i>
 									<h3>已打卡</h3>
 								</c:when>
@@ -150,6 +150,13 @@
 <!-- Javascript -->
 <%@include file="/WEB-INF/view/common/javaScript.jsp" %>
 <!-- 自定义脚本 -->
-<script src="/STSM/public/js/index.js?t=Math.radom()"></script>
+<script>
+//获取今日考勤是否已结束
+var attenIsEnd = '${atten.isEnd}';
+//获取今日考勤是否已开始
+var attenIsStart = '${atten.isStart}';
+
+</script>
+<script src="/STSM/public/js/index.js?t=${Math.random()}"></script>
 </body>
 </html>
