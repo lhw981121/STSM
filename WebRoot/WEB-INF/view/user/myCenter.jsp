@@ -43,7 +43,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 					<div class="panel-body">
 						<!-- 头像开始 -->
 						<div class="avatar">
-							<a href="javascript:void(0);" onclick="$('#changeAvatarModal').modal('show')" title="更换头像"> 
+							<a href="javascript:void(0);" onclick="$('#changeAvatarModal').modal('show')" title="更换头像">
 								<img src="/STSM/public/images/user/avatar/${user.getID()}.jpg?t=${Math.random()}"
 								onerror="this.src='/STSM/public/images/user/avatar/0.jpg';this.onerror=null"
 								width="140" height="140" style="border-radius:50%" alt="Avatar" id="user_avatar_mycenter"/>
@@ -71,20 +71,37 @@ table td p:nth-child(1) {margin: 10px 0;}
 								<tr>
 									<td style="vertical-align:middle;"><img src="/STSM/public/images/user/icon_information.png" height="45"></td>
 									<td>
-										<p class="title">考勤记录</p>
-										<p class="text">每日考勤记录</p>
-									</td>
-									<td style="vertical-align:middle;">
-										<i	class="lnr lnr-pie-chart"></i>
-										<span>是否考勤</span>
+										<p class="title">今日考勤</p>
+										<p class="text">请在上班前30分钟和下班后30分进行考勤打卡</p>
 									</td>
 									<td style="vertical-align:middle;">
 										<c:choose>
-										<c:when test="">
-											<a href="/applicant/resume/complete_resume" class="btn btn-primary">打卡</a>
+										<c:when test="${atten.state==0}"><!-- 未到考勤时间段 -->
+											<i class="lnr lnr-cross-circle"></i><span>非考勤时间段</span>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:;" onclick="passJob()" class="btn btn-primary">已打卡</a>
+											<i class="lnr lnr-checkmark-circle"></i><span>正在考勤</span>
+										</c:otherwise>
+										</c:choose>
+									</td>
+									<td style="vertical-align:middle;">
+										<c:choose>
+										<c:when test="${atten.state==0}"><!-- 未到考勤时间段 -->
+											<a href="/STSM/staff/attendance_record" class="btn btn-primary">查看考勤记录</a>
+										</c:when>
+										<c:otherwise>
+											<c:if test="${staff.isClockIn&&atten.state==1 }"><!-- 上班已打卡 -->
+												<a href="/STSM/staff/attendance_record" class="btn btn-success">上班已打卡</a>
+											</c:if>
+											<c:if test="${!staff.isClockIn&&atten.state==1 }"><!-- 上班未打卡 -->
+												<a href="/STSM/staff/attendance_today" class="btn btn-primary">上班打卡</a>
+											</c:if>
+											<c:if test="${staff.isClockIn&&atten.state==2 }"><!-- 下班已打卡 -->
+												<a href="/STSM/staff/attendance_record" class="btn btn-success">下班已打卡</a>
+											</c:if>
+											<c:if test="${!staff.isClockIn&&atten.state==2 }"><!-- 下班未打卡 -->
+												<a href="/STSM/staff/attendance_today" class="btn btn-primary">下班打卡</a>
+											</c:if>
 										</c:otherwise>
 										</c:choose>
 									</td>
@@ -101,7 +118,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 										<i	class="lnr lnr-checkmark-circle"></i><span>使用中</span>
 									</td>
 									<td style="vertical-align:middle;">
-										<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#userInfoModal').modal('show')">查看</a>
+										<a href="javascript:void(0);" class="btn btn-info" onclick="$('#userInfoModal').modal('show')">查看</a>
 									</td>
 								</tr>
 								<!-- 账号密码区域 -->
@@ -115,7 +132,7 @@ table td p:nth-child(1) {margin: 10px 0;}
 										<i class="lnr lnr-checkmark-circle"></i><span>已设置</span>
 									</td>
 									<td style="vertical-align:middle;">
-										<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#changePasswordModal').modal('show')">修改</a>
+										<a href="javascript:void(0);" class="btn btn-info" onclick="$('#changePasswordModal').modal('show')">修改</a>
 									</td>
 								</tr>
 								<!-- 手机区域 -->
@@ -138,10 +155,10 @@ table td p:nth-child(1) {margin: 10px 0;}
 									<td style="vertical-align:middle;">
 										<c:choose>
 										<c:when test="${empty user.getPhone()}">
-											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#bindPhoneModal').modal('show')">绑定</a>
+											<a href="javascript:void(0);" class="btn btn-info" onclick="$('#bindPhoneModal').modal('show')">绑定</a>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#unBindPhoneModal').modal('show')">解绑</a>
+											<a href="javascript:void(0);" class="btn btn-danger" onclick="$('#unBindPhoneModal').modal('show')">解绑</a>
 										</c:otherwise>
 										</c:choose>
 									</td>
@@ -166,10 +183,10 @@ table td p:nth-child(1) {margin: 10px 0;}
 									<td style="vertical-align:middle;">
 										<c:choose>
 										<c:when test="${empty user.getEmail()}">
-											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#bindEmailModal').modal('show')">绑定</a>
+											<a href="javascript:void(0);" class="btn btn-info" onclick="$('#bindEmailModal').modal('show')">绑定</a>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:void(0);" class="btn btn-primary" onclick="$('#unBindEmailModal').modal('show')">解绑</a>
+											<a href="javascript:void(0);" class="btn btn-danger" onclick="$('#unBindEmailModal').modal('show')">解绑</a>
 										</c:otherwise>
 										</c:choose>
 									</td>

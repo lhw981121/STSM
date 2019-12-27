@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.stsm.bean.Atten;
 import com.stsm.util.COMUtil;
 import com.stsm.util.DBUtil;
@@ -33,6 +33,31 @@ public class AttenDao {
     	return atten;
 	}
 	/**
+	 * 查询所有考勤信息
+	 * @return
+	 */
+	public List<Atten> getAtten()
+	{
+		List<Atten> list = new ArrayList<Atten>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	        String sqlQuery = "select * from atten";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	Atten atten = loadData(rs);
+	        	list.add(atten);
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
+	/**
 	 * 考勤纪律添加
 	 * @param atten
 	 * @return 考勤ID
@@ -55,7 +80,7 @@ public class AttenDao {
 				+ "atten_end_time)"
 				+ "VALUES(?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
-			if(atten.getDate()==null)               pstmt.setNull(index++, Types.VARCHAR);  else    pstmt.setTimestamp(index++,new Timestamp(atten.getDate().getTime()));
+			if(atten.getDate()==null)               pstmt.setNull(index++, Types.VARCHAR);  else    pstmt.setString(index++,COMUtil.dataToStr(atten.getDate()));
 			if(atten.getPeriod()==null )            pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, atten.getPeriod());
 			if(atten.getStartStaff()==null)			pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, atten.getStartStaff());
 			if(atten.getStartTime()==null)			pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, atten.getStartTime());
@@ -96,7 +121,7 @@ public class AttenDao {
 	    return true;
 	}
 	/**
-	 *  单项数据查询考勤信息
+	 * 单项数据查询考勤信息
 	 * @param str 查询字段
 	 * @param value 查询数据
 	 * @return
@@ -131,7 +156,7 @@ public class AttenDao {
 		return atten.size()==0?null:atten.get(0);
 	}
 	/**
-	* 按考勤DATE查找信息
+	* 按考勤Date查找信息
 	* @param atten_date
 	* @return 考勤对象
 	*/
@@ -140,47 +165,47 @@ public class AttenDao {
 		return atten.size()==0?null:atten.get(0);
 	}
 	/**
-	* 按考勤PERIOD查找信息
+	* 按考勤period查找信息
 	* @param atten_period
 	* @return 考勤对象
 	*/
-	public List<Atten> queryAttenByPERIOD(String atten_period){
+	public List<Atten> queryAttenByPeriod(String atten_period){
 		List<Atten> atten = queryAttenBySingleData("atten_period",String.valueOf(atten_period));
 		return atten.size()==0?null:atten;
 	}
 	/**
-	* 按考勤STARTSTAFF查找信息
+	* 按考勤start_staff查找信息
 	* @param atten_start_staff
 	* @return 考勤对象
 	*/
-	public List<Atten> queryAttenBySTARTSTAFF(String atten_start_staff){
+	public List<Atten> queryAttenByStartStaff(String atten_start_staff){
 		List<Atten> atten = queryAttenBySingleData("atten_start_staff",String.valueOf(atten_start_staff));
 		return atten.size()==0?null:atten;
 	}
 	/**
-	* 按考勤STARTTIME查找信息
+	* 按考勤start_time查找信息
 	* @param atten_start_time
 	* @return 考勤对象
 	*/
-	public List<Atten> queryAttenBySTARTTIME(String atten_start_time){
+	public List<Atten> queryAttenByStartTime(String atten_start_time){
 		List<Atten> atten = queryAttenBySingleData("atten_start_time",String.valueOf(atten_start_time));
 		return atten.size()==0?null:atten;
 	}
 	/**
-	* 按考勤ENDSTAFF查找信息
+	* 按考勤end_staff查找信息
 	* @param atten_end_staff
 	* @return 考勤对象
 	*/
-	public List<Atten> queryAttenByENDSTAFF(String atten_end_staff){
+	public List<Atten> queryAttenByEndStaff(String atten_end_staff){
 		List<Atten> atten = queryAttenBySingleData("atten_end_staff",String.valueOf(atten_end_staff));
 		return atten.size()==0?null:atten;
 	}
 	/**
-	* 按考勤ENDTIME查找信息
+	* 按考勤end_time查找信息
 	* @param atten_end_time
 	* @return 考勤对象
 	*/
-	public List<Atten> queryAttenByENDTIME(String atten_end_time){
+	public List<Atten> queryAttenByEndTime(String atten_end_time){
 		List<Atten> atten = queryAttenBySingleData("atten_end_time",String.valueOf(atten_end_time));
 		return atten.size()==0?null:atten;
 	}
@@ -197,7 +222,6 @@ public class AttenDao {
 	    try{
 			String sql = "";
 			sql="UPDATE atten SET "
-				+ "atten_date=?,"
 				+ "atten_period=?,"
 				+ "atten_start_staff=?,"
 				+ "atten_start_time=?,"
@@ -205,7 +229,6 @@ public class AttenDao {
 				+ "atten_end_time=? "
 				+ "WHERE atten_id=?";
 			pstmt=conn.prepareStatement(sql);
-			if(atten.getDate()==null)               pstmt.setNull(index++, Types.VARCHAR);  else    pstmt.setTimestamp(index++,new Timestamp(atten.getDate().getTime()));
 			if(atten.getPeriod()==null )            pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, atten.getPeriod());
 			if(atten.getStartStaff()==null)			pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, atten.getStartStaff());
 			if(atten.getStartTime()==null)			pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, atten.getStartTime());

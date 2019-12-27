@@ -166,7 +166,7 @@ public class StaffDao {
 		return staff.size()==0?null:staff.get(0);
 	}
 	/**
-	 * 按员工NUMBER查找信息
+	 * 按员工number 查找信息
 	 * @param staff_number 
 	 * @return 员工对象
 	 */
@@ -175,74 +175,74 @@ public class StaffDao {
 		return staff.size()==0?null:staff.get(0);
 	}
 	/**
-	* 按员工SEX查找信息
+	* 按员工sex查找信息
 	* @param staff_sex
 	* @return 员工对象集合
 	*/
-	public List<Staff> queryStaffBySEX(int staff_sex){
+	public List<Staff> queryStaffBySex(int staff_sex){
 		List<Staff> staff = queryStaffBySingleData("staff_sex",String.valueOf(staff_sex));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工AGE查找信息
+	* 按员工age查找信息
 	* @param staff_age
 	* @return 员工对象集合
 	*/
-	public List<Staff> queryStaffByAGE(int staff_age){
+	public List<Staff> queryStaffByAge(int staff_age){
 		List<Staff> staff = queryStaffBySingleData("staff_age",String.valueOf(staff_age));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工POSITION查找职位信息
+	* 按员工position查找职位信息
 	* @param staff_position
 	* @return 员工对象
 	*/
-	public List<Staff> queryStaffByPOSITION(int staff_position){
+	public List<Staff> queryStaffByPosition(int staff_position){
 		List<Staff> staff = queryStaffBySingleData("staff_position",String.valueOf(staff_position));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工PREFORMANCE查找职位信息
+	* 按员工performance查找职位信息
 	* @param staff_performance
 	* @return 员工对象
 	*/
-	public List<Staff> queryStaffByPREFORMANCE(int staff_performance){
+	public List<Staff> queryStaffByPerformance(int staff_performance){
 		List<Staff> staff = queryStaffBySingleData("staff_performance",String.valueOf(staff_performance));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工BOUNS查找职位信息
+	* 按员工bonus查找职位信息
 	* @param staff_bonus
 	* @return 员工对象
 	*/
-	public List<Staff> queryStaffByBOUNS(int staff_bonus){
+	public List<Staff> queryStaffByBonus(int staff_bonus){
 		List<Staff> staff = queryStaffBySingleData("staff_bonus",String.valueOf(staff_bonus));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工HOUSE查找职位信息
+	* 按员工house查找职位信息
 	* @param staff_house
 	* @return 员工对象
 	*/
-	public List<Staff> queryStaffByHOUSE(int staff_house){
+	public List<Staff> queryStaffByHouse(int staff_house){
 		List<Staff> staff = queryStaffBySingleData("staff_house",String.valueOf(staff_house));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工LASTIN查找职位信息
+	* 按员工last_in查找职位信息
 	* @param staff_last_in
 	* @return 员工对象
 	*/
-	public List<Staff> queryStaffByLASTIN(Date staff_last_in){
+	public List<Staff> queryStaffByLastIn(Date staff_last_in){
 		List<Staff> staff = queryStaffBySingleData("staff_last_in",String.valueOf(staff_last_in));
 		return staff.size()==0?null:staff;
 	}
 	/**
-	* 按员工LASTOUT查找职位信息
+	* 按员工last_out查找职位信息
 	* @param staff_last_out
 	* @return 员工对象
 	*/
-	public List<Staff> queryStaffByLASTOUT(Date staff_last_out){
+	public List<Staff> queryStaffByLastOut(Date staff_last_out){
 		List<Staff> staff = queryStaffBySingleData("staff_last_out",String.valueOf(staff_last_out));
 		return staff.size()==0?null:staff;
 	}
