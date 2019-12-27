@@ -7,8 +7,8 @@
 <head>
 <!-- 头部 -->
 <%@include file="/WEB-INF/view/common/head.jsp" %>
-<!-- 用户手机号验证JS -->
-<script src="/STSM/public/js/user/user_phone.js"></script>
+<!-- 用户信息验证JS -->
+<script src="/STSM/public/js/user/user_info_validate.js"></script>
 
 </head>
 

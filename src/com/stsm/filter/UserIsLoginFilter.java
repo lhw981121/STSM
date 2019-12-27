@@ -55,12 +55,7 @@ public class UserIsLoginFilter implements Filter {
 		HttpSession session = req.getSession();
         boolean flag = false;
         //如果是.jsp文件需要过滤
-        if (req.getServletPath().indexOf(".jsp") != -1
-        	||req.getServletPath().indexOf("/index") != -1
-        	||req.getServletPath().indexOf("/user") != -1
-        	||req.getServletPath().indexOf("/staff") != -1
-        	||req.getServletPath().indexOf("/message") != -1
-        	||req.getServletPath().indexOf("/admin") != -1) {
+        if (req.getServletPath().indexOf(".jsp") != -1) {
             flag =true;
         }
         //不过滤登录页面和忘记密码页面

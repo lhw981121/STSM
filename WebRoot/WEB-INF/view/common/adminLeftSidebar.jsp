@@ -7,27 +7,15 @@
 			<ul class="nav">
 
 				<li><a href="/STSM/admin" id="admin" class=""><i class="lnr lnr-home"></i> <span>主页</span></a></li>
-
-				<li>
-					<a href="#company_audit" data-toggle="collapse" id="#company_audit" class="collapsed">
-					<i class="fa fa-building-o"></i> <span>企业认证审核</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
-					<div id="company_audit" class="collapse">
-						<ul class="nav">
-							<li><a href="###" id="wait_audit_company" class="">待审核企业</a></li>
-							<li><a href="###" id="approved_company" class="">审核通过企业</a></li>
-							<li><a href="###" id="unapproved_company" class="">审核未通过企业</a></li>
-						</ul>
-					</div>
-				</li>
 				
 				<li>
-					<a href="#job_audit" data-toggle="collapse" id="#job_audit" class="collapsed">
-					<i class="fa fa-clipboard"></i> <span>职位审核</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
-					<div id="job_audit" class="collapse">
+					<a href="#staff_attendance" data-toggle="collapse" id="#staff_attendance" class="collapsed">
+					<i class="fa fa-clipboard"></i> <span>员工考勤</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+					<div id="staff_attendance" class="collapse">
 						<ul class="nav">
-							<li><a href="###" id="wait_audit_job" class="">待审核职位</a></li>
-							<li><a href="###" id="approved_job" class="">审核通过职位</a></li>
-							<li><a href="###" id="unapproved_job" class="">审核未通过职位</a></li>
+							<li><a href="/STSM/admin/staff_attendance/yes" id="attendance_yes" class="">已考勤员工</a></li>
+							<li><a href="/STSM/admin/staff_attendance/no" id="attendance_no" class="">未考勤员工</a></li>
+							<li><a href="/STSM/admin/staff_attendance/stat" id="attendance_stat" class="">考勤统计</a></li>
 						</ul>
 					</div>
 				</li>
@@ -37,8 +25,8 @@
 					<i class="lnr lnr-database"></i> <span>信息管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
 					<div id="manageInfo" class="collapse">
 						<ul class="nav">
-							<li><a href="/STSM/admin/manage_info/staff/info" id="Staff">员工信息管理</a></li>
-							<li><a href="/STSM/admin/manage_info/attendance/info" id="Attendance">考勤信息管理</a></li>
+							<li><a href="/STSM/admin/manage_info/staff/info" id="staff">员工信息管理</a></li>
+							<li><a href="/STSM/admin/manage_info/attendance/info" id="attendance">考勤信息管理</a></li>
 							<li><a href="###" id="###">###</a></li>
 						</ul>
 					</div>
@@ -55,31 +43,31 @@
 	var pathname = window.location.pathname;
 	
 	//主页
-	if(pathname.indexOf("SWRW/admin/") == -1){
+	if(pathname.indexOf("STSM/admin/") == -1){
 		document.getElementById("admin").className = "active";
 	}
 
-	//管理员信息管理菜单
-	if (pathname.indexOf("manageInfo") != -1) {
-		document.getElementById("#manageInfo").className = "active";
-		document.getElementById("manageInfo").className = "collapse in";
-		if (pathname.indexOf("staff") != -1) {
-			document.getElementById("Staff").className = "active";
-		} else if (pathname.indexOf("attendance") != -1) {
-			document.getElementById("Attendance").className = "active";
-		} else if (pathname.indexOf("Teacher") != -1) {
-			document.getElementById("Teacher").className = "active";
+	//管理员员工考勤菜单
+	if (pathname.indexOf("staff_attendance") != -1) {
+		document.getElementById("#staff_attendance").className = "active";
+		document.getElementById("staff_attendance").className = "collapse in";
+		if (pathname.indexOf("yes") != -1) {
+			document.getElementById("attendance_yes").className = "active";
+		} else if (pathname.indexOf("no") != -1) {
+			document.getElementById("attendance_no").className = "active";
+		} else if (pathname.indexOf("stat") != -1) {
+			document.getElementById("attendance_stat").className = "active";
 		}
 	}
 
-	//管理员消息菜单
-	if (pathname.indexOf("message") != -1) {
-		document.getElementById("#message").className = "active";
-		document.getElementById("message").className = "collapse in";
-		if (pathname.indexOf("myMessage") != -1) {
-			document.getElementById("myMessage").className = "active";
-		} else if (pathname.indexOf("sendMessage") != -1) {
-			document.getElementById("sendMessage").className = "active";
+	//管理员信息管理菜单
+	if (pathname.indexOf("manage_info") != -1) {
+		document.getElementById("#manageInfo").className = "active";
+		document.getElementById("manageInfo").className = "collapse in";
+		if (pathname.indexOf("staff") != -1) {
+			document.getElementById("staff").className = "active";
+		} else if (pathname.indexOf("attendance") != -1) {
+			document.getElementById("attendance").className = "active";
 		}
 	}
 </script>
