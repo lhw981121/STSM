@@ -3,13 +3,11 @@ package com.stsm.controller.admin;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.stsm.bean.Pagination;
 import com.stsm.bean.Staff;
 import com.stsm.dao.StaffDao;
@@ -22,7 +20,7 @@ import com.stsm.dao.StaffDao;
 		"/admin/manage_info/staff/create",
 		"/admin/manage_info/staff/update",
 		"/admin/manage_info/staff/detail",
-		
+		"/admin/manage_info/attendance/info",
 		})
 public class ManageInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -100,6 +98,19 @@ public class ManageInfo extends HttpServlet {
 			request.setAttribute("staff", staff);
 			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/staff/detail.jsp").forward(request,response);
 			break;
+		}
+		//考勤信息页面
+		case "/admin/manage_info/attendance/info":{
+//			AttenDao dao = new AttenDao();
+//			List<Atten> atten = dao.getAtten();
+//			
+//			String startStaff = atten.get(0).getStartStaff();
+//			String startTime = atten.get(0).getStartTime();
+//			String endStaff = atten.get(0).getEndStaff();
+//			String endTime = atten.get(0).getEndTime();
+//			
+//			List<String> attens = Arrays.asList(startStaff.split("_"));
+			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/info.jsp").forward(request, response);
 		}
 		}
 	}
