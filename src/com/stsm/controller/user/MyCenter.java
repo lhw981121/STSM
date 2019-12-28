@@ -35,8 +35,7 @@ public class MyCenter extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		if(user==null)	{response.sendRedirect("/STSM/login");return;}
+		User user = (User)session.getAttribute("user");if(user==null){response.sendRedirect("/STSM/login");return;}
 		Atten atten = new AttenService().getTodayStaff();
 		Staff staff = new StaffDao().queryStaffByNumber(user.getAccount());
 		request.setAttribute("atten", atten);

@@ -16,8 +16,12 @@ public class Atten {
 	private String period;
 	//当前是否为考勤时间段 0(否) 1(上班考勤时间段) 2(下班考勤时间段)
 	private int state;
+	//当前是否为工作时间
+	private boolean isWork;
 	//今日考勤是否已开始
 	private boolean isStart;
+	//上班考勤是否已结束
+	private boolean isClockInEnd;
 	//今日考勤是否已结束
 	private boolean isEnd;
 	//考勤记录(开始,员工)
@@ -86,6 +90,23 @@ public class Atten {
 	}
 	
 	/**
+	* 获取当前时间是否为工作时间段
+	* @return boolean 
+	*/
+	public boolean getIsWork() throws ParseException {
+		String inTime = period.split("-")[0];
+		String outTime = period.split("-")[1];
+		String format = "HH:mm";
+        Date nowTime = new SimpleDateFormat(format).parse(COMUtil.dataToTime(new Date()));
+        //判断是否为工作时间段
+        Date startTime = new SimpleDateFormat(format).parse(inTime);
+        startTime = new Date(startTime.getTime() - 1000*60*1);
+        Date endTime = new SimpleDateFormat(format).parse(outTime);
+        isWork = COMUtil.belongPeriod(nowTime,startTime,endTime);
+		return isWork;
+	}
+	
+	/**
 	* 获取今日考勤是否已开始
 	* @return boolean 是否已开始
 	 * @throws ParseException 
@@ -102,6 +123,25 @@ public class Atten {
         end.setTime(startTime);
         isStart = date.after(end);
         return isStart;
+	}
+	
+	/**
+	* 获取上班考勤是否已结束
+	* @return boolean 是否已结束
+	 * @throws ParseException 
+	*/
+	public boolean getIsClockInEnd() throws ParseException {
+		String inTime = period.split("-")[0];
+		String format = "HH:mm";
+		Date nowTime = new SimpleDateFormat(format).parse(COMUtil.dataToTime(new Date()));
+		Date endTime = new SimpleDateFormat(format).parse(inTime);
+		endTime = new Date(endTime.getTime() - 1000*60*1);
+		Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+        isClockInEnd = date.after(end);
+        return isClockInEnd;
 	}
 	
 	/**
