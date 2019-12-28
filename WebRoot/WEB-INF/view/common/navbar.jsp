@@ -21,8 +21,10 @@
 		</c:if>
 			<div id="navbar-menu">
 			<ul class="nav navbar-nav navbar-right">
-				<!-- 当前时间 -->
-				<li style="user-select:none"><a><i class="fa fa-clock-o"></i><span id="systemCurrentTime">${COMUtil.systemCurrentTime() }</span></a></li>
+				<!-- 当前时间及星期 -->
+				<li style="user-select:none"><a><i class="fa fa-clock-o"></i>
+					<span id="systemCurrentTime">${COMUtil.systemCurrentTime() }</span>&emsp;<span>${COMUtil.systemCurrentWeek() }</span>
+				</a></li>
 				<!-- 消息 -->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">

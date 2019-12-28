@@ -1,5 +1,6 @@
 package com.stsm.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -25,12 +26,19 @@ public class StaffService {
 	 */
 	public boolean staffClockIn(int staff_id)
 	{
+		Atten atten = new AttenService().getTodayStaff();
+		try {
+			if(atten.getIsClockInEnd()) {return false;}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		AttenDao attenDao = new AttenDao();
 		
 		staff = StaffDao.queryStaffByID(staff_id);
 		staff.setLastIn(new Date());
 		//当日考勤信息
-		Atten atten = new AttenService().getTodayStaff();
+		atten = new AttenService().getTodayStaff();
 		//atten_start_staff为员工id，atten_start_time为打卡时间
 		String atten_start_staff = COMUtil.isNull(atten.getStartStaff())?"":atten.getStartStaff();
 		String atten_start_time = COMUtil.isNull(atten.getStartTime())?"":atten.getStartTime();
@@ -40,10 +48,10 @@ public class StaffService {
 		
 		atten.setStartStaff(atten_start_staff);
 		atten.setStartTime(atten_start_time);
-		if(attenDao.updataStaff(atten))
+		if(attenDao.updataStaff(atten)&&StaffDao.updataStaff(staff))
 		{
 			logger.info("用户："+staff_id+"上班时间打卡,成功");
-			return StaffDao.updataStaff(staff);
+			return true;
 		}else {
 			logger.error("用户："+staff_id+"上班时间打卡,失败");
 			return false;
@@ -57,12 +65,19 @@ public class StaffService {
 	 */
 	public boolean staffClockOut(int staff_id)
 	{
+		Atten atten = new AttenService().getTodayStaff();
+		try {
+			if(atten.getIsEnd()) {return false;}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		AttenDao attenDao = new AttenDao();
 		
 		staff = StaffDao.queryStaffByID(staff_id);
 		staff.setLastOut(new Date());
 		//当日考勤信息
-		Atten atten = new AttenService().getTodayStaff();
+		atten = new AttenService().getTodayStaff();
 		//atten_end_staff为员工id，atten_end_time为打卡时间
 		String atten_end_staff = COMUtil.isNull(atten.getEndStaff())?"":atten.getEndStaff();
 		String atten_end_time = COMUtil.isNull(atten.getEndTime())?"":atten.getEndTime();
@@ -73,10 +88,10 @@ public class StaffService {
 		atten.setEndStaff(atten_end_staff);
 		atten.setEndTime(atten_end_time);
 		
-		if(attenDao.updataStaff(atten)) //修改考勤表信息
+		if(attenDao.updataStaff(atten)&&StaffDao.updataStaff(staff)) //修改考勤表信息
 		{
 			logger.info("用户："+staff_id+"下班时间打卡,成功");
-			return StaffDao.updataStaff(staff);
+			return true;
 		}else{
 			logger.error("用户："+staff_id+"下班时间打卡,失败");
 			return false;
@@ -105,10 +120,10 @@ public class StaffService {
 		atten.setStartStaff(atten_start_staff);
 		atten.setStartTime(atten_start_time);
 		
-		if(attenDao.updataStaff(atten))
+		if(attenDao.updataStaff(atten)&&StaffDao.updataStaff(staff))
 		{
 			logger.info("取消用户："+staff_id+"上班时间打卡,成功");
-			return StaffDao.updataStaff(staff);
+			return true;
 		}else {
 			logger.error("取消用户："+staff_id+"上班时间打卡,失败");
 			return false;
@@ -138,10 +153,10 @@ public class StaffService {
 		atten.setEndStaff(atten_end_staff);
 		atten.setEndTime(atten_end_time);
 		
-		if(attenDao.updataStaff(atten)) //修改考勤表信息
+		if(attenDao.updataStaff(atten)&&StaffDao.updataStaff(staff)) //修改考勤表信息
 		{
 			logger.info("取消用户："+staff_id+"下班时间打卡,成功");
-			return StaffDao.updataStaff(staff);
+			return true;
 		}else {
 			logger.error("取消用户："+staff_id+"下班时间打卡,失败");
 			return false;
