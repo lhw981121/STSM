@@ -1,6 +1,7 @@
 package com.stsm.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import com.stsm.bean.Atten;
 import com.stsm.util.COMUtil;
 import com.stsm.util.DBUtil;
@@ -245,13 +245,77 @@ public class AttenDao {
 	    return true;
 	}
 	
+	/**
+	 * 分页结果集合
+	 * @param pageNo 当前页
+	 * @param pageSize 每页记录数
+	 * @param queryStr 查询字段
+	 * @param sortField  排序字段及排序方式 ASC(升序)、DESC(降序)
+	 * @return 分页结果集合
+	 */
+	public List<Atten> getPageDataAtten(int pageNo,int pageSize,String queryStr,String sortField)
+	{
+		List<Atten> list = new ArrayList<Atten>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT * "
+	        		+ "FROM atten "
+	        		+ "WHERE CONCAT(IFNULL(atten_date,''),IFNULL(atten_period,'')) LIKE ?"
+	        		+ "ORDER BY "+(sortField.length()==0?"atten_id":sortField)+" LIMIT ?,?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        pstmt.setInt(index++, pageSize * (pageNo-1));
+	        pstmt.setInt(index++, pageSize);
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	Atten atten = loadData(rs);
+	        	list.add(atten);
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
+	/**
+	 * 分页总数
+	 * @param queryStr 查询字段
+	 * @return
+	 */
+	public int getPageDataAttenCount(String queryStr) {
+		int count = 0;
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT COUNT(*) "
+	        		+ "FROM atten "
+	        		+ "WHERE CONCAT(IFNULL(atten_date,''),IFNULL(atten_period,'')) LIKE ?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+            	count = rs.getInt(1);
+            }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        return 0;
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return count;
+    }
+	
 //	public static void main(String [] args)
 //	{
 //		AttenDao dao = new AttenDao();
-//		Atten atten = new Atten();
-//		atten=dao.queryAttenByID(1);
-//		atten.setID(4);
-//		atten.setPeriod("321");
-//		System.out.println(dao.createAtten(atten));
+//		List<Atten> atten = dao.getPageDataAtten(2, 3, "12", "atten_date");
+//		System.out.println(atten.size());
 //	}
+	
 }

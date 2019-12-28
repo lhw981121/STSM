@@ -43,10 +43,10 @@
 					</div>
 					<div class="col-md-4 col-sm-4 col-lg-4">
 						<form role="form" class="form-horizontal" method="get"
-							id="searchStaff" action="/STSM/admin/manage_info/staff/info">
+							id="searchStaff" action="/STSM/admin/manage_info/attendance/info">
 							<div class="input-group">
 								<input class="form-control" name="queryStr" type="text" id="queryStr" onfocus="this.value=''" onblur="this.value='${param.queryStr }'"
-								value="${param.queryStr }" placeholder="员工姓名、职位、工号">
+								value="${param.queryStr }" placeholder="考勤日期">
 								<span class="input-group-btn"><a onclick="return searchStaff()" class="btn btn-primary">搜索</a></span>
 							</div>
 						</form>
@@ -59,15 +59,23 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>工号</th>
-						<th>姓名</th>
-						<th>职位</th>
-						<th>上班打卡时间</th>
-						<th>下班打卡时间</th>
+						<th>考勤日期</th>
+						<th>考勤时间段</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody id="waitAuditJobData">
+				<c:forEach items="${atteninfo }" var="atten">
+					<tr>
+						<td>
+							<a href="#">详情</a>&ensp;
+							<a href="#">修改</a>&ensp;
+							<a href="#">删除</a>
+						</td>
+						<td><a href="/STSM/admin/staff_attendance/stat?date=${ atten.date}">${atten.date}</a></td>
+						<td>${atten.period}</td>
+					</tr>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>

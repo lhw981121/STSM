@@ -28,7 +28,7 @@
 		<div class="panel-body">
 			<form name="studentForm" class="form-horizontal" role="form"
 				method="post" action="/STSM/StaffUpdate?staff_id=${staff.ID}"
-				onsubmit="return checkAll()">
+				onsubmit="return cheekStaffAll()">
 
 				<div class="form-group" id="student_number_class">
 					<label for="student_number" class="col-sm-2 control-label"><a
@@ -79,7 +79,7 @@
 						class="text-danger"></a>职位</label>
 					<div class="col-sm-8">
 						<select title="显示职位" id="staff_position" name="staff_position"
-							class="form-control field">
+							class="form-control">
 							<option value="0">职位</option>
 							<option value="1">普通职员</option>
 							<option value="2">主管</option>
@@ -149,6 +149,7 @@
 <!-- Javascript -->
 <%@include file="/WEB-INF/view/common/javaScript.jsp"%>
 <!-- 自定义脚本 -->
+<script type="text/javascript" src="/STSM/public/js/staff/staff_info_validate.js"></script>
 <script>
 //渲染性别
 $("#staff_sex[type='radio']").each(function() {

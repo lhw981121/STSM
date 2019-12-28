@@ -28,16 +28,14 @@
 		<div class="panel-body">
 			<form name="studentForm" class="form-horizontal" role="form"
 				method="post" action="/STSM/StaffCreate"
-				onsubmit="return checkAll()">
+				onsubmit="return cheekStaffAll()">
 
 				<div class="form-group" id="student_number_class">
 					<label for="student_number" class="col-sm-2 control-label"><a
 						class="text-danger">*</a>员工工号</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" id="staff_number"
-							name="staff_number" placeholder="请输入员工工号（全为数字且长度为11）" value=""
-							onchange="checkStaffnumber()"
-							oninput="">
+						<input type="text" class="form-control" id="staff_number" 
+							name="staff_number" placeholder="请输入员工工号（全为数字且长度为11）" value="">
 					</div>
 				</div>
 
@@ -45,10 +43,8 @@
 					<label for="student_name" class="col-sm-2 control-label"><a
 						class="text-danger">*</a>姓名</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" id="staff_name"
-							name="staff_name" placeholder="请输入员工姓名" value=""
-							onchange="checkStaff_name()"
-							oninput="">
+						<input type="text" class="form-control" id="staff_name" 
+							name="staff_name" placeholder="请输入员工姓名" value="">
 					</div>
 				</div>
 
@@ -59,7 +55,7 @@
 						<label><input id="staff_sex" type="radio" name="staff_sex" value="1" onchange="checkStaff_sex()">男</label>&emsp;
 						<label><input id="staff_sex" type="radio" name="staff_sex" value="2" onchange="checkStaff_sex()">女</label>&emsp;
 						<label><input id="staff_sex" type="radio" name="staff_sex" value="0" onchange="checkStaff_sex()">未知</label>
-						<label class="control-label text-danger" for="staff_sex">&emsp;收到罚单</label><br>
+						<label class="control-label text-danger" for="staff_sex">&emsp;</label><br>
 					</div>
 				</div>
 
@@ -67,7 +63,7 @@
 					<label for="student_age" class="col-sm-2 control-label"><a
 						class="text-danger"></a>年龄</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" id="staff_age"
+						<input type="text" class="form-control" id="staff_age" 
 							name="staff_age" placeholder="请输入员工年龄" value=""
 							onchange="checkStaff_age()"
 							oninput="">
@@ -78,8 +74,8 @@
 					<label for="student_age" class="col-sm-2 control-label"><a
 						class="text-danger"></a>职位</label>
 					<div class="col-sm-8">
-						<select title="显示职位" id="staff_position" name="staff_position"
-							class="form-control field">
+						<select title="显示职位" id="staff_position" name="staff_position" 
+							class="form-control">
 							<option value="0">职位</option>
 							<option value="1">普通职员</option>
 							<option value="2">主管</option>
@@ -93,7 +89,7 @@
 						</select>
 					</div>
 				</div>
-
+				
 				<div class="form-group" id="student_age_class">
 					<label for="student_age" class="col-sm-2 control-label"><a
 						class="text-danger"></a>业绩</label>
@@ -119,8 +115,8 @@
 				<div class="form-group" id="student_age_class">
 					<label for="student_age" class="col-sm-2 control-label"><a
 						class="text-danger"></a>家庭住址</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" id="staff_house"
+					<div class="col-sm-8"> 
+						<input type="text" class="form-control" id="staff_house" 
 							name="staff_house" placeholder="请输员工家庭住址" value=""
 							onchange="checkStaff_house()"
 							oninput="">
@@ -148,7 +144,7 @@
 <!-- Javascript -->
 <%@include file="/WEB-INF/view/common/javaScript.jsp"%>
 <!-- 自定义脚本 -->
-
+<script type="text/javascript" src="/STSM/public/js/staff/staff_info_validate.js"></script>
 
 </body>
 </html>
