@@ -82,6 +82,8 @@ function RenderPagination(pagination){
 	}else{
 		$('.pagination').append('<li class="disabled"><a>尾页</a></li>');
 	}
+	$('.pagination').append('<li class="disabled"><span>总页数:'+pagination.totalPages+'</span></li>');
+	$('.pagination').append('<li class="disabled"><span>总数据量:'+pagination.recordCount+'</span></li>');
 	//选中单页数据
 	$('#pageSize').val(pagination.pageSize);
 }

@@ -55,7 +55,7 @@
 			<div class="col-md-4">
 				<div class="panel">
 					<div class="panel-heading">
-						<h3 class="panel-title">今日考勤</h3>
+						<h3 class="panel-title">考勤状态</h3>
 						<div class="right">
 							<button type="button" class="btn-toggle-collapse">
 								<i class="lnr lnr-chevron-up"></i>
@@ -68,13 +68,21 @@
 					<div class="panel-body no-padding bg-primary text-center">
 						<div class="padding-top-30 padding-bottom-30">
 							<c:choose>
-								<c:when test="${staff.isClockIn }">
-									<i class="fa fa-thumbs-o-up fa-5x"></i>
-									<h3>已打卡</h3>
+								<c:when test="${atten.state==1 }">
+									<i class="fa fa-exclamation-circle fa-5x"></i>
+									<h3>正在进行上班打卡</h3>
+								</c:when>
+								<c:when test="${atten.state==2 }">
+									<i class="fa fa-exclamation-circle fa-5x"></i>
+									<h3>正在进行下班打卡</h3>
+								</c:when>
+								<c:when test="${atten.isWork }">
+									<i class="fa fa-rocket fa-5x"></i>
+									<h3>工作时间</h3>
 								</c:when>
 								<c:otherwise>
-									<i class="fa fa-frown-o fa-5x"></i>
-									<h3>未打卡</h3>
+									<i class="fa fa-thumbs-o-up fa-5x"></i>
+									<h3>非工作时间</h3>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -125,13 +133,13 @@
 						<!-- 页尾 -->
 						<%@include file="/WEB-INF/view/common/pagination.jsp" %>
 					</div>
-					<div class="panel-footer">
+					<!-- <div class="panel-footer">
 						<div class="row">
 							<div class="col-md-6">
 								<span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<!-- END 未考勤人员展示 -->
 			</div>
@@ -151,10 +159,14 @@
 <%@include file="/WEB-INF/view/common/javaScript.jsp" %>
 <!-- 自定义脚本 -->
 <script>
-//获取今日考勤是否已结束
-var attenIsEnd = '${atten.isEnd}';
+//获取当前是否为工作时间
+var attenIsWork = ${atten.isWork};
 //获取今日考勤是否已开始
-var attenIsStart = '${atten.isStart}';
+var attenIsStart = ${atten.isStart};
+//获取上班考勤是否已结束
+var attenIsClockInEnd = ${atten.isClockInEnd};
+//获取今日考勤是否已结束
+var attenIsEnd = ${atten.isEnd};
 
 </script>
 <script src="/STSM/public/js/index.js?t=${Math.random()}"></script>

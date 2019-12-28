@@ -16,12 +16,14 @@ public class Pagination {
 	private int start = 1;
 	//结束页
 	private int end = 10;
-	// 是否有下一页
+	//是否有下一页
 	@SuppressWarnings("unused")
 	private boolean hasNextPage;
-	// 是否有上一页
+	//是否有上一页
 	@SuppressWarnings("unused")
 	private boolean hasPreviousPage;
+	//总数据量
+	private int recordCount = 0;
 	
 	public Pagination() {
 	}
@@ -34,6 +36,7 @@ public class Pagination {
 	*/
 	public Pagination(int recordCount, int pageNo, int pageSize) {
 		//根据数据量求总页数
+		this.recordCount = recordCount;
 		this.totalPages = recordCount == 0 ? 1 : (recordCount + pageSize - 1) / pageSize;
 		this.pageNo = pageNo;
 		this.pageSize = pageSize;
@@ -112,5 +115,13 @@ public class Pagination {
 
 	public void setHasPreviousPage(boolean hasPreviousPage) {
 		this.hasPreviousPage = hasPreviousPage;
+	}
+
+	public int getRecordCount() {
+		return recordCount;
+	}
+
+	public void setRecordCount(int recordCount) {
+		this.recordCount = recordCount;
 	}
 }

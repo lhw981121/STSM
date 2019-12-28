@@ -34,7 +34,7 @@ public class AllMessage extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		User user = (User)session.getAttribute("user");if(user==null){response.sendRedirect("/STSM/login");return;}
 		//获取当前页码
 		int pageNo = request.getParameter("page")==null?1:Integer.valueOf(request.getParameter("page"));
 		//消息是否已读
