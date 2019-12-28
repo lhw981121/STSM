@@ -1,0 +1,79 @@
+package com.stsm.servlet.staff;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+import com.stsm.bean.User;
+import com.stsm.dao.StaffDao;
+import com.stsm.service.StaffService;
+
+/**
+ * Servlet implementation class StaffClockIn
+ */
+@WebServlet("/StaffClock")
+public class StaffClock extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public StaffClock() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("mode")==null) {
+			response.sendRedirect("/STSM/login");
+			return;
+		}
+		String mode = request.getParameter("mode");
+		
+		HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        int staff_id = new StaffDao().queryStaffByNumber(user.getAccount()).getID();
+        
+        boolean isOK = false;
+        if(mode.equals("clockIn")) {
+        	isOK = new StaffService().staffClockIn(staff_id);
+        }else if(mode.equals("clockOut")) {
+        	isOK = new StaffService().staffClockOut(staff_id);
+        }
+        
+        Map<String,Object> map = new HashMap<String,Object>();
+		map.put("isOK", isOK);
+		
+		map.put("successMes",(mode.equals("clockIn")?"上班":"下班")+"打卡成功！");
+		map.put("errorMes",(mode.equals("clockIn")?"上班":"下班")+"打卡失败，可能是服务器出错或打卡超时！");
+        
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
+		response.setContentType("text/html;charset=UTF-8"); 
+		PrintWriter writer = response.getWriter();
+		writer.println(json);
+		writer.flush();
+		writer.close();
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

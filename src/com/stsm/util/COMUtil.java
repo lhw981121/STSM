@@ -161,6 +161,17 @@ public class COMUtil {
 	}
 	
 	/**
+	* 获取当前星期
+	* @param date
+	* @return 星期X
+	*/
+	public static String systemCurrentWeek() {
+		Date date = new Date();
+		DateFormat t = new SimpleDateFormat("EEEE");
+        return t.format(date);
+	}
+	
+	/**
 	* 将时间转换为字符串 yyyy年MM月dd日
 	* @param date
 	* @return yyyy年MM月dd日
@@ -173,21 +184,7 @@ public class COMUtil {
 			return "";
 		}
 	}
-	
-	/**
-	* 将时间段字符串转化为 yyyy年MM月dd日 至 yyyy年MM月dd日
-	* @param periodStr
-	* @return yyyy年MM月dd日
-	*/
-	public static String periodStrToPeriod(String periodStr) {
-		if(periodStr.length()==0)	return "";
-		String start = periodStr.split("_")[0];
-		String end = periodStr.split("_")[1];
-		start = dateToDate(strToDate(start));
-		end = dateToDate(strToDate(end));
-		return start+" 至 "+end;
-	}
-	
+
 	/**
 	* 根据生日计算实际年龄
 	* @param birthday

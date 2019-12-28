@@ -6,18 +6,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.stsm.bean.Atten;
+import com.stsm.bean.Staff;
+import com.stsm.bean.User;
+import com.stsm.dao.StaffDao;
+import com.stsm.service.AttenService;
 
 /**
  * Servlet implementation class StaffAttendance
  */
-@WebServlet(urlPatterns = {"/staff/attendance_today","/staff/attendance_record","/staff/salary_check"})
-public class Attendance extends HttpServlet {
+@WebServlet(urlPatterns = {
+		"/staff/attendance_today",
+		"/staff/attendance_record",
+		"/staff/salary_check"
+		})
+public class StaffController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Attendance() {
+    public StaffController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +40,12 @@ public class Attendance extends HttpServlet {
 		switch(request.getServletPath()) {
 			//今日考勤页面
 			case "/staff/attendance_today":{
-				
+				HttpSession session = request.getSession();
+				User user = (User)session.getAttribute("user");if(user==null){response.sendRedirect("/STSM/login");return;}
+				Atten atten = new AttenService().getTodayStaff();
+				Staff staff = new StaffDao().queryStaffByNumber(user.getAccount());
+				request.setAttribute("atten", atten);
+				request.setAttribute("staff", staff);
 				request.getRequestDispatcher("/WEB-INF/view/staff/attendanceToday.jsp").forward(request, response);
 				break;
 			}

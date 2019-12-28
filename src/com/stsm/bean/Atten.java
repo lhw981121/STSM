@@ -102,6 +102,7 @@ public class Atten {
         Date startTime = new SimpleDateFormat(format).parse(inTime);
         startTime = new Date(startTime.getTime() - 1000*60*1);
         Date endTime = new SimpleDateFormat(format).parse(outTime);
+        endTime = new Date(endTime.getTime() + 1000*60*1);
         isWork = COMUtil.belongPeriod(nowTime,startTime,endTime);
 		return isWork;
 	}
@@ -162,6 +163,32 @@ public class Atten {
         end.setTime(endTime);
         isEnd = date.after(end);
         return isEnd;
+	}
+	
+	/**
+	* 获取当前考勤状态
+	 * @throws 考勤状态 
+	*/
+	public String getStateStr() {
+		int state = 0;
+		try {
+			state = getState();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean isWork = false;
+		try {
+			isWork = getIsWork();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(state == 0) {
+			return isWork?"工作时间":"非工作时间";
+		}else {
+			return state==1?"正在进行上班打卡":"正在进行下班打卡";
+		}
 	}
 	
 	public String getStartStaff() {

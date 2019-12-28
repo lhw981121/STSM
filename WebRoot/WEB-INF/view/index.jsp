@@ -34,8 +34,8 @@
 				<div class="panel panel-headline">
 					<div class="panel-heading">
 						<h3 class="panel-title">今日工作时间</h3>
-						<p style="font-size:25px;color:rgb(0, 170, 255);" class="panel-subtitle">${empty atten.getPeriod()?"9:00-18:00":atten.getPeriod() }</p>
-						<span><script src="/STSM/public/js/common/randomText.js"></script></span>
+						<p style="font-size:30px;color:rgb(0, 170, 255);" class="panel-subtitle">${empty atten.getPeriod()?"9:00-18:00":atten.getPeriod() }</p>
+						<h4><script src="/STSM/public/js/common/randomText.js"></script></h4>
 					</div>
 					<div class="panel-body">
 						<h4>公司制度</h4>
@@ -44,7 +44,7 @@
 							2、上班考勤实行实时签到制度，不得故意误签上班时间，必须本人亲自签到确认；<br>
 							3、工作期间内不得窜岗、闲聊、玩网络游戏、网络聊天、利用公司电话打私人电话、吃食物、听音乐等与工作无关的事情；<br>
 							4、员工必须服从上级管理人员领导，不得工作怠慢；<br>
-							5、上班前30分钟和下班后30分为当日两次考勤时间段，期间未打卡者算作当日未考勤处理。<br>
+							5、上班前30分钟和下班后30分钟为当日两次考勤时间段，期间未打卡者算作当日未考勤处理。<br>
 							6、如发现员工代他人进行当日考勤，违者重罚！<br>
 						</p>
 					</div>
@@ -81,7 +81,7 @@
 									<h3>工作时间</h3>
 								</c:when>
 								<c:otherwise>
-									<i class="fa fa-thumbs-o-up fa-5x"></i>
+									<i class="fa fa-cutlery fa-5x"></i>
 									<h3>非工作时间</h3>
 								</c:otherwise>
 							</c:choose>
@@ -167,7 +167,6 @@ var attenIsStart = ${atten.isStart};
 var attenIsClockInEnd = ${atten.isClockInEnd};
 //获取今日考勤是否已结束
 var attenIsEnd = ${atten.isEnd};
-
 </script>
 <script src="/STSM/public/js/index.js?t=${Math.random()}"></script>
 </body>
