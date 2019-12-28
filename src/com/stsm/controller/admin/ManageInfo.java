@@ -49,7 +49,7 @@ public class ManageInfo extends HttpServlet {
 			//查询字段
 			String queryStr = request.getParameter("queryStr")==null?"":request.getParameter("queryStr");
 			//排序字段
-			String sortField = "staff_id";
+			String sortField = "";
 			//获取单页记录数
 			int pageSize = request.getSession().getAttribute("pageSize")==null?10:Integer.valueOf(request.getSession().getAttribute("pageSize").toString());
 			//获取分页数据总量
@@ -110,18 +110,19 @@ public class ManageInfo extends HttpServlet {
 			//查询字段
 			String queryStr = request.getParameter("queryStr")==null?"":request.getParameter("queryStr");
 			//排序字段
-			String sortField = "staff_id";
+			String sortField = "";
 			//获取单页记录数
 			int pageSize = request.getSession().getAttribute("pageSize")==null?10:Integer.valueOf(request.getSession().getAttribute("pageSize").toString());
 			//获取分页数据总量
-			int recordCount = 0;
+			int recordCount = dao.getPageDataAttenCount(queryStr);
 			//实例化分页对象
 			Pagination pagination = new Pagination(recordCount,pageNo,pageSize);
 			//获取当页数据量
-			List<Atten> atteninfo  = null;
+			List<Atten> atteninfo  = dao.getPageDataAtten(pagination.getPageNo(), pageSize, queryStr, sortField);
+			
 
 			request.setAttribute("pagination", pagination);
-			request.setAttribute("staffinfo", atteninfo);
+			request.setAttribute("atteninfo", atteninfo);
 			request.setAttribute("notUseScriptPagination", true);
 			
 			String urlQueryStr = "?";
@@ -132,8 +133,7 @@ public class ManageInfo extends HttpServlet {
 				int pageLen = 6+(pagination.getPageNo()+"").length();
 				urlQueryStr = urlQueryStr.substring(0, urlQueryStr.length()-pageLen);
 			}
-			request.setAttribute("urlQueryStr", urlQueryStr);
-//			
+			request.setAttribute("urlQueryStr", urlQueryStr);		
 //			List<String> attens = Arrays.asList(startStaff.split("_"));
 			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/info.jsp").forward(request, response);
 		}

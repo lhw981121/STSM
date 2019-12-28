@@ -65,10 +65,10 @@ public class StaffDao {
 			if(staff.getName()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getName());
 			if(staff.getNumber()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getNumber());
 			pstmt.setInt(index++, staff.getSex());
-			pstmt.setInt(index++, staff.getAge());
+			if(staff.getAge()==0)                   pstmt.setNull(index++,Types.INTEGER);	else	pstmt.setInt(index++, staff.getAge());
 			pstmt.setInt(index++, staff.getPosition());
-			pstmt.setDouble(index++, staff.getPerformance());
-			pstmt.setDouble(index++, staff.getBonus());
+			if(staff.getPerformance()==0)           pstmt.setNull(index++,Types.DOUBLE);	else	pstmt.setDouble(index++, staff.getPerformance());
+			if(staff.getBonus()==0)           		pstmt.setNull(index++,Types.DOUBLE);	else	pstmt.setDouble(index++, staff.getBonus());
 			if(staff.getHouse()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getHouse());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
@@ -309,7 +309,7 @@ public class StaffDao {
 	    	int index = 1;
 	        String sqlQuery ="SELECT * FROM "
 	        		+ "staff WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,''),IFNULL(staff_age,'')) LIKE ? "
-	        		+ "ORDER BY "+(sortField.length()==0?"":sortField)+" LIMIT ?,?";
+	        		+ "ORDER BY "+(sortField.length()==0?"staff_id":sortField)+" LIMIT ?,?";
 	        pstmt = conn.prepareStatement(sqlQuery);
 	        pstmt.setString(index++, "%"+queryStr+"%");
 	        pstmt.setInt(index++, pageSize * (pageNo-1));
