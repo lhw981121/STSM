@@ -8,8 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.stsm.bean.Atten;
 import com.stsm.bean.Pagination;
 import com.stsm.bean.Staff;
+import com.stsm.dao.AttenDao;
 import com.stsm.dao.StaffDao;
 
 /**
@@ -101,13 +104,35 @@ public class ManageInfo extends HttpServlet {
 		}
 		//考勤信息页面
 		case "/admin/manage_info/attendance/info":{
-//			AttenDao dao = new AttenDao();
-//			List<Atten> atten = dao.getAtten();
-//			
-//			String startStaff = atten.get(0).getStartStaff();
-//			String startTime = atten.get(0).getStartTime();
-//			String endStaff = atten.get(0).getEndStaff();
-//			String endTime = atten.get(0).getEndTime();
+			AttenDao dao = new AttenDao();
+			//获取当前页码
+			int pageNo = request.getParameter("page")==null?1:Integer.valueOf(request.getParameter("page"));
+			//查询字段
+			String queryStr = request.getParameter("queryStr")==null?"":request.getParameter("queryStr");
+			//排序字段
+			String sortField = "staff_id";
+			//获取单页记录数
+			int pageSize = request.getSession().getAttribute("pageSize")==null?10:Integer.valueOf(request.getSession().getAttribute("pageSize").toString());
+			//获取分页数据总量
+			int recordCount = 0;
+			//实例化分页对象
+			Pagination pagination = new Pagination(recordCount,pageNo,pageSize);
+			//获取当页数据量
+			List<Atten> atteninfo  = null;
+
+			request.setAttribute("pagination", pagination);
+			request.setAttribute("staffinfo", atteninfo);
+			request.setAttribute("notUseScriptPagination", true);
+			
+			String urlQueryStr = "?";
+			if(request.getQueryString()!=null){
+				urlQueryStr += URLDecoder.decode(request.getQueryString(),"utf-8") +"&";
+			}
+			if(urlQueryStr.indexOf("page")!=-1){
+				int pageLen = 6+(pagination.getPageNo()+"").length();
+				urlQueryStr = urlQueryStr.substring(0, urlQueryStr.length()-pageLen);
+			}
+			request.setAttribute("urlQueryStr", urlQueryStr);
 //			
 //			List<String> attens = Arrays.asList(startStaff.split("_"));
 			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/info.jsp").forward(request, response);
