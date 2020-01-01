@@ -29,8 +29,7 @@ public class STSMStartOrStopListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
-    	//每日凌晨新增考勤记录
-        //new AddAttendance();
+
     }
 	
 }

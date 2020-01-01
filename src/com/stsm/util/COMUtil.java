@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
 * 常用工具类
@@ -86,11 +87,76 @@ public class COMUtil {
 	}
 	
 	/**
+	* 如果String是否为空返回""
+	* @param str
+	* @return ""
+	*/
+	public static String ifNull(String str) {
+		if(str != null) {
+			return str;
+		}else {
+			return "";
+		}
+	}
+	
+	/**
+	* 将字符串 EEE MMM dd HH:mm:ss zzz yyyy 转换为时间
+	* @param dateStr
+	* @return Date
+	*/
+	public static Date CSTToDate(String dateStr) {
+		if(dateStr.length() == 0)	return null;
+		DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy",Locale.US);
+		Date date = null;
+		try {
+			date = format.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	/**
+	* 将时间字符串转换为Date类型
+	* @param dateStr 时间字符串
+	* @param format 格式
+	* @return Date
+	*/
+	public static Date dateStrToDate(String dateStr,String formatStr) {
+		if(dateStr.length() == 0)	return null;
+		DateFormat format = new SimpleDateFormat(formatStr,Locale.US);
+		Date date = null;
+		try {
+			date = format.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	/**
+	* 将Date类型转换为时间字符串
+	* @param date Date类型
+	* @param format 格式
+	* @return 格式化后的时间字符串
+	*/
+	public static String dateToDateStr(Date date,String formatStr) {
+		if(date!=null) {
+			DateFormat t = new SimpleDateFormat(formatStr);
+	        return t.format(date);
+		}else {
+			return "";
+		}
+	}
+	
+	/**
 	* 将时间转换为字符串 yyyy-MM-dd HH:mm:ss
 	* @param date
 	* @return yyyy-MM-dd HH:mm:ss
 	*/
-	public static String dataToStrLong(Date date) {
+	public static String dateToStrLong(Date date) {
 		if(date!=null) {
 			DateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	        return t.format(date);
@@ -263,6 +329,8 @@ public class COMUtil {
     }
     
     public static void main(String[] args) throws ParseException {
+/*    	System.out.println(COMUtil.CSTToDate("Sat Dec 28 18:33:02 CST 2019"));
+    	System.out.println(COMUtil.dateStrToDate("1998-11-21 12:12:12", "yyyy-MM-dd HH:mm:ss"));*/
 	}
 
 }

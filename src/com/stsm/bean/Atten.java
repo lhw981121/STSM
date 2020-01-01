@@ -82,7 +82,7 @@ public class Atten {
         //判断是否为下班打卡时间段
         startTime = new SimpleDateFormat(format).parse(outTime);
         startTime = new Date(startTime.getTime() - 1000*60*1);
-        endTime = new SimpleDateFormat(format).parse(COMUtil.dataToTime(new Date(startTime.getTime() + 1000*60*31)));
+        endTime = new SimpleDateFormat(format).parse(COMUtil.dataToTime(new Date(startTime.getTime() + 1000*60*32)));
         if(COMUtil.belongPeriod(nowTime,startTime,endTime)) {
         	state = 2;
         }
@@ -102,7 +102,6 @@ public class Atten {
         Date startTime = new SimpleDateFormat(format).parse(inTime);
         startTime = new Date(startTime.getTime() - 1000*60*1);
         Date endTime = new SimpleDateFormat(format).parse(outTime);
-        endTime = new Date(endTime.getTime() + 1000*60*1);
         isWork = COMUtil.belongPeriod(nowTime,startTime,endTime);
 		return isWork;
 	}

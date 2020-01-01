@@ -209,6 +209,36 @@ public class AttenDao {
 		List<Atten> atten = queryAttenBySingleData("atten_end_time",String.valueOf(atten_end_time));
 		return atten.size()==0?null:atten;
 	}
+	
+	/*************************************
+	 * 通过过去的天数获取员工考勤记录
+	 * @param pastDay 要查询的过去天数
+	 * @return 考勤表
+	 */
+	public List<Atten> getAttenByPastDay(int pastDay){
+		List<Atten> list = new ArrayList<Atten>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery =
+	        		"SELECT * FROM atten WHERE "
+	        		+ "DATEDIFF(atten_date,NOW())<=0 AND DATEDIFF(atten_date,NOW())>-?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setInt(index++, pastDay);
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	list.add(loadData(rs));
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
+	
 	/**
 	 * 按员工ID修改员工信息
 	 * @param staff 

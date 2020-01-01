@@ -1,5 +1,6 @@
 package com.stsm.service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -41,4 +42,59 @@ public class AttenService {
 	}
 	
 	
+	/*************************************
+	 * 通过员工ID获取员工考勤记录
+	 * @param staff_id 员工ID
+	 * @param pastDay 要查询的过去天数（包括今天）
+	 * @return 考勤表
+	 */
+	public List<Atten> getStaffAtten(int staff_id,int pastDay){
+		String id = String.valueOf(staff_id);
+		String atten_start_time = null;
+		String atten_end_time = null;
+		List<String> dateList = null;
+		List<Atten> attenList = attenDao.getAttenByPastDay(pastDay);
+		for(Atten atten : attenList) {
+			atten_start_time = COMUtil.ifNull(atten.getStartTime());
+			atten_end_time = COMUtil.ifNull(atten.getEndTime());
+			if(atten_start_time.length()==0) {
+				atten.setStartTime("");
+			}else {
+				dateList = Arrays.asList(atten.getStartStaff().split("_"));
+				int index = 0;
+				for(String str : dateList) {
+					if(str.equals(id))	break;
+					index++;
+				}
+				if(index == dateList.size()) {
+					atten.setStartTime("");
+				}else {
+					atten.setStartTime(Arrays.asList(atten.getStartTime().split("_")).get(index));
+				}
+			}
+			if(atten_end_time.length()==0) {
+				atten.setEndTime("");
+			}else {
+				dateList = Arrays.asList(atten.getEndStaff().split("_"));
+				int index = 0;
+				for(String str : dateList) {
+					if(str.equals(id))	break;
+					index++;
+				}
+				if(index == dateList.size()) {
+					atten.setEndTime("");
+				}else {
+					atten.setEndTime(Arrays.asList(atten.getEndTime().split("_")).get(index));
+				}
+			}
+		}
+		return attenList;
+	}
+	
+	public static void main(String[] s) {
+		List<Atten> list = new AttenService().getStaffAtten(1, 3);
+		for(Atten atten : list) {
+			System.out.println(atten.getDate()+" "+atten.getStartTime()+" "+atten.getEndTime());
+		}
+	}
 }
