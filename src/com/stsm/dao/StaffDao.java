@@ -307,8 +307,9 @@ public class StaffDao {
 	    ResultSet rs = null;
 	    try{
 	    	int index = 1;
-	        String sqlQuery ="SELECT * FROM "
-	        		+ "staff WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,''),IFNULL(staff_age,'')) LIKE ? "
+	        String sqlQuery ="SELECT * "
+	        		+ "FROM staff "
+	        		+ "WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,''),IFNULL(staff_age,'')) LIKE ? "
 	        		+ "ORDER BY "+(sortField.length()==0?"staff_id":sortField)+" LIMIT ?,?";
 	        pstmt = conn.prepareStatement(sqlQuery);
 	        pstmt.setString(index++, "%"+queryStr+"%");
@@ -441,16 +442,9 @@ public class StaffDao {
 	    return count;
     }
 	
-//	public static void main(String [] args){
-//		StaffDao dao = new StaffDao();
-//		List<Staff> list = new ArrayList<Staff>();
-//		System.out.print(dao.getPageDataStaffCount("波"));
-//		list = dao.getPageDataStaff(2, 10, "", "staff_age");
-//		Iterator<Staff> it = list.iterator();
-//		while(it.hasNext()) {
-//			Staff to = it.next();
-//			System.out.println(to.getName());
-//		}
-//	}
-	
+	public static void main(String [] args){
+		StaffDao dao = new StaffDao();
+		System.out.print(dao.getPageDataStaffCount("波"));
+		dao.getPageDataStaff(2, 10, "", "staff_age");
+	}
 }
