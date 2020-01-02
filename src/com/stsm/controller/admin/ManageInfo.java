@@ -24,6 +24,9 @@ import com.stsm.dao.StaffDao;
 		"/admin/manage_info/staff/update",
 		"/admin/manage_info/staff/detail",
 		"/admin/manage_info/attendance/info",
+		"/admin/staff_attendance/stat",
+		"/admin/staff_attendance/yes",
+		"/admin/staff_attendance/no",
 		})
 public class ManageInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -134,8 +137,24 @@ public class ManageInfo extends HttpServlet {
 				urlQueryStr = urlQueryStr.substring(0, urlQueryStr.length()-pageLen);
 			}
 			request.setAttribute("urlQueryStr", urlQueryStr);		
-//			List<String> attens = Arrays.asList(startStaff.split("_"));
 			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/info.jsp").forward(request, response);
+			break;
+		}
+		//考勤统计
+		case "/admin/staff_attendance/stat":{
+			
+			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/stat.jsp").forward(request, response);
+			break;
+		}
+		//已经考勤员工
+		case "/admin/staff_attendance/yes":{
+			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/yes.jsp").forward(request, response);
+			break;
+		}
+		//未考勤员工
+		case "/admin/staff_attendance/no":{
+			request.getRequestDispatcher("/WEB-INF/view/admin/manageInfo/attendance/no.jsp").forward(request, response);
+			break;
 		}
 		}
 	}

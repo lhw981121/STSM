@@ -25,10 +25,7 @@
 	<!-- 待审核企业 -->
 	<div class="panel" id="waitAuditJobPanel">
 		<div class="panel-heading">
-			<h3 class="panel-title">考勤信息</h3>
-<!-- 			<div class="right"> -->
-<!-- 				<a href="#"><span class="label label-primary"><i class="fa fa-plus-square"></i>&nbsp;新增考勤信息</span></a> -->
-<!-- 			</div> -->
+			<h3 class="panel-title">未考勤员工信息</h3>
 		</div>
 		<div class="panel-heading">
 			<div class="container-fluid">
@@ -60,22 +57,13 @@
 				<thead>
 					<tr>
 						<th>操作</th>
-						<th>考勤日期</th>
-						<th>考勤时间段</th>
+						<th>工号</th>
+						<th>姓名</th>
+						<th>上班打卡时间</th>
+						<th>下班打卡时间</th>
 					</tr>
 				</thead>
 				<tbody id="waitAuditJobData">
-				<c:forEach items="${atteninfo }" var="atten">
-					<tr>
-						<td>
-							<a href="#">详情</a>&ensp;
-							<a href="#">修改</a>&ensp;
-							<a href="#">删除</a>
-						</td>
-						<td><a href="/STSM/admin/staff_attendance/stat?date=${ atten.date}">${atten.date}</a></td>
-						<td>${atten.period}</td>
-					</tr>
-				</c:forEach>
 				</tbody>
 			</table>
 		</div>

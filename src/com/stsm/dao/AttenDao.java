@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.stsm.bean.Atten;
+import com.stsm.bean.AttenInfo;
 import com.stsm.util.COMUtil;
 import com.stsm.util.DBUtil;
 
@@ -310,6 +311,41 @@ public class AttenDao {
 	    }
 	    return count;
     }
+	
+	/**
+	 * 考勤统计分页list
+	 * @param pageNo
+	 * @param pageSize
+	 * @param queryStr
+	 * @param sortField
+	 * @return
+	 */
+	public List<AttenInfo> getPageDateAttenInfo(int pageNo,int pageSize,String queryStr,String sortField ){
+		List<AttenInfo> list = new ArrayList<AttenInfo>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        pstmt.setInt(index++, pageSize * (pageNo-1));
+	        pstmt.setInt(index++, pageSize);
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	AttenInfo atteninfo = new AttenInfo();
+	        	atteninfo.setAttenInfo_name(rs.getString(""));
+	        	atteninfo.setAttenInfo_number(rs.getString(""));
+	        	list.add(atteninfo);
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
 	
 //	public static void main(String [] args)
 //	{
