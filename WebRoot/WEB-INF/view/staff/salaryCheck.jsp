@@ -31,7 +31,7 @@
 			<div class="col-md-10 col-md-offset-1">
 				<div class="panel panel-default">
 					<div class="panel-heading">欢迎 ${user.getName()} 登录</div>
-					<div class="panel-body">首页</div>
+					<div class="panel-body">这里是员工薪水核实页面</div>
 				</div>
 			</div>
 		</div>

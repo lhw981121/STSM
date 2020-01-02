@@ -55,6 +55,7 @@ public class AttenService {
 		List<String> dateList = null;
 		List<Atten> attenList = attenDao.getAttenByPastDay(pastDay);
 		for(Atten atten : attenList) {
+			atten.setDate(new Date(atten.getDate().getTime()));
 			atten_start_time = COMUtil.ifNull(atten.getStartTime());
 			atten_end_time = COMUtil.ifNull(atten.getEndTime());
 			if(atten_start_time.length()==0) {
