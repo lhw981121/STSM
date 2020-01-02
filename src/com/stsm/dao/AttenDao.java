@@ -224,7 +224,8 @@ public class AttenDao {
 	    	int index = 1;
 	        String sqlQuery =
 	        		"SELECT * FROM atten WHERE "
-	        		+ "DATEDIFF(atten_date,NOW())<=0 AND DATEDIFF(atten_date,NOW())>-?";
+	        		+ "DATEDIFF(atten_date,NOW())<=0 AND DATEDIFF(atten_date,NOW())>-? "
+	        		+ "ORDER BY atten_date";
 	        pstmt = conn.prepareStatement(sqlQuery);
 	        pstmt.setInt(index++, pastDay);
 	        rs = pstmt.executeQuery();

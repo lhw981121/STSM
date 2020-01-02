@@ -51,7 +51,10 @@ public class StaffController extends HttpServlet {
 			}
 			//考勤记录页面
 			case "/staff/attendance_record":{
-				
+				HttpSession session = request.getSession();
+				User user = (User)session.getAttribute("user");if(user==null){response.sendRedirect("/STSM/login");return;}
+				Staff staff = new StaffDao().queryStaffByNumber(user.getAccount());
+				request.setAttribute("staff", staff);
 				request.getRequestDispatcher("/WEB-INF/view/staff/attendanceRecord.jsp").forward(request, response);
 				break;
 			}

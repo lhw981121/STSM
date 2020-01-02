@@ -22,7 +22,6 @@ if(attenIsStart){//今日考勤已开始
 	last_in = 1;
 	last_out = 1;
 }
-console.log(showState);
 
 /*选择页码获取分页数据*/
 var page = 1;
