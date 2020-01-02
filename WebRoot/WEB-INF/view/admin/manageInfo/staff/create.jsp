@@ -76,8 +76,9 @@
 					<div class="col-sm-8">
 						<select title="显示职位" id="staff_position" name="staff_position" 
 							class="form-control">
-							<option value="0">职位</option>
-							<option value="1">普通职员</option>
+							<option value="-1">职位</option>
+							<option value="0">普通职员</option>
+							<option value="1">组长</option>
 							<option value="2">主管</option>
 							<option value="3">部门经理</option>
 							<option value="4">总监</option>

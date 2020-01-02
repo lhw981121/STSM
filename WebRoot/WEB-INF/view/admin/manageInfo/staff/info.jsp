@@ -43,7 +43,7 @@
 					</div>
 					<div class="col-md-4 col-sm-4 col-lg-4">
 						<form role="form" class="form-horizontal" method="get"
-							id="searchStaff" action="/STSM/admin/manage_info/staff/info">
+							id="searchStaff" action="/STSM/admin/staff_attendance/stat">
 							<div class="input-group">
 								<input class="form-control" name="queryStr" type="text" id="queryStr" onfocus="this.value=''" onblur="this.value='${param.queryStr }'"
 								value="${param.queryStr }" placeholder="员工姓名、职位、工号">

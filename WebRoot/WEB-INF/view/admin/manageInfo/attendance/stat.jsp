@@ -26,7 +26,9 @@
 	<div class="panel" id="waitAuditJobPanel">
 		<div class="panel-heading">
 			<h3 class="panel-title">考勤信息</h3>
-
+			<div class="right">
+				<a href="/STSM/admin/staff_attendance/stat"><span class="label label-primary"><i class="fa fa-plus-square"></i>&nbsp;查询今日</span></a>
+			</div>
 		</div>
 		<div class="panel-heading">
 			<div class="container-fluid">
@@ -41,10 +43,11 @@
 					</div>
 					<div class="col-md-4 col-sm-4 col-lg-4">
 						<form role="form" class="form-horizontal" method="get"
-							id="searchStaff" action="/STSM/admin/manage_info/attendance/info">
+							id="searchStaff" action="/STSM/admin/staff_attendance/stat">
 							<div class="input-group">
 								<input class="form-control" name="queryStr" type="text" id="queryStr" onfocus="this.value=''" onblur="this.value='${param.queryStr }'"
 								value="${param.queryStr }" placeholder="考勤日期">
+								<input type="hidden" name="date" value="${param.date }">
 								<span class="input-group-btn"><a onclick="return searchStaff()" class="btn btn-primary">搜索</a></span>
 							</div>
 						</form>
@@ -57,7 +60,6 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>操作</th>
 						<th>工号</th>
 						<th>姓名</th>
 						<th>上班打卡时间</th>
@@ -65,15 +67,12 @@
 					</tr>
 				</thead>
 				<tbody id="waitAuditJobData">
-				<c:forEach items="startTime" var="st">
+				<c:forEach items="${attenInfo }" var="attenInfo">
 						<tr>
-						<td>
-							<a href="#">操作 </a>
-						</td>
-						<td>001xxx</td>
-						<td>xx</td>
-						<td>${st}</td>
-						<td>  xx</td>
+						<td>${attenInfo.getAttenInfo_number()}</td>
+						<td>${attenInfo.getAttenInfo_name()}</td>
+						<td>${attenInfo.getAttenInfo_in()}</td>
+						<td>${attenInfo.getAttenInfo_out()}</td>
 						</tr>
 				</c:forEach>
 				</tbody>

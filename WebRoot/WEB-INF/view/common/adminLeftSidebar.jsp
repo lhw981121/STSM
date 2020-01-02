@@ -13,9 +13,18 @@
 					<i class="fa fa-clipboard"></i> <span>员工考勤</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
 					<div id="staff_attendance" class="collapse">
 						<ul class="nav">
-							<li><a href="/STSM/admin/staff_attendance/yes" id="attendance_yes" class="">已考勤员工</a></li>
-							<li><a href="/STSM/admin/staff_attendance/no" id="attendance_no" class="">未考勤员工</a></li>
-							<li><a href="/STSM/admin/staff_attendance/stat" id="attendance_stat" class="">考勤统计</a></li>
+							<c:choose>
+								<c:when test="${empty param.date}">
+									<li><a href="/STSM/admin/staff_attendance/yes" id="attendance_yes" class="">已考勤员工</a></li>
+									<li><a href="/STSM/admin/staff_attendance/no" id="attendance_no" class="">未考勤员工</a></li>
+									<li><a href="/STSM/admin/staff_attendance/stat" id="attendance_stat" class="">考勤统计</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="/STSM/admin/staff_attendance/yes?date=${param.date }" id="attendance_yes" class="">已考勤员工</a></li>
+									<li><a href="/STSM/admin/staff_attendance/no?date=${param.date }" id="attendance_no" class="">未考勤员工</a></li>
+									<li><a href="/STSM/admin/staff_attendance/stat?date=${param.date }" id="attendance_stat" class="">考勤统计</a></li>
+								</c:otherwise>
+							</c:choose>
 						</ul>
 					</div>
 				</li>

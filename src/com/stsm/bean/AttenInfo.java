@@ -39,6 +39,8 @@ public class AttenInfo {
 	}
 	
 	public String getAttenInfo_in() {
+		if(AttenInfo_in.length()==0 || AttenInfo_in==null)
+		return "未打卡";
 		AttenInfo_in = AttenInfo.formatDate1(AttenInfo_in);
 		return AttenInfo_in;
 	}
@@ -48,6 +50,8 @@ public class AttenInfo {
 	}
 	
 	public String getAttenInfo_out() {
+		if(AttenInfo_out.length()==0 || AttenInfo_out==null)
+			return "未打卡";
 		AttenInfo_out = AttenInfo.formatDate1(AttenInfo_out);
 		return AttenInfo_out;
 	}
@@ -105,7 +109,7 @@ public class AttenInfo {
 	 
 	public static void main(String []s)
 	{
-		AttenInfo info = new AttenInfo("123","湛波",new Date().toString(),new Date().toString());
+		AttenInfo info = new AttenInfo("123","湛波","",new Date().toString());
 		System.out.println(info.getAttenInfo_in());
 	}
 }

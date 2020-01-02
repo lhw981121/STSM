@@ -327,8 +327,27 @@ public class COMUtil {
         write.write(decoderBytes);
         write.close();*/
     }
+    /**
+     * 返回数组指定元素下标
+     * @param array
+     * @param value
+     * @return
+     */
+    public static int printArray(String[] array,String value){
+		for(int i = 0;i<array.length;i++){
+			if(array[i].equals(value)){
+				return i;
+			}
+		}
+		return -1;//当if条件不成立时，默认返回一个负数值-1
+	}
+    
+
     
     public static void main(String[] args) throws ParseException {
+//    	String s1="1_2_3_4_5";
+//    	String s2="a_b_c_d_f";
+//    	System.out.println(COMUtil.printArray(s1.split("_"), "3"));
 /*    	System.out.println(COMUtil.CSTToDate("Sat Dec 28 18:33:02 CST 2019"));
     	System.out.println(COMUtil.dateStrToDate("1998-11-21 12:12:12", "yyyy-MM-dd HH:mm:ss"));*/
 	}
