@@ -67,8 +67,8 @@ public class StaffDao {
 			pstmt.setInt(index++, staff.getSex());
 			if(staff.getAge()==0)                   pstmt.setNull(index++,Types.INTEGER);	else	pstmt.setInt(index++, staff.getAge());
 			pstmt.setInt(index++, staff.getPosition());
-			if(staff.getPerformance()==0)           pstmt.setNull(index++,Types.DOUBLE);	else	pstmt.setDouble(index++, staff.getPerformance());
-			if(staff.getBonus()==0)           		pstmt.setNull(index++,Types.DOUBLE);	else	pstmt.setDouble(index++, staff.getBonus());
+			if(staff.getPerformance()==0.0)           pstmt.setNull(index++,Types.DOUBLE);	else	pstmt.setDouble(index++, staff.getPerformance());
+			if(staff.getBonus()==0.0)           		pstmt.setNull(index++,Types.DOUBLE);	else	pstmt.setDouble(index++, staff.getBonus());
 			if(staff.getHouse()==null)				pstmt.setNull(index++, Types.VARCHAR);	else	pstmt.setString(index++, staff.getHouse());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();

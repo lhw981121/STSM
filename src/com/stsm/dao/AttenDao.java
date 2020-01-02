@@ -2,6 +2,7 @@ package com.stsm.dao;
 
 import java.sql.Connection;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -344,31 +345,40 @@ public class AttenDao {
     }
 	
 	/**
-	 * 考勤统计分页list
+	 * 所有考勤信息统计分页list
 	 * @param pageNo
 	 * @param pageSize
 	 * @param queryStr
 	 * @param sortField
+	 * @param str_id
+	 * @param str_in
+	 * @param str_out
+	 * @param type 1:考勤统计 2：已考勤统计 3:未考勤统计
 	 * @return
 	 */
-	public List<AttenInfo> getPageDateAttenInfo(int pageNo,int pageSize,String queryStr,String sortField ){
+	public List<AttenInfo> getPageDateAttenInfo(int pageNo,int pageSize,String queryStr,String sortField,String[] str_inid,String[] str_in,String[] str_outid,String[] str_out){
 		List<AttenInfo> list = new ArrayList<AttenInfo>();
 	    Connection conn = DBUtil.getConnection();
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 	    try{
 	    	int index = 1;
-	        String sqlQuery ="";
+	        String sqlQuery ="SELECT staff_id,staff_name,staff_number "
+	        		+ "FROM staff "
+	        		+ "WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,'')) LIKE ? "
+	        		+ "ORDER BY "+(sortField.length()==0?"staff_id":sortField)+" LIMIT ?,?";
 	        pstmt = conn.prepareStatement(sqlQuery);
 	        pstmt.setString(index++, "%"+queryStr+"%");
 	        pstmt.setInt(index++, pageSize * (pageNo-1));
 	        pstmt.setInt(index++, pageSize);
 	        rs = pstmt.executeQuery();
 	        while(rs.next()) {
-	        	AttenInfo atteninfo = new AttenInfo();
-	        	atteninfo.setAttenInfo_name(rs.getString(""));
-	        	atteninfo.setAttenInfo_number(rs.getString(""));
-	        	list.add(atteninfo);
+		        AttenInfo atteninfo = new AttenInfo();
+		        atteninfo.setAttenInfo_name(rs.getString("staff_name"));
+		        atteninfo.setAttenInfo_number(rs.getString("staff_number"));
+		        atteninfo.setAttenInfo_in(COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))>-1?str_in[COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))]:"");
+		        atteninfo.setAttenInfo_out(COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))>-1?str_out[COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))]:"");
+		        list.add(atteninfo);	
 	        }
 	    }catch(Exception e) {
 	        e.printStackTrace();
@@ -377,6 +387,96 @@ public class AttenDao {
 	    }
 	    return list;
 	}
+	
+	/**
+	 * 已经考勤信息、未考勤信息
+	 * @param queryStr
+	 * @param sortField
+	 * @param str_inid
+	 * @param str_in
+	 * @param str_outid
+	 * @param str_out
+	 * @param type 1：已经考勤信息  2：未考勤信息
+	 * @return
+	 */
+	public List<AttenInfo> getPageDateAttenInfo(String queryStr,String sortField,String[] str_inid,String[] str_in,String[] str_outid,String[] str_out,int type){
+		List<AttenInfo> list = new ArrayList<AttenInfo>();
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT staff_id,staff_name,staff_number "
+	        		+ "FROM staff "
+	        		+ "WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,'')) LIKE ? "
+	        		+ "ORDER BY "+(sortField.length()==0?"staff_id":sortField);
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        rs = pstmt.executeQuery();
+	        while(rs.next()) {
+	        	if(type==1) //已经考勤
+	        	{
+	        		AttenInfo atteninfo = new AttenInfo();
+		        	atteninfo.setAttenInfo_name(rs.getString("staff_name"));
+		        	atteninfo.setAttenInfo_number(rs.getString("staff_number"));
+		        	if(COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))>-1 && COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))>-1) {
+		        		atteninfo.setAttenInfo_in(str_in[COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))]);
+		        		atteninfo.setAttenInfo_out(str_out[COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))]);
+		        		list.add(atteninfo);
+		        	}else
+		        		continue;
+	        	}else if(type==2) //未考勤
+	        	{
+	        		AttenInfo atteninfo = new AttenInfo();
+		        	if(COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))>-1 && COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))>-1) {
+		        	}else {
+		        		atteninfo.setAttenInfo_name(rs.getString("staff_name"));
+			        	atteninfo.setAttenInfo_number(rs.getString("staff_number"));
+		        		atteninfo.setAttenInfo_in(COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))>-1?
+		        				str_in[COMUtil.printArray(str_inid, String.valueOf(rs.getInt("staff_id")))]:"");
+			        	atteninfo.setAttenInfo_out(COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))>-1?
+			        			str_out[COMUtil.printArray(str_outid, String.valueOf(rs.getInt("staff_id")))]:"");
+			        	list.add(atteninfo);
+		        	}
+	        	}
+	        }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return list;
+	}
+	/**
+	 * 
+	 * @param queryStr
+	 * @return
+	 */
+	public int getPageDataAttenInfoCount(String queryStr) {
+		int count = 0;
+	    Connection conn = DBUtil.getConnection();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	    	int index = 1;
+	        String sqlQuery ="SELECT COUNT(*) "
+	        		+ "FROM staff "
+	        		+ "WHERE CONCAT(IFNULL(staff_number,''),IFNULL(staff_name,'')) LIKE ?";
+	        pstmt = conn.prepareStatement(sqlQuery);
+	        pstmt.setString(index++, "%"+queryStr+"%");
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+	            count = rs.getInt(1);      	
+            }
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        return 0;
+	    }finally{
+	       DBUtil.closeJDBC(rs, pstmt, conn);
+	    }
+	    return count;
+	}
+	
 	
 //	public static void main(String [] args)
 //	{

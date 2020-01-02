@@ -95,7 +95,7 @@ function cheakStaffAge(value){
 		//不符合规则
 		ErrorTipBottomLeft("员工年龄不能为空！");
 	    return false;
-	}else if(value>120){
+	}else if(value<16 || value>120){
 		ErrorTipBottomLeft("请输入正确的员工年龄！");
 		return false;
 	}
@@ -105,7 +105,7 @@ function cheakStaffAge(value){
 //员工职位验证
 function cheakStaffPosition(value){
 	var coun=$("#staff_position").val();
-	if(coun == 0){
+	if(coun==-1){
 		//不符合规则
 		ErrorTipBottomLeft("员工职位不能为空！");
 		return false;
