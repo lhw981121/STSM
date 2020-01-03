@@ -63,8 +63,6 @@ function SelectPage(pageNo){
 							+(showState!=2?'<span class="label label-info">未开始</span>'://下班考勤还未开始
 							'<span class="label label-'+(staff.isClockOut?"success":"danger")+'">'+(staff.isClockOut?"已打卡":"未打卡")+'</span>')//下班考勤已开始
 						+'</td>'
-						/*+'<td><span class="label label-'+(staff.isClockIn?"success":"danger")+'">'+(staff.isClockIn?"已打卡":"未打卡")+'</span></td>'
-						+'<td><span class="label label-'+(staff.isClockOut?"success":"danger")+'">'+(staff.isClockOut?"已打卡":"未打卡")+'</span></td>'*/
 					+'</tr>'
 				);
 			});

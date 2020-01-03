@@ -52,9 +52,9 @@ public class UserForcedLogout extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		//强制下线同一账号的其他客户端的用户
-        ServletContext application = session.getServletContext();
-        Map<String,Object> userMap = application.getAttribute("userMap")==null?new HashMap<String,Object>():(Map<String,Object>)application.getAttribute("userMap");
-        for (String key : userMap.keySet()) {
+	    ServletContext application = session.getServletContext();
+	    Map<String,Object> userMap = application.getAttribute("userMap")==null?new HashMap<String,Object>():(Map<String,Object>)application.getAttribute("userMap");
+	    for (String key : userMap.keySet()) {
 	  		User user = (User)userMap.get(key);
 	  		if(user.getAccount().equals(loginUser.getAccount())&&!key.equals(session.getId())) {
 	  			userMap.remove(key);
@@ -62,7 +62,7 @@ public class UserForcedLogout extends HttpServlet {
 	  			Logger.getLogger(getClass()).info("用户"+user.getID()+user.getName()+"被强制下线。");
 	  			break;
 	  		}
-        }
+	    }
 
         map.put("isOK", isOK);
 		

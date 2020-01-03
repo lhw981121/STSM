@@ -26,44 +26,19 @@
 	<!-- ERROR TIP -->
 	<!-- END ERROR TIP -->
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="panel panel-default">
-					<div class="panel-heading">欢迎 ${user.getName()} 登录</div>
-					<div class="panel-body">你是 ${user.getTypeStr()} ！
+	<div class="container-fluid" style="padding:200px 0px;width:50%;text-align:center">
+		<div class="panel panel-default" >
+			<div class="panel-heading">修改今日工作时间</div>
+			<div class="panel-body">
+				<form action="/STSM/admin" method="post">
+					<input class="form-control input-lg" placeholder="工作时间格式（XX:XX-XX:XX）" type="text" name="period" value="" required>
+					<div>
+						<button style="margin-top:20px" type="submit" class="btn btn-danger" onclick="return confirm('确定修改工作时间?')">修改工作时间！</button>
 					</div>
-				</div>
-			</div>
+				</form>
+			</div>	
 		</div>
 	</div>
-	
-	<div class="row">
-		<div class="col-md-4">
-			<!-- PANEL DEFAULT -->
-			<div class="panel">
-				<div class="panel-heading">
-					<h3 class="panel-title">当前工作时间${atten.period}</h3>
-					<div class="right">
-						<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-						<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-					</div>
-				</div>
-				<div class="panel-body">
-					<form action="/STSM/admin" method="post">
-						<input class="form-control input-lg" placeholder="工作时间格式（XX时:XX分-XX时:XX分）" type="text" name="period" value="" required>
-						<div class="panel-body">
-							<p class="demo-button">
-								<button type="submit" class="btn btn-danger" onclick="return confirm('确定修改工作时间?')">修改工作时间！</button>
-							</p>
-						</div>
-					</form>
-				</div>	
-			</div>
-			<!-- END PANEL DEFAULT -->
-	</div>
-	
-
 	
 
 </div>
