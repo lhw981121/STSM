@@ -45,8 +45,8 @@ public class ManageInfoServlet extends HttpServlet {
 			int staff_sex = Integer.valueOf(request.getParameter("staff_sex"));
 			int staff_age = request.getParameter("staff_age")==null?0:Integer.valueOf(request.getParameter("staff_age"));
 			int staff_position = request.getParameter("staff_position")==null?0:Integer.valueOf(request.getParameter("staff_position"));
-			double staff_performance = COMUtil.isNull(request.getParameter("staff_performance"))?0.0:Double.valueOf(request.getParameter("staff_performance"));
-			double staff_bonus = COMUtil.isNull(request.getParameter("staff_bonus"))?0.0:Double.valueOf(request.getParameter("staff_bonus"));
+			double staff_performance = COMUtil.isNull(request.getParameter("staff_performance"))?0:Double.valueOf(request.getParameter("staff_performance"));
+			double staff_bonus = COMUtil.isNull(request.getParameter("staff_bonus"))?0:Double.valueOf(request.getParameter("staff_bonus"));
 			String staff_house = request.getParameter("staff_house");
 			
 			Staff staff  = new Staff();

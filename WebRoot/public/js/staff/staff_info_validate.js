@@ -30,7 +30,29 @@ function checkStaffNumber(value){
 			ErrorTipBottomLeft("员工工号长度必须为11位");
 	        return false;
 	    }else{
-			return true;
+			var ok = false;
+			$.ajax({
+				type:"post",
+				url:"/STSM/StaffIsNumberExist",
+				datatype: "json", 
+				async:false,
+				data:{
+					"staff_number":value,
+				},
+				success:function(result) {
+					var r = JSON.parse(result);
+					if(r.isExist==true){//员工工号已存在
+						ok = false;
+						ErrorTipBottomCenter(r.errorMes);
+					}else{
+						ok = true;
+					}
+				},
+				error:function(){
+					AjaxError();
+				}
+			});
+			return ok;
 		}
 	}
 }

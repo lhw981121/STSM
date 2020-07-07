@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.stsm.bean.Message;
+import com.stsm.bean.Staff;
 import com.stsm.bean.User;
 import com.stsm.dao.StaffDao;
 import com.stsm.service.StaffService;
@@ -45,12 +47,28 @@ public class StaffClock extends HttpServlet {
 		HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         int staff_id = new StaffDao().queryStaffByNumber(user.getAccount()).getID();
+        Staff staff = new StaffDao().queryStaffByID(staff_id);
         
         boolean isOK = false;
         if(mode.equals("clockIn")) {
         	isOK = new StaffService().staffClockIn(staff_id);
         }else if(mode.equals("clockOut")) {
         	isOK = new StaffService().staffClockOut(staff_id);
+        }
+        
+        if(isOK) {
+        	/*发送消息给职位所属的企业用户*/
+        	Message mes = new Message();
+        	//消息概述
+        	String message_summary = "员工 "+staff.getName()+" 完成上班打卡";
+        	//消息内容
+        	String message_content = "员工 "+staff.getName()+" 已完成今日上班打卡，请注意核实。";
+        	//消息发送者用户ID
+        	int sender_id = 1;//系统消息
+        	//消息接收者用户ID
+        	int receiver_id = 2;//管理员
+        	//发送消息
+        	mes.sendSingleMessage(0, message_summary, message_content, sender_id, receiver_id);
         }
         
         Map<String,Object> map = new HashMap<String,Object>();
